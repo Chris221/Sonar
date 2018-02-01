@@ -7,7 +7,7 @@ function lexer(input) {
 	var tokens = [];
 	
 	//takes the input and splits on carrage returns
-	var lines = input.trim().split("\n");
+	var lines = input.split("\n");
 	
 	return tokens;
 }
