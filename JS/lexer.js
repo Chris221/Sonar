@@ -1,5 +1,6 @@
 // JavaScript Document
 
+//The lexer is scary and confusing :'(
 
 function lexer(input) {
 	//defines tokens
@@ -10,6 +11,8 @@ function lexer(input) {
 	
 	//TESTING LOG
 	LexLog(input);
+	
+	//returns the tokens
 	return tokens;
 }
 
