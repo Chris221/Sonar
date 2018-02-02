@@ -69,7 +69,7 @@ function addToken(type,val,line) {
 	//Addes to the token list
 	tokens.push(temp);
 	//Outputs new token to log
-	LexLog(type+" [ "+val+" ] found on line "+line);
+	LexLog(type+" [ "+val+" ] found on line "+line+"...");
 }
 
 function LexLog(text) {
