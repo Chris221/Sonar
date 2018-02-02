@@ -7,6 +7,9 @@ function lexer(input) {
 	var warnings = 0;
 	var errors = 0;
 	
+	//Clears the log
+	$('#Lexer_log').text("");
+	
 	//defines the token list
 	var tokens = [];
 	
