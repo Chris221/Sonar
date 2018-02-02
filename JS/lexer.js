@@ -20,10 +20,27 @@ function lexer(input) {
 	var lines = input.split("\n");
 	//Defines the line variable for individual line checking, along with character for column checking, isString and isComment for tracking if current in one
 	var line, character, isString, isComment;
+	//Defines the program counter
+	var program = 1;
+	//Defines counter to know if program number was outputed
+	var programOutCounter = 0;
 	//Line by line analysis
 	for (var cLine = 0; cLine < lines.length; cLine++) {
 		//Sets the line
 		line = lines[cLine];
+		
+		//Checks to confirm a new program
+		if (program != programOutCounter) {
+			//If not on the very first program
+			if (program > 1) {
+				//Output a blank line for spacing and readablity
+				$('#Lexer_log').text($('#Lexer_log').val()+"\n\n");
+			}
+			//Outputs program number
+			LexLog("Lexing program "+program);
+			//Updates outpur counter
+			programOutCounter++;
+		}
 		
 		//When in a string it adds the new line
 		if (isString) {
