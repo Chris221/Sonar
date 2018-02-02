@@ -326,6 +326,9 @@ function lexer(input) {
 				}
 				continue;
 			}
+			
+			LexLog("ERROR! Unrecognized, could not define token [ "+character+" ] found on line "+(cLine+1)+", "+(column+1)+"...");
+			errors++;
 		}
 	}
 	
