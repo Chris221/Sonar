@@ -19,7 +19,7 @@ function lexer(input) {
 	//Takes the input and splits on carrage returns
 	var lines = input.split("\n");
 	//Defines the line variable for individual line checking, along with character for column checking
-	var line, character, isString;
+	var line, character, isString, isComment;
 	//Line by line analysis
 	for (var cLine = 0; cLine < lines.length; cLine++) {
 		//Sets the line
@@ -30,6 +30,44 @@ function lexer(input) {
 			//LexLog("column location: "+(column+1));
 			//Sets current character;
 			character = line[column];
+			
+			//Checks if the variable is the id '/*'
+			if (character == '/' && line[column+1] == '*' && !isString) {
+				//moves the pointer
+				column++;
+				//Checks if current comment
+				if (isComment){
+					//If so end it
+					isComment = false;
+				} else {
+					//If not start it
+					isComment = true;
+				}
+				LexLog("**Comment starting will be ignored**");
+				continue;
+			}
+			
+			//Checks if the variable is the id '/*'
+			if (character == '*' && line[column+1] == '/' && !isString) {
+				//moves the pointer
+				column++;
+				//Checks if current comment
+				if (isComment){
+					//If so end it
+					isComment = false;
+				} else {
+					//If not start it
+					isComment = true;
+				}
+				LexLog("**Comment ending will be ignored**");
+				continue;
+			}
+			
+			//Checks if in string mode
+			if (isComment) {
+				//ignore everything
+				continue;
+			}
 			
 			//Checks if the variable is the id '"'
 			if (character == '"') {
