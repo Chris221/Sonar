@@ -332,6 +332,17 @@ function lexer(input) {
 		}
 	}
 	
+	//Defines part of the completion text
+	var cText = "passed";
+	//If any errors set to failed for the completed lexer output
+	if (errors) {
+		cText = "FAILED";
+	}
+	//Defines the full output of the completed text
+	var completedText = "\nLexer "+cText+" with "+errors+" errors\n\n";
+	//Outputs the completed Text
+	$('#Lexer_log').text($('#Lexer_log').val()+completedText);
+	
 	//Returns the tokens
 	return tokens;
 }
