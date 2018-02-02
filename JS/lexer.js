@@ -32,10 +32,7 @@ function lexer(input) {
 		}
 	}
 	
-	//TESTING LOG
-	LexLog(input);
-	
-	//returns the tokens
+	//Returns the tokens
 	return tokens;
 }
 
