@@ -19,7 +19,7 @@ function lexer(input) {
 	//Takes the input and splits on carrage returns
 	var lines = input.split("\n");
 	//Defines the line variable for individual line checking, along with character for column checking
-	var line, character;
+	var line, character, isString;
 	//Line by line analysis
 	for (var cLine = 0; cLine < lines.length; cLine++) {
 		//Sets the line
@@ -31,6 +31,19 @@ function lexer(input) {
 			//Sets current character;
 			character = line[column];
 			
+			//Checks if the variable is the id '"'
+			if (character == '"') {
+				//Adds the '"' token
+				addToken("QUOTE",'"',cLine+1,column+1);
+				//Checks if current string
+				if (isString){
+					//If so end it
+					isString = false;
+				} else {
+					//If not start it
+					isString = true;
+				}
+			}
 			//Checks if the variable is the id 'i'
 			if (character == 'i') {
 				//Checks if its intended to be 'if', 'int', or just 'i'
