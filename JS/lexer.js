@@ -17,6 +17,11 @@ function lexer(input) {
 	var lines = input.split("\n");
 	//defines the line variable for individual line checking
 	var line;
+	//Line by Line analysis
+	for (var cLine = 0; cLine < lines.length; cLine++) {
+		line = lines[cLine];
+		
+	}
 	
 	//TESTING LOG
 	LexLog(input);
