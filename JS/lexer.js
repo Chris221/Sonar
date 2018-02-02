@@ -147,6 +147,14 @@ function lexer(input) {
 					addToken("ASSIGNMENT_OPERATOR","=",cLine+1,column+1);
 				}
 			}
+			
+			//Checks if the variable is the id '!='
+			if (character == '!' && line[column+1] == '=') {
+				//Adds the '==' token
+				addToken("NOT_EQUALS","!=",cLine+1,column+1);
+				//Moves the pointer
+				column+=1;
+			}
 		}
 	}
 	
