@@ -220,7 +220,7 @@ function lexer(input) {
 				}
 			}
 			
-			//Checks if the variable is the id '='
+			//Checks if the variable is the '='
 			if (character == '=') {
 				//Checks if its intended to be '==' or just '='
 				if (line[column+1] == '=') {
@@ -234,7 +234,7 @@ function lexer(input) {
 				}
 			}
 			
-			//Checks if the variable is the id '!='
+			//Checks if the variable is the '!='
 			if (character == '!' && line[column+1] == '=') {
 				//Adds the '==' token
 				addToken("NOT_EQUALS","!=",cLine+1,column+1);
@@ -242,37 +242,37 @@ function lexer(input) {
 				column+=1;
 			}
 			
-			//Checks if the variable is the id '+'
+			//Checks if the variable is the '+'
 			if (character == '+') {
 				//Adds the '+' token
 				addToken("PLUS","+",cLine+1,column+1);
 			}
 			
-			//Checks if the variable is the id '{'
+			//Checks if the variable is the '{'
 			if (character == '{') {
 				//Adds the '{' token
 				addToken("LEFT_BRACE","{",cLine+1,column+1);
 			}
 			
-			//Checks if the variable is the id '}'
+			//Checks if the variable is the '}'
 			if (character == '}') {
 				//Adds the '}' token
 				addToken("RIGHT_BRACE","}",cLine+1,column+1);
 			}
 			
-			//Checks if the variable is the id '('
+			//Checks if the variable is the '('
 			if (character == '(') {
 				//Adds the '(' token
 				addToken("LEFT_PARENTHESES","(",cLine+1,column+1);
 			}
 			
-			//Checks if the variable is the id ')'
+			//Checks if the variable is the ')'
 			if (character == ')') {
 				//Adds the ')' token
 				addToken("RIGHT_PARENTHESES",")",cLine+1,column+1);
 			}
 			
-			//Checks if the variable is the id '$'
+			//Checks if the variable is the '$'
 			if (character == '$') {
 				//Adds the '$' token
 				addToken("EOP","$",cLine+1,column+1);
