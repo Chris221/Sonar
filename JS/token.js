@@ -7,7 +7,7 @@ function Token (token, value, line) {
 	this.line = line;
 }
 
-//Check token
+//Check token function
 Token.is = function(check) {
 	return this.type === check;
 };
