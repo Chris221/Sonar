@@ -161,6 +161,18 @@ function lexer(input) {
 				//Adds the '+' token
 				addToken("PLUS","+",cLine+1,column+1);
 			}
+			
+			//Checks if the variable is the id '{'
+			if (character == '{') {
+				//Adds the '}' token
+				addToken("LEFT_BRACE","{",cLine+1,column+1);
+			}
+			
+			//Checks if the variable is the id '}'
+			if (character == '}') {
+				//Adds the '}' token
+				addToken("RIGHT_BRACE","}",cLine+1,column+1);
+			}
 		}
 	}
 	
