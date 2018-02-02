@@ -3,7 +3,11 @@
 //The lexer is scary and confusing :'(
 
 function lexer(input) {
-	//defines tokens
+	//Intializes warning and errors
+	var warnings = 0;
+	var errors = 0;
+	
+	//defines the token list
 	var tokens = [];
 	
 	//takes the input and splits on carrage returns
