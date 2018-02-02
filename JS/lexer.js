@@ -6,7 +6,8 @@
 var tokens = [];
 
 function lexer(input) {
-	//Intializes errors
+	//Intializes warnings and errors
+	var warnings = 0;
 	var errors = 0;
 	
 	//Clears the log
@@ -14,6 +15,16 @@ function lexer(input) {
 	
 	//Resets the token list
 	tokens = [];
+	
+	//Check that the EOP operator is there
+	if (input.trim().slice(-1) != "$") {
+		//Throws warning
+		$('#Lexer_log').text("Warning: End Of Program operator was not found ( $ ), adding one for you.\n\n");
+		//Adds the EOP operator
+		input += "$"
+		//Increases warnings
+		warnings++;
+	}
 	
 	//Takes the input and splits on carrage returns
 	var lines = input.split("\n");
@@ -338,7 +349,7 @@ function lexer(input) {
 		cText = "FAILED";
 	}
 	//Defines the full output of the completed text
-	var completedText = "\nLexer "+cText+" with "+errors+" errors\n\n";
+	var completedText = "\nLexer "+cText+" with "+warnings+" warnings and "+errors+" errors!\n\n";
 	//Outputs the completed Text
 	$('#Lexer_log').text($('#Lexer_log').val()+completedText);
 	
