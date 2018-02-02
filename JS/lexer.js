@@ -284,6 +284,12 @@ function lexer(input) {
 				//Adds the digit token
 				addToken("DIGIT",character,cLine+1,column+1);
 			}
+			
+			//Checks if the variable is one of the remaining ids
+			if ("acdeghjklmnoqruvxyz".indexOf(character) != -1) {
+				//Adds the id token
+				addToken("ID",character,cLine+1,column+1);
+			}
 		}
 	}
 	
