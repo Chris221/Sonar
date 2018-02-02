@@ -250,6 +250,13 @@ function lexer(input) {
 				//Adds the ')' token
 				addToken("RIGHT_PARENTHESES",")",cLine+1,column+1);
 			}
+			
+			//Checks if the variable is the id '$'
+			if (character == '$') {
+				//Adds the '$' token
+				addToken("EOP","$",cLine+1,column+1);
+				program++;
+			}
 		}
 	}
 	
