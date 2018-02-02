@@ -27,6 +27,7 @@ function lexer(input) {
 		
 		//Column by column analysis
 		for (var column = 0; column < line.length; column++) {
+			//LexLog("column location: "+(column+1));
 			//Sets current character;
 			character = line[column];
 			
@@ -35,17 +36,17 @@ function lexer(input) {
 				//Checks if its intended to be 'if', 'int', or just 'i'
 				if (line[column+1] == 'f') {
 					//Adds the 'if' token
-					addToken("IF","if",cLine+1);
+					addToken("IF","if",cLine+1,column+1);
 					//Moves the pointer
 					column++;
 				} else if (line[column+1] == 'n' && line[column+2] == 't') {
 					//Adds the 'int' token
-					addToken("INT","int",cLine+1);
+					addToken("INT","int",cLine+1,column+1);
 					//Moves the pointer
 					column+=2;
 				} else {
 					//Adds the 'i' token
-					addToken("ID","i",cLine+1);
+					addToken("ID","i",cLine+1,column+1);
 				}
 			}
 			
@@ -54,12 +55,12 @@ function lexer(input) {
 				//Checks if its intended to be 'print' or just 'p'
 				if (line[column+1] == 'r' && line[column+2] == 'i' && line[column+3] == 'n' && line[column+4] == 't') {
 					//Adds the 'print' token
-					addToken("PRINT","print",cLine+1);
+					addToken("PRINT","print",cLine+1,column+1);
 					//Moves the pointer
 					column+=4;
 				} else {
 					//Adds the 'p' token
-					addToken("ID","p",cLine+1);
+					addToken("ID","p",cLine+1,column+1);
 				}
 			}
 			
