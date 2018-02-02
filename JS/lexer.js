@@ -278,6 +278,12 @@ function lexer(input) {
 				addToken("EOP","$",cLine+1,column+1);
 				program++;
 			}
+			
+			//Checks if the variable is a digit
+			if (character >= '0' && character <= '9') {
+				//Adds the digit token
+				addToken("DIGIT",character,cLine+1,column+1);
+			}
 		}
 	}
 	
