@@ -105,6 +105,20 @@ function lexer(input) {
 					addToken("ID","b",cLine+1,column+1);
 				}
 			}
+			
+			//Checks if the variable is the id 't'
+			if (character == 't') {
+				//Checks if its intended to be 'true' or just 't'
+				if (line[column+1] == 'r' && line[column+2] == 'u' && line[column+3] == 'e') {
+					//Adds the 'true' token
+					addToken("TRUE","true",cLine+1,column+1);
+					//Moves the pointer
+					column+=3;
+				} else {
+					//Adds the 't' token
+					addToken("ID","t",cLine+1,column+1);
+				}
+			}
 		}
 	}
 	
