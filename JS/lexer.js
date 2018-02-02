@@ -155,6 +155,12 @@ function lexer(input) {
 				//Moves the pointer
 				column+=1;
 			}
+			
+			//Checks if the variable is the id '+'
+			if (character == '+') {
+				//Adds the '+' token
+				addToken("PLUS","+",cLine+1,column+1);
+			}
 		}
 	}
 	
