@@ -43,6 +43,19 @@ function lexer(input) {
 					addToken("ID","i",cLine+1);
 				}
 			}
+			//Checks if the variable is the id 'p'
+			if (character == 'p') {
+				//Checks if its intended to be 'print' or just 'p'
+				if (line[column+1] == 'r' && line[column+2] == 'i' && line[column+3] == 'n' && line[column+4] == 't') {
+					//Adds the 'print' token
+					addToken("PRINT","print",cLine+1);
+					//Moves the pointer
+					column+=4;
+				} else {
+					//Adds the 'p' token
+					addToken("ID","p",cLine+1);
+				}
+			}
 		}
 	}
 	
