@@ -133,6 +133,20 @@ function lexer(input) {
 					addToken("ID","f",cLine+1,column+1);
 				}
 			}
+			
+			//Checks if the variable is the id '='
+			if (character == '=') {
+				//Checks if its intended to be '==' or just '='
+				if (line[column+1] == '=') {
+					//Adds the '==' token
+					addToken("DOUBLE_EQUALS","==",cLine+1,column+1);
+					//Moves the pointer
+					column+=4;
+				} else {
+					//Adds the '=' token
+					addToken("ASSIGNMENT_OPERATOR","=",cLine+1,column+1);
+				}
+			}
 		}
 	}
 	
