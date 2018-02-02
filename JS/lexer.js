@@ -125,14 +125,17 @@ function lexer(input) {
 					addToken("IF","if",cLine+1,column+1);
 					//Moves the pointer
 					column++;
+					continue;
 				} else if (line[column+1] == 'n' && line[column+2] == 't') {
 					//Adds the 'int' token
 					addToken("INT","int",cLine+1,column+1);
 					//Moves the pointer
 					column+=2;
+					continue;
 				} else {
 					//Adds the 'i' token
 					addToken("ID","i",cLine+1,column+1);
+					continue;
 				}
 			}
 			
@@ -144,9 +147,11 @@ function lexer(input) {
 					addToken("PRINT","print",cLine+1,column+1);
 					//Moves the pointer
 					column+=4;
+					continue;
 				} else {
 					//Adds the 'p' token
 					addToken("ID","p",cLine+1,column+1);
+					continue;
 				}
 			}
 			
@@ -158,9 +163,11 @@ function lexer(input) {
 					addToken("WHILE","while",cLine+1,column+1);
 					//Moves the pointer
 					column+=4;
+					continue;
 				} else {
 					//Adds the 'w' token
 					addToken("ID","w",cLine+1,column+1);
+					continue;
 				}
 			}
 			
@@ -172,9 +179,11 @@ function lexer(input) {
 					addToken("STRING","string",cLine+1,column+1);
 					//Moves the pointer
 					column+=5;
+					continue;
 				} else {
 					//Adds the 's' token
 					addToken("ID","s",cLine+1,column+1);
+					continue;
 				}
 			}
 			
@@ -186,9 +195,11 @@ function lexer(input) {
 					addToken("BOOLEAN","boolean",cLine+1,column+1);
 					//Moves the pointer
 					column+=6;
+					continue;
 				} else {
 					//Adds the 'b' token
 					addToken("ID","b",cLine+1,column+1);
+					continue;
 				}
 			}
 			
@@ -200,9 +211,11 @@ function lexer(input) {
 					addToken("TRUE","true",cLine+1,column+1);
 					//Moves the pointer
 					column+=3;
+					continue;
 				} else {
 					//Adds the 't' token
 					addToken("ID","t",cLine+1,column+1);
+					continue;
 				}
 			}
 			
@@ -214,9 +227,11 @@ function lexer(input) {
 					addToken("FALSE","false",cLine+1,column+1);
 					//Moves the pointer
 					column+=4;
+					continue;
 				} else {
 					//Adds the 'f' token
 					addToken("ID","f",cLine+1,column+1);
+					continue;
 				}
 			}
 			
@@ -228,9 +243,11 @@ function lexer(input) {
 					addToken("DOUBLE_EQUALS","==",cLine+1,column+1);
 					//Moves the pointer
 					column+=4;
+					continue;
 				} else {
 					//Adds the '=' token
 					addToken("ASSIGNMENT_OPERATOR","=",cLine+1,column+1);
+					continue;
 				}
 			}
 			
@@ -240,36 +257,42 @@ function lexer(input) {
 				addToken("NOT_EQUALS","!=",cLine+1,column+1);
 				//Moves the pointer
 				column+=1;
+				continue;
 			}
 			
 			//Checks if the variable is the '+'
 			if (character == '+') {
 				//Adds the '+' token
 				addToken("PLUS","+",cLine+1,column+1);
+				continue;
 			}
 			
 			//Checks if the variable is the '{'
 			if (character == '{') {
 				//Adds the '{' token
 				addToken("LEFT_BRACE","{",cLine+1,column+1);
+				continue;
 			}
 			
 			//Checks if the variable is the '}'
 			if (character == '}') {
 				//Adds the '}' token
 				addToken("RIGHT_BRACE","}",cLine+1,column+1);
+				continue;
 			}
 			
 			//Checks if the variable is the '('
 			if (character == '(') {
 				//Adds the '(' token
 				addToken("LEFT_PARENTHESES","(",cLine+1,column+1);
+				continue;
 			}
 			
 			//Checks if the variable is the ')'
 			if (character == ')') {
 				//Adds the ')' token
 				addToken("RIGHT_PARENTHESES",")",cLine+1,column+1);
+				continue;
 			}
 			
 			//Checks if the variable is the '$'
@@ -277,18 +300,29 @@ function lexer(input) {
 				//Adds the '$' token
 				addToken("EOP","$",cLine+1,column+1);
 				program++;
+				continue;
 			}
 			
 			//Checks if the variable is a digit
 			if (character >= '0' && character <= '9') {
 				//Adds the digit token
 				addToken("DIGIT",character,cLine+1,column+1);
+				continue;
 			}
 			
 			//Checks if the variable is one of the remaining ids
 			if ("acdeghjklmnoqruvxyz".indexOf(character) != -1) {
 				//Adds the id token
 				addToken("ID",character,cLine+1,column+1);
+				continue;
+			}
+			
+			//Checks for space or tab and ignores it
+			if (character.indexOf(' ') >= 0 || character.indexOf('	') >= 0) {
+				if (debug) {
+					LexLog("*DEBUGGER* Found whitespace at: "+(cLine+1)+", "+(column+1));
+				}
+				continue;
 			}
 		}
 	}
