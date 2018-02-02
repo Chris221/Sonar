@@ -21,7 +21,7 @@ function lexer(input) {
 		//Throws warning
 		$('#Lexer_log').text("Warning: End Of Program operator was not found ( $ ), adding one for you.\n\n");
 		//Adds the EOP operator
-		input += "$"
+		input += "$";
 		//Increases warnings
 		warnings++;
 	}
