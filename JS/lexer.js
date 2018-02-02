@@ -18,9 +18,9 @@ function lexer(input) {
 	
 	//Takes the input and splits on carrage returns
 	var lines = input.split("\n");
-	//defines the line variable for individual line checking
-	var line;
-	//Line by Line analysis
+	//Defines the line variable for individual line checking, along with character for column checking
+	var line, character;
+	//Line by line analysis
 	for (var cLine = 0; cLine < lines.length; cLine++) {
 		line = lines[cLine];
 		
