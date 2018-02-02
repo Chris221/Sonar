@@ -43,7 +43,16 @@ function lexer(input) {
 					//If not start it
 					isString = true;
 				}
+				continue;
 			}
+			
+			//Checks if in string mode
+			if (isString) {
+				//Adds Character token
+				addToken("CHAR",character,cLine+1,column+1);
+				continue;
+			}
+			
 			//Checks if the variable is the id 'i'
 			if (character == 'i') {
 				//Checks if its intended to be 'if', 'int', or just 'i'
