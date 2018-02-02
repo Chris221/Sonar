@@ -34,7 +34,7 @@ function lexer(input) {
 			//If not on the very first program
 			if (program > 1) {
 				//Output a blank line for spacing and readablity
-				$('#Lexer_log').text($('#Lexer_log').val()+"\n\n");
+				$('#Lexer_log').text($('#Lexer_log').val()+"\n");
 			}
 			//Outputs program number
 			LexLog("Lexing program "+program);
