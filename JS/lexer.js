@@ -69,13 +69,13 @@ function lexer(input) {
 	return tokens;
 }
 
-function addToken(type,val,line) {
+function addToken(type,val,line,col) {
 	//Sets temp token
-	var temp = new Token(type,val,line);
+	var temp = new Token(type,val,line,col);
 	//Addes to the token list
 	tokens.push(temp);
 	//Outputs new token to log
-	LexLog(type+" [ "+val+" ] found on line "+line+"...");
+	LexLog(type+" [ "+val+" ] found on line "+line+", "+col+"...");
 }
 
 function LexLog(text) {
