@@ -6,8 +6,7 @@
 var tokens = [];
 
 function lexer(input) {
-	//Intializes warning and errors
-	var warnings = 0;
+	//Intializes errors
 	var errors = 0;
 	
 	//Clears the log
