@@ -1,6 +1,6 @@
 // JavaScript Document
 
-//The lexer is scary and confusing :'(
+//The lexer make much more sense now thanks to Dr. Dennis Mirante
 
 function lexer(input) {
 	//Intializes warning and errors
