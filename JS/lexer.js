@@ -85,7 +85,9 @@ function lexer(input) {
 					//If not start it
 					isComment = true;
 				}
-				LexLog("**Comment ending will be ignored**");
+				if (debug) {
+					LexLog("*DEBUGGER* **Comment ending will be ignored**");
+				}
 				continue;
 			}
 			
