@@ -36,9 +36,18 @@ function lexer(input) {
 	return tokens;
 }
 
+function addToken(type,val,line) {
+	//Sets temp token
+	var temp = new Token(type,val,line);
+	//Addes to the token list
+	tokens.push(temp);
+	//Outputs new token to log
+	LexLog(type+" [ "+val+" ] found on line "+line);
+}
+
 function LexLog(text) {
 	//Appends new logging to current log
-	var lText = $('#Lexer_log').val()+"LEXER: "+text+"\n";
+	var lText = $('#Lexer_log').val()+"LEXER -- "+text+"\n";
 	//Sets the Log
 	$('#Lexer_log').text(lText);
 }
