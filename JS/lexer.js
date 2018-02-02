@@ -29,6 +29,20 @@ function lexer(input) {
 		for (var column = 0; column < line.length; column++) {
 			//Sets current character;
 			character = line[column];
+			
+			//Checks if the variable is the id 'i'
+			if (character == 'i') {
+				//Checks if its intended to be 'if' or just 'i'
+				if (line[column+1] == 'f') {
+					//Adds the 'if' token
+					addToken("IF","if",cLine+1);
+					//Moves the pointer
+					column++;
+				} else {
+					//Adds the 'i' token
+					addToken("ID","i",cLine+1);
+				}
+			}
 		}
 	}
 	
