@@ -22,8 +22,14 @@ function lexer(input) {
 	var line, character;
 	//Line by line analysis
 	for (var cLine = 0; cLine < lines.length; cLine++) {
+		//Sets the line
 		line = lines[cLine];
 		
+		//Column by column analysis
+		for (var column = 0; column < line.length; column++) {
+			//Sets current character;
+			character = line[column];
+		}
 	}
 	
 	//TESTING LOG
