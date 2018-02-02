@@ -1,4 +1,8 @@
 // JavaScript Document
+
+//Debugger
+var debug = false;
+
 function compile() {
 	//Gets the input
 	var input = $('#input').val();

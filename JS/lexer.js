@@ -49,7 +49,9 @@ function lexer(input) {
 		}
 		//Column by column analysis
 		for (var column = 0; column < line.length; column++) {
-			//LexLog("column location: "+(column+1));
+			if (debug) {
+				LexLog("*DEBUGGER* column location: "+(column+1));
+			}
 			//Sets current character;
 			character = line[column];
 			
@@ -65,7 +67,9 @@ function lexer(input) {
 					//If not start it
 					isComment = true;
 				}
-				LexLog("**Comment starting will be ignored**");
+				if (debug) {
+					LexLog("*DEBUGGER* **Comment starting will be ignored**");
+				}
 				continue;
 			}
 			
