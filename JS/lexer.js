@@ -39,19 +39,6 @@ function lexer(input) {
 		//Sets the line
 		line = lines[cLine];
 		
-		//Checks to confirm a new program
-		if (program != programOutCounter) {
-			//If not on the very first program
-			if (program > 1) {
-				//Output a blank line for spacing and readablity
-				$('#Lexer_log').text($('#Lexer_log').val()+"\n");
-			}
-			//Outputs program number
-			LexLog("Lexing program "+program);
-			//Updates outpur counter
-			programOutCounter++;
-		}
-		
 		//When in a string it adds the new line
 		if (isString) {
 			//Adds Character token of new line
@@ -59,6 +46,19 @@ function lexer(input) {
 		}
 		//Column by column analysis
 		for (var column = 0; column < line.length; column++) {
+			//Checks to confirm a new program
+			if (program != programOutCounter) {
+				//If not on the very first program
+				if (program > 1) {
+					//Output a blank line for spacing and readablity
+					$('#Lexer_log').text($('#Lexer_log').val()+"\n");
+				}
+				//Outputs program number
+				LexLog("Lexing program "+program);
+				//Updates outpur counter
+				programOutCounter++;
+			}
+			
 			if (debug) {
 				LexLog("*DEBUGGER* column location: "+(column+1));
 			}
