@@ -62,6 +62,20 @@ function lexer(input) {
 					addToken("ID","p",cLine+1);
 				}
 			}
+			
+			//Checks if the variable is the id 'w'
+			if (character == 'w') {
+				//Checks if its intended to be 'while' or just 'w'
+				if (line[column+1] == 'h' && line[column+2] == 'i' && line[column+3] == 'l' && line[column+4] == 'e') {
+					//Adds the 'while' token
+					addToken("WHILE","while",cLine+1,column+1);
+					//Moves the pointer
+					column+=4;
+				} else {
+					//Adds the 'w' token
+					addToken("ID","w",cLine+1,column+1);
+				}
+			}
 		}
 	}
 	
