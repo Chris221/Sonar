@@ -15,6 +15,8 @@ function lexer(input) {
 	
 	//takes the input and splits on carrage returns
 	var lines = input.split("\n");
+	//defines the line variable for individual line checking
+	var line;
 	
 	//TESTING LOG
 	LexLog(input);
