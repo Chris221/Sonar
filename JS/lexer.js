@@ -1,6 +1,9 @@
 // JavaScript Document
 
-//The lexer make much more sense now thanks to Dr. Dennis Mirante
+//The lexer makes much more sense now thanks to Dr. Dennis Mirante
+
+//defines the token list
+var tokens = [];
 
 function lexer(input) {
 	//Intializes warning and errors
@@ -10,10 +13,10 @@ function lexer(input) {
 	//Clears the log
 	$('#Lexer_log').text("");
 	
-	//defines the token list
-	var tokens = [];
+	//Resets the token list
+	tokens = [];
 	
-	//takes the input and splits on carrage returns
+	//Takes the input and splits on carrage returns
 	var lines = input.split("\n");
 	//defines the line variable for individual line checking
 	var line;
