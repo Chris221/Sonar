@@ -18,13 +18,18 @@ function lexer(input) {
 	
 	//Takes the input and splits on carrage returns
 	var lines = input.split("\n");
-	//Defines the line variable for individual line checking, along with character for column checking
+	//Defines the line variable for individual line checking, along with character for column checking, isString and isComment for tracking if current in one
 	var line, character, isString, isComment;
 	//Line by line analysis
 	for (var cLine = 0; cLine < lines.length; cLine++) {
 		//Sets the line
 		line = lines[cLine];
 		
+		//When in a string it adds the new line
+		if (isString) {
+			//Adds Character token of new line
+			addToken("CHAR",'\\n',cLine,column+1);
+		}
 		//Column by column analysis
 		for (var column = 0; column < line.length; column++) {
 			//LexLog("column location: "+(column+1));
