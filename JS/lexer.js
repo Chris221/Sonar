@@ -77,6 +77,20 @@ function lexer(input) {
 					addToken("ID","w",cLine+1,column+1);
 				}
 			}
+			
+			//Checks if the variable is the id 's'
+			if (character == 's') {
+				//Checks if its intended to be 'string' or just 's'
+				if (line[column+1] == 't' && line[column+2] == 'r' && line[column+3] == 'i' && line[column+4] == 'n' && line[column+5] == 'g') {
+					//Adds the 'string' token
+					addToken("STRING","string",cLine+1,column+1);
+					//Moves the pointer
+					column+=5;
+				} else {
+					//Adds the 's' token
+					addToken("ID","s",cLine+1,column+1);
+				}
+			}
 		}
 	}
 	
