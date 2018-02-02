@@ -91,6 +91,20 @@ function lexer(input) {
 					addToken("ID","s",cLine+1,column+1);
 				}
 			}
+			
+			//Checks if the variable is the id 'b'
+			if (character == 'b') {
+				//Checks if its intended to be 'boolean' or just 'b'
+				if (line[column+1] == 'o' && line[column+2] == 'o' && line[column+3] == 'l' && line[column+4] == 'e' && line[column+5] == 'a' && line[column+6] == 'n') {
+					//Adds the 'boolean' token
+					addToken("BOOLEAN","boolean",cLine+1,column+1);
+					//Moves the pointer
+					column+=6;
+				} else {
+					//Adds the 'b' token
+					addToken("ID","b",cLine+1,column+1);
+				}
+			}
 		}
 	}
 	
