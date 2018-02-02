@@ -32,17 +32,23 @@ function lexer(input) {
 			
 			//Checks if the variable is the id 'i'
 			if (character == 'i') {
-				//Checks if its intended to be 'if' or just 'i'
+				//Checks if its intended to be 'if', 'int', or just 'i'
 				if (line[column+1] == 'f') {
 					//Adds the 'if' token
 					addToken("IF","if",cLine+1);
 					//Moves the pointer
 					column++;
+				} else if (line[column+1] == 'n' && line[column+2] == 't') {
+					//Adds the 'int' token
+					addToken("INT","int",cLine+1);
+					//Moves the pointer
+					column+=2;
 				} else {
 					//Adds the 'i' token
 					addToken("ID","i",cLine+1);
 				}
 			}
+			
 			//Checks if the variable is the id 'p'
 			if (character == 'p') {
 				//Checks if its intended to be 'print' or just 'p'
