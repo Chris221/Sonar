@@ -9,21 +9,21 @@ function compile() {
 	//Sets pass bool false
 	var lPass = false;
 	//Sets failed output text
-	var text = "=============================="+
-			   "                              "+
-			   "         Lexer Failed         "+
-			   "                              "+
-			   "==============================";
+	var text = "==============================\n"+
+			   "\n"+
+			   "                         Lexer Failed         \n"+
+			   "\n"+
+			   "==============================\n";
 	//Moves the input to the lexer
-	if (var tokens = lexer(input)) {
+	if (tokens = lexer(input)) {
 		//Sets pass bool true
 		lPass = true;
 		//Sets success output text
-		text = "=============================="+
-			   "                              "+
-			   "         Lexer Passed         "+
-			   "                              "+
-			   "==============================";
+		text = "==============================\n"+
+			   "\n"+
+			   "                         Lexer Passed         \n"+
+			   "\n"+
+			   "==============================\n";
 	}
 	//Outputs the Lexer output
 	$('#Lexer_log').text($('#Lexer_log').val()+"\n\n"+text+"\n\n");
