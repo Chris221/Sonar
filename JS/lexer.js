@@ -348,6 +348,7 @@ function lexer(input) {
 	//If any errors set to failed for the completed lexer output
 	if (errors) {
 		cText = "FAILED";
+		tokens = false;
 	}
 	//Defines the full output of the completed text
 	var completedText = "\nLexer "+cText+" with "+warnings+" warnings and "+errors+" errors!\n\n";
