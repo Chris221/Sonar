@@ -42,7 +42,8 @@ function lexer(input) {
 		//When in a string it adds the new line
 		if (isString) {
 			//Adds Character token of new line
-			addToken("CHAR",'\\n',cLine,column+1);
+			LexLog("ERROR! Unterminated string on "+(cLine+1)+"...");
+			errors++;
 		}
 		//Column by column analysis
 		for (var column = 0; column < line.length; column++) {
