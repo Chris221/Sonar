@@ -43,7 +43,11 @@ function lexer(input) {
 		if (isString) {
 			//Adds Character token of new line
 			LexLog("ERROR! Unterminated string on "+(cLine+1)+"...");
+			//Throws error for untreminated strings
+			LexLog("ERROR! Unterminated string on "+cLine+"...");
 			errors++;
+			//Sets isString false
+			isString = false;
 		}
 		//Column by column analysis
 		for (var column = 0; column < line.length; column++) {
@@ -125,8 +129,13 @@ function lexer(input) {
 			
 			//Checks if in string mode
 			if (isString) {
-				//Adds Character token
-				addToken("CHAR",character,cLine+1,column+1);
+				if ("abcdefghijklmnopqrstuvwxyz ".indexOf(character) != -1) {
+					//Adds Character token
+					addToken("CHAR",character,cLine+1,column+1);
+					continue;
+				}
+				LexLog("ERROR! Unexpected char [ "+character+" ] string on "+(cLine+1)+", "+(column+1)+"...");
+				errors++;
 				continue;
 			}
 			
@@ -345,7 +354,7 @@ function lexer(input) {
 	
 	//Defines part of the completion text
 	var cText = "passed";
-	//If any errors set to failed for the completed lexer output
+	//If any errors set to failed for the completed lexer output and tokens to false
 	if (errors) {
 		cText = "FAILED";
 		tokens = false;
