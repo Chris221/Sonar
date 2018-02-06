@@ -1,15 +1,16 @@
 // JavaScript Document
 //Allows for the submenus
-$('[data-submenu]').submenupicker();
 
-//Lab 1 clean
-var lab1 = "{}$\n"+
+//Project 1 clean
+var project1 = "/* Project 1 */\n"+
+	"{}$\n"+
 	"{{{{{{}}}}}}$\n"+
 	"{{{{{{}}}	/*	comments	are	ignored	*/	}}}}$\n"+
 	"{	/*	comments	are	still	ignored	*/	int	@}$";
 
-//Lab 1 ugly
-var lab1Ugly = "{}$"+
+//Project 1 ugly
+var project1Ugly = "/* Project 1 */"+
+		"{}$"+
 		"{{{{{{}}}}}}$"+
 		"{{{{{{}}}	/*	comments	are	ignored	*/	}}}}$"+
 		"{	/*	comments	are	still	ignored	*/	int	@}$";
@@ -21,13 +22,13 @@ function testProgram(name) {
 	//switches through to set the rtext
 	switch(name) {
 		case "lab1":
-			rText  = lab1+"\n\n"+lab1Ugly;
+			rText  = project1+"\n\n"+project1Ugly;
 			break;
 		case "lab1_clean":
-			rText  = lab1;
+			rText  = project1;
 			break;
 		case "lab1_ugly":
-			rText = lab1Ugly;
+			rText = project1Ugly;
 			break;
 		default:
 			rText = "";
