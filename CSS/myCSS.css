@@ -1,6 +1,61 @@
 /* CSS Document */
+html {
+	background-color: #FFFFFF;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-ms-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	height: calc(100%);
+}
+body {
+	font-family: verdana, helvetica, arial, sans-serif;
+	color: #000000;
+	font-size: 16px;
+	font-variant: small;
+	font-weight: normal;
+	margin: 0 0 0 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-ms-font-smoothing: antialiased;
+	-o-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+	height: calc(100% - 100px);
+}
+a:link, a:visited {
+	color: #2EA3F2;
+	text-decoration: none;
+}
+a:hover, a:active {
+	opacity: 0.7;
+	transition: all 0.4s ease-in-out;
+}
+.holder {
+    min-height: 100px;
+}
+.topbar {
+    position: fixed;
+    top: 0px;
+	left: 0px;
+	width: 100%;
+	z-index: 99999;
+	background-color: #FFFFFF;
+}
+.topbar {
+	display: block;
+	text-align: center;
+	background-color: #2ea3f2 50%;
+	font-size: 28px;
+	padding: 10px;
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+	-ms-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+	-o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+}
 .page {
 	margin: 0px 10px;
+	display: block;
 }
 .page-left {
 	display: block;
@@ -35,4 +90,5 @@
 }
 .controls {
 	float: left;
+	margin-bottom: 10px;
 }
