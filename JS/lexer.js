@@ -19,7 +19,7 @@ function lexer(input) {
 	//Check that the EOP operator is there
 	if (input.trim().slice(-1) != "$") {
 		//Throws warning
-		$('#Lexer_log').text("Warning: End Of Program operator was not found ( $ ), adding one for you.\n\n");
+		LexLog("Warning: End Of Program operator was not found ( $ ), adding one for you.\n\n");
 		//Adds the EOP operator
 		input += "$";
 		//Increases warnings
@@ -39,10 +39,8 @@ function lexer(input) {
 		//Sets the line
 		line = lines[cLine];
 		
-		//When in a string it adds the new line
+		//When in a string
 		if (isString) {
-			//Adds Character token of new line
-			LexLog("ERROR! Unterminated string on "+(cLine+1)+"...");
 			//Throws error for untreminated strings
 			LexLog("ERROR! Unterminated string on "+cLine+"...");
 			errors++;
