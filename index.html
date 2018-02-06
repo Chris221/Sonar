@@ -8,13 +8,15 @@
 	<script type="text/javascript" src="JS/compiler.js"></script>
 	<script type="text/javascript" src="JS/lexer.js"></script>
 	<script type="text/javascript" src="JS/token.js"></script>
+	<script type="text/javascript" src="JS/testPrograms.js"></script>
 	<!-- Bootstrap -->
-	<link type="text/css" rel="stylesheet" href="/bootstrap-4.0.0/css/bootstrap.min.css">
-	<script type="text/javascript" src="/bootstrap-4.0.0/js/bootstrap.bundle.min.js"></script>
+	<link type="text/css" rel="stylesheet" href="bootstrap-4.0.0/css/bootstrap.min.css">
+	<script type="text/javascript" src="bootstrap-4.0.0/js/bootstrap.bundle.min.js"></script>
 	<script type="text/javascript" src="https://unpkg.com/popper.js@1.12.9/dist/umd/popper.js"></script>
-	<script type="text/javascript" src="/bootstrap-4.0.0/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="bootstrap-4.0.0/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="bootstrap-4.0.0/js/bootstrap-submenu.js"></script>
 </head>
-<body>
+<body onLoad="testProgram('lab1');">
 	<div class="holder">
 		<span class="topbar">
 		Compiler
@@ -26,13 +28,8 @@
 		</span>
 		<span class="page-left">
 			<span class="title">Input:</span>
-			<textarea class="input" id="input">/* Project 1 */
-{}$
-{{{{{{}}}}}}$
-{{{{{{}}}	/*	comments	are	ignored	*/	}}}}$
-{	/*	comments	are	still	ignored	*/	int	@}$
-
-/* Same thing but just really ugly */{}${{{{{{}}}}}}${{{{{{}}}/* comments are ignored */}}}}${/* comments are still ignored */int@}$</textarea>
+			<textarea class="input" id="input"></textarea>
+			<!--<script type="text/javascript">testProgram(lab1);</script>-->
 		</span>
 		<span class="page-right">
 			<span class="title">Console:</span>

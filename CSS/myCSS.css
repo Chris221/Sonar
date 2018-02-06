@@ -1,5 +1,5 @@
 /* CSS Document */
-html {
+/*html {
 	background-color: #FFFFFF;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -21,7 +21,7 @@ body {
 	-o-font-smoothing: antialiased;
 	font-smoothing: antialiased;
 	height: calc(100% - 100px);
-}
+}*/
 a:link, a:visited {
 	color: #2EA3F2;
 	text-decoration: none;
