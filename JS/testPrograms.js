@@ -15,6 +15,17 @@ var project1Ugly = "/* Project 1 */"+
 		"{{{{{{}}}	/*	comments	are	ignored	*/	}}}}$"+
 		"{	/*	comments	are	still	ignored	*/	int	@}$";
 
+//Lex errors
+var project1Lex = "/* Invalid characters */\n"+
+				"{ int @}$";
+
+var twoLineString = "/* Invalid Break Line in String */\n"+
+					"\"two\n"+
+					"lines\"$";
+
+var invalidString = "/* Invalid String */\n"+
+					"\"this is good Not:`~!@#$%^&*()_+-=0987654321{}|[]\;'<>?,./\"$";
+
 //Output the testprogram
 function testProgram(name) {
 	//Intializes the return text
@@ -29,6 +40,15 @@ function testProgram(name) {
 			break;
 		case "lab1_ugly":
 			rText = project1Ugly;
+			break;
+		case "project1_lex":
+			rText  = project1Lex;
+			break;
+		case "two_line_string":
+			rText  = twoLineString;
+			break;
+		case "invalid_string":
+			rText = invalidString;
 			break;
 		default:
 			rText = "";
