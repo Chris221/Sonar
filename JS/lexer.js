@@ -356,6 +356,11 @@ function lexer(input) {
 	if (errors) {
 		cText = "FAILED";
 		tokens = false;
+		$('#lexer').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-warning");
+	} else if (warnings) {
+		$('#lexer').addClass("btn-warning").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-danger");
+	} else {
+		$('#lexer').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-warning").removeClass("btn-danger");
 	}
 	//Defines the full output of the completed text
 	var completedText = "\nLexer "+cText+" with "+warnings+" warnings and "+errors+" errors!\n\n";

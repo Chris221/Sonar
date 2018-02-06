@@ -89,8 +89,12 @@ body {
 	height: 250px;
 	display: block;
 }
-.controls {
+.controls, .compilerVis {
 	text-align: center;
 	margin-bottom: 10px;
 	display: block;
+}
+.compilerVis .btn {
+	width: 124px;
+}
 }
