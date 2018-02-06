@@ -31,7 +31,7 @@
 				<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Example Code</button>
 				<div class="dropdown-menu"  aria-labelledby="navbarDropdownMenuLink">
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle">Cases that pass</a>
+						<a class="nav-link dropdown-toggle">Will pass</a>
 						<ul class="dropdown-menu">
 							<a class="dropdown-item" onclick="testProgram('good_case_1');">Simple</a>
 							<a class="dropdown-item" onclick="testProgram('good_case_2');">Print String</a>
@@ -64,12 +64,16 @@
 		</span>
 		<span class="page-left">
 			<span class="title">Input:</span>
-			<textarea class="input" id="input"></textarea>
-			<!--<script type="text/javascript">testProgram(lab1);</script>-->
+			<small>
+				<textarea class="input" id="input"></textarea>
+			</small>
 		</span>
 		<span class="page-right">
 			<span class="title">Console:</span>
-			<textarea class="log" id="Lexer_log" disabled></textarea>
+			<small>
+				<textarea class="log" id="Lexer_log" disabled></textarea>
+			</small>
+		</span>
 		<span class="page-bottom">
 			<!-- Token Ticker -->
 			<!-- could make it not bug out on the change but it's annoying -->
