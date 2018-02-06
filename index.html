@@ -16,7 +16,11 @@
 		</span>
 	</div>
 	<span class="page">
+		<span class="controls">
+			<button onclick="compile();">Compile</button>
+		</span>
 		<span class="page-left">
+			<span class="title">Input:</span>
 			<textarea class="input" id="input">/* Project 1 */
 {}$
 {{{{{{}}}}}}$
@@ -26,11 +30,7 @@
 /* Same thing but just really ugly */{}${{{{{{}}}}}}${{{{{{}}}/* comments are ignored */}}}}${/* comments are still ignored */int@}$</textarea>
 		</span>
 		<span class="page-right">
-			<span class="controls">
-				<button onclick="compile();">Compile</button>
-			</span>
-			<br />
-			Console:
+			<span class="title">Console:</span>
 			<textarea class="log" id="Lexer_log" disabled></textarea>
 		</span>
 	</span>
