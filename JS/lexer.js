@@ -350,6 +350,15 @@ function lexer(input) {
 		}
 	}
 	
+	//Checks one last time to make sure no Unterminated strings
+	//would fail either way but now it tells you :)
+	if (isString) {
+		//Throws error for Unterminated strings
+		LexLog("ERROR! Unterminated string on "+cLine+"...");
+		//Adds to errors
+		errors++;
+	}
+	
 	//Defines part of the completion text
 	var cText = "passed";
 	//If any errors set to failed for the completed lexer output and tokens to false
