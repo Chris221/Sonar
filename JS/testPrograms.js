@@ -32,13 +32,13 @@ function testProgram(name) {
 	var rText;
 	//switches through to set the rtext
 	switch(name) {
-		case "lab1":
+		case "project1":
 			rText  = project1+"\n\n"+project1Ugly;
 			break;
-		case "lab1_clean":
+		case "project1_clean":
 			rText  = project1;
 			break;
-		case "lab1_ugly":
+		case "project1_ugly":
 			rText = project1Ugly;
 			break;
 		case "project1_lex":
@@ -54,5 +54,5 @@ function testProgram(name) {
 			rText = "";
 	}
 	//
-	$('#input').text(rText);
+	$('#input').val(rText);
 }
