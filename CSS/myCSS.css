@@ -44,7 +44,7 @@ body {
 .topbar {
 	display: block;
 	text-align: center;
-	background-color: #2ea3f2 50%;
+	background-color: rgba(13,78,215,0.73);
 	font-size: 28px;
 	padding: 10px;
 	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
