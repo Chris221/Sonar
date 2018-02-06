@@ -41,8 +41,9 @@ function lexer(input) {
 		
 		//When in a string
 		if (isString) {
-			//Throws error for untreminated strings
+			//Throws error for unterminated strings
 			LexLog("ERROR! Unterminated string on "+cLine+"...");
+			//Adds to errors
 			errors++;
 			//Sets isString false
 			isString = false;
@@ -62,6 +63,7 @@ function lexer(input) {
 				programOutCounter++;
 			}
 			
+			//Which column we're at wile debugging
 			if (debug) {
 				LexLog("*DEBUGGER* column location: "+(column+1));
 			}
@@ -80,6 +82,7 @@ function lexer(input) {
 					//If not start it
 					isComment = true;
 				}
+				//Lets us know the comment is starting if debugging
 				if (debug) {
 					LexLog("*DEBUGGER* **Comment starting will be ignored**");
 				}
@@ -98,6 +101,7 @@ function lexer(input) {
 					//If not start it
 					isComment = true;
 				}
+				//Lets us know the comment is ending if debugging
 				if (debug) {
 					LexLog("*DEBUGGER* **Comment ending will be ignored**");
 				}
@@ -132,7 +136,9 @@ function lexer(input) {
 					addToken("CHAR",character,cLine+1,column+1);
 					continue;
 				}
+				//Enexpected char found
 				LexLog("ERROR! Unexpected char [ "+character+" ] string on "+(cLine+1)+", "+(column+1)+"...");
+				//Adds to errors
 				errors++;
 				continue;
 			}
@@ -339,13 +345,16 @@ function lexer(input) {
 			
 			//Checks for space or tab and ignores it
 			if (character.indexOf(' ') >= 0 || character.indexOf('	') >= 0) {
+				//If bebugging this will output when white space is found
 				if (debug) {
 					LexLog("*DEBUGGER* Found whitespace at: "+(cLine+1)+", "+(column+1));
 				}
 				continue;
 			}
 			
+			//If no token was handed out there must not be one, ERROR
 			LexLog("ERROR! Unrecognized, could not define token [ "+character+" ] found on line "+(cLine+1)+", "+(column+1)+"...");
+			//Adds to errors
 			errors++;
 		}
 	}
@@ -361,14 +370,19 @@ function lexer(input) {
 	
 	//Defines part of the completion text
 	var cText = "passed";
-	//If any errors set to failed for the completed lexer output and tokens to false
+	//If any errors
 	if (errors) {
+		//Sets failed for the completed lexer output and tokens to false
 		cText = "FAILED";
 		tokens = false;
+		//Makes the visual lexer red
 		$('#lexer').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-warning");
 	} else if (warnings) {
+		//If there are warnings
+		//Makes the visual lexer yellow
 		$('#lexer').addClass("btn-warning").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-danger");
 	} else {
+		//Makes the visual lexer green
 		$('#lexer').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-warning").removeClass("btn-danger");
 	}
 	//Defines the full output of the completed text

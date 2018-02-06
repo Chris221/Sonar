@@ -1,5 +1,4 @@
 // JavaScript Document
-//Allows for the submenus
 
 //Project 1 clean
 var project1 = "/* Project 1 */\n"+
@@ -16,13 +15,16 @@ var project1Ugly = "/* Project 1 */"+
 		"{	/*	comments	are	still	ignored	*/	int	@}$";
 
 //Lex errors
+//Invalid characters
 var project1Lex = "/* Invalid Characters */\n"+
 				"{ int @}$";
 
+//Invalid break line in string
 var twoLineString = "/* Invalid Break Line in String */\n"+
 					"\"two\n"+
 					"lines\"$";
 
+//Invalid string
 var invalidString = "/* Invalid String */\n"+
 					"\"this is good Not:`~!@#$%^&*()_+-=0987654321{}|[]\;'<>?,./\"$";
 //Good simple cases
@@ -70,6 +72,6 @@ function testProgram(name) {
 		default:
 			rText = "";
 	}
-	//
+	//Sets the actual program
 	$('#input').val(rText);
 }

@@ -24,6 +24,7 @@
 		</span>
 	</div>
 	<span class="page">
+		<!-- Page controls -->
 		<span class="controls">
 			<button onclick="compile();" class="btn btn-primary">Compile</button>
 			<button onclick="compile();" class="btn btn-primary">Compile</button>&emsp;
@@ -56,6 +57,7 @@
 				</div>
 			  </div>
 		</span>
+		<!-- Visually see the output of the compiler's parts -->
 		<span class="compilerVis">
 			<button class="btn btn-secondary" id="lexer">Lexer</button>&emsp;
 			<button class="btn btn-secondary" id="2">2</button>&emsp;
@@ -63,12 +65,14 @@
 			<button class="btn btn-secondary" id="4">4</button>&emsp;
 		</span>
 		<span class="page-left">
+			<!-- Compiler Input -->
 			<span class="title">Input:</span>
 			<small>
 				<textarea class="input" id="input"></textarea>
 			</small>
 		</span>
 		<span class="page-right">
+			<!-- Compiler Output -->
 			<span class="title">Console:</span>
 			<small>
 				<textarea class="log" id="Lexer_log" disabled></textarea>
