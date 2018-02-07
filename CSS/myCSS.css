@@ -82,12 +82,22 @@ body {
 	display: block;
 	margin-bottom: 10px;
 }
+.log {
+	height: 242px;
+}
 .input, .log {
 	margin-left: auto;
 	margin-right: auto;
 	width: 80%;
-	height: 250px;
 	display: block;
+}
+.input {
+	background: url(http://i.imgur.com/2cOaJ.png);
+	background-attachment: local;
+	background-repeat: no-repeat;
+	padding-left: 35px;
+	padding-top: 10px;
+	border-color:#ccc;
 }
 .controls, .compilerVis {
 	text-align: center;
