@@ -65,7 +65,7 @@ function lexer(input) {
 			
 			//Which column we're at wile debugging
 			if (debug) {
-				LexLog("*DEBUGGER* column location: "+(column+1));
+				LexLog("*DEBUGGER* Line number "+(cLine+1)+", column location "+(column+1));
 			}
 			//Sets current character;
 			character = line[column];
