@@ -23,10 +23,19 @@ function parser(input) {
     //calls the first token check
     program();
 }
+function block() {
+    if (currentToken == "LEFT_BRACE") {
         leftBrace();
+        statementList();
+    } else if (currentToken == "RIGHT_BRACE" ) {
+        rightBrace();
+        program();
     } else {
-        //Outputs unexpected token
-        handle(currentToken,"LEFT_BRACE");
+        //increases errors
+        pErrors++;
+        //Outputs failed
+        text = "Failed! Unexpected token found [ "+type+" ] on line "+line+", "+column+"...";  
+        parserLog(text);
     }
 }
 
