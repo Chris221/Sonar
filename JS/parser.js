@@ -41,6 +41,24 @@ function rightBrace() {
     braceLevel--;
     return;
 }
+
+function statementList() {
+    getToken;
+    if (currentToken == "PRINT" || currentToken == "ID" 
+    || currentToken == "INT" || currentToken == "STRING"
+    || currentToken == "BOOLEAN" || currentToken == "WHILE" 
+    || currentToken == "IF" || currentToken == "LEFT_BRACE"
+    || currentToken == "RIGHT_BRACE") {
+        statement();
+    } else {
+        //increases errors
+        pErrors++;
+        //Outputs failed
+        text = "Failed! Unexpected token found [ "+type+" ] on line "+line+", "+column+"...";  
+        parserLog(text);
+    }
+}
+
 //checks for blocks
 function block() {
     if (currentToken == "LEFT_BRACE") {
