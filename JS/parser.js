@@ -38,7 +38,7 @@ function handle(token, unexpected = '') {
     //sets the line of the token
 	var line = token.line;
     //sets the col of the token
-    var column = token.col;
+    var column = token.column;
 
     //Defines text
     var text;
