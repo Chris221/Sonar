@@ -94,6 +94,29 @@ function program() {
     }  
 }
 
+//checks for statements
+function statement() {
+    if (currentToken == "PRINT") {
+        printStatement();
+    } else if (currentToken == "ID") {
+        assignmentStatement();
+    } else if (currentToken == "INT" || currentToken == "STRING" || currentToken == "BOOLEAN") {
+        varDecl();
+    } else if (currentToken == "WHILE") {
+        whileStatement();
+    } else if (currentToken == "IF") {
+        ifStatement();
+    } else if (currentToken == "LEFT_BRACE" || currentToken == "RIGHT_BRACE") {
+        block();
+    } else {
+        //increases errors
+        pErrors++;
+        //Outputs failed
+        text = "Failed! Unexpected token found [ "+type+" ] on line "+line+", "+column+"...";  
+        parserLog(text);
+    }
+}
+
 //handles the parsering and CST
 function handle(token, unexpected = '') {
     //sets the type of the token
