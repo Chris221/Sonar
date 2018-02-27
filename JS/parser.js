@@ -1,8 +1,9 @@
 // JavaScript Document
 
-//defines the token list, current token and brace level
+//defines the token list, current token, brace level and parser errors.
 var tokens = [];
-var currentToken, braceLevel;
+var currentToken, pErrors;
+var braceLevel = 0;
 
 function getToken() {
     //sets current token
@@ -19,16 +20,34 @@ function parser(input) {
     parserLog("\n\nParser is starting..\n\n");
     //sets the token list
     tokens = input;
-    //gets the first token
-    var token = getToken();
-    if (token.type == "LEFT_BRACE") {
-        //Call leftBrace to check the next token
+    //calls the first token check
+    program();
+}
         leftBrace();
     } else {
         //Outputs unexpected token
         handle(currentToken,"LEFT_BRACE");
     }
 }
+
+//checks for programs
+function program() {
+    getToken;
+    if (currentToken == "LEFT_BRACE") {
+        block();
+    } else if ((braceLevel == 0) || (currentToken != "EOP")) {
+        //increases errors
+        pErrors++;
+        //Outputs failed
+        handle(currentToken, "LEFT_BRACE");
+    }
+
+    if (currentToken == "EOP") {
+        eOP();
+        program();
+    }  
+}
+
 //handles the parsering and CST
 function handle(token, unexpected = '') {
     //sets the type of the token
@@ -51,6 +70,7 @@ function handle(token, unexpected = '') {
     parserLog(text);
 }
 
+//Sets the parsers log
 function parserLog(text) {
     //Appends new logging to current log
     var lText = $('#Lexer_log').val()+"PARSER -- "+text+"\n";
