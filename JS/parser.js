@@ -1,8 +1,8 @@
 // JavaScript Document
 
-//defines the token list, current token and bracket level
+//defines the token list, current token and brace level
 var tokens = [];
-var currentToken, bracketLevel;
+var currentToken, braceLevel;
 
 function getToken() {
     //sets current token
@@ -20,7 +20,7 @@ function parser(input) {
     //sets the token list
     tokens = input;
 //handles the parsering and CST
-function handle(token, unexpected = false) {
+function handle(token, unexpected = '') {
     //sets the type of the token
     var type = token.type;
     //sets the value of the token
