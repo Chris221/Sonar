@@ -19,6 +19,16 @@ function parser(input) {
     parserLog("\n\nParser is starting..\n\n");
     //sets the token list
     tokens = input;
+    //gets the first token
+    var token = getToken();
+    if (token.type == "LEFT_BRACE") {
+        //Call leftBrace to check the next token
+        leftBrace();
+    } else {
+        //Outputs unexpected token
+        handle(currentToken,"LEFT_BRACE");
+    }
+}
 //handles the parsering and CST
 function handle(token, unexpected = '') {
     //sets the type of the token
