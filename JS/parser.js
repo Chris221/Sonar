@@ -23,6 +23,25 @@ function parser(input) {
     //calls the first token check
     program();
 }
+
+//handles the left brace
+function leftBrace() {
+    //Outputs the token found
+    handle(currentToken);
+    //increases the braceLevel
+    braceLevel++;
+    return;
+}
+
+//handles the right brace
+function rightBrace() {
+    //Outputs the token found
+    handle(currentToken);
+    //decreases the braceLevel
+    braceLevel--;
+    return;
+}
+//checks for blocks
 function block() {
     if (currentToken == "LEFT_BRACE") {
         leftBrace();
