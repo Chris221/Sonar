@@ -5,6 +5,9 @@ var tokens = [];
 var currentToken, pErrors;
 var braceLevel = 0;
 
+//sets the debug for parser
+var pDebug = true;
+
 function getToken() {
     //sets current token
     currentToken = tokens[0];
@@ -49,6 +52,9 @@ function statementList() {
     || currentToken == "BOOLEAN" || currentToken == "WHILE" 
     || currentToken == "IF" || currentToken == "LEFT_BRACE"
     || currentToken == "RIGHT_BRACE") {
+    if (pDebug) {
+        parserLog("Statement List..");
+    }
         statement();
     } else {
         //increases errors
@@ -62,6 +68,9 @@ function statementList() {
 //checks for blocks
 function block() {
     if (currentToken == "LEFT_BRACE") {
+    if (pDebug) {
+        parserLog("Block..");
+    }
         leftBrace();
         statementList();
     } else if (currentToken == "RIGHT_BRACE" ) {
@@ -80,6 +89,9 @@ function block() {
 function program() {
     getToken;
     if (currentToken == "LEFT_BRACE") {
+    if (pDebug) {
+        parserLog("Program..");
+    }
         block();
     } else if ((braceLevel == 0) || (currentToken != "EOP")) {
         //increases errors
@@ -97,6 +109,9 @@ function program() {
 //checks for statements
 function statement() {
     if (currentToken == "PRINT") {
+    if (pDebug) {
+        parserLog("Statement..");
+    }
         printStatement();
     } else if (currentToken == "ID") {
         assignmentStatement();
