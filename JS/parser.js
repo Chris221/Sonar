@@ -30,7 +30,7 @@ function parser(input) {
 //handles the left brace
 function leftBrace() {
     //Outputs the token found
-    handle(currentToken);
+    handle();
     //increases the braceLevel
     braceLevel++;
     return;
@@ -39,7 +39,7 @@ function leftBrace() {
 //handles the right brace
 function rightBrace() {
     //Outputs the token found
-    handle(currentToken);
+    handle();
     //decreases the braceLevel
     braceLevel--;
     return;
@@ -97,7 +97,7 @@ function program() {
         //increases errors
         pErrors++;
         //Outputs failed
-        handle(currentToken, "LEFT_BRACE");
+        handle("LEFT_BRACE");
     }
 
         eOP();
