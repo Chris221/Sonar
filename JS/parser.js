@@ -11,7 +11,7 @@ function getToken() {
     //removes the token from the list
     tokens.shift();
     //returns the current token
-    return currentToken;
+    //return currentToken;
 }
 
 //runs the parser
@@ -118,15 +118,15 @@ function statement() {
 }
 
 //handles the parsering and CST
-function handle(token, unexpected = '') {
+function handle(unexpected = '') {
     //sets the type of the token
-    var type = token.type;
+    var type = currentToken.type;
     //sets the value of the token
-    var value = token.value;
+    var value = currentToken.value;
     //sets the line of the token
-	var line = token.line;
+	var line = currentToken.line;
     //sets the col of the token
-    var column = token.column;
+    var column = currentToken.column;
 
     //Defines text
     var text;
