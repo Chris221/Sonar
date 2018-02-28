@@ -63,6 +63,7 @@ function statementList() {
         text = "Failed! Unexpected token found [ "+type+" ] on line "+line+", "+column+"...";  
         parserLog(text);
     }
+    return;
 }
 
 //checks for blocks
@@ -83,6 +84,7 @@ function block() {
         text = "Failed! Unexpected token found [ "+type+" ] on line "+line+", "+column+"...";  
         parserLog(text);
     }
+    return;
 }
 
 //checks for programs
@@ -100,10 +102,13 @@ function program() {
         handle("LEFT_BRACE");
     }
 
-        eOP();
     if (currentToken.type == "EOP") {
+        //Outputs the token found
+        handle();
+        //calls program
         program();
-    }  
+    }
+    return;
 }
 
 //checks for statements
@@ -130,6 +135,7 @@ function statement() {
         text = "Failed! Unexpected token found [ "+type+" ] on line "+line+", "+column+"...";  
         parserLog(text);
     }
+    return;
 }
 
 //handles the parsering and CST
