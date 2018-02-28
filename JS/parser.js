@@ -47,14 +47,14 @@ function rightBrace() {
 
 function statementList() {
     getToken;
-    if (currentToken == "PRINT" || currentToken == "ID" 
-    || currentToken == "INT" || currentToken == "STRING"
-    || currentToken == "BOOLEAN" || currentToken == "WHILE" 
-    || currentToken == "IF" || currentToken == "LEFT_BRACE"
-    || currentToken == "RIGHT_BRACE") {
     if (pDebug) {
         parserLog("Statement List..");
     }
+    if (currentToken.type == "PRINT" || currentToken.type == "ID" 
+    || currentToken.type == "INT" || currentToken.type == "STRING"
+    || currentToken.type == "BOOLEAN" || currentToken.type == "WHILE" 
+    || currentToken.type == "IF" || currentToken.type == "LEFT_BRACE"
+    || currentToken.type == "RIGHT_BRACE") {
         statement();
     } else {
         //increases errors
@@ -67,13 +67,13 @@ function statementList() {
 
 //checks for blocks
 function block() {
-    if (currentToken == "LEFT_BRACE") {
     if (pDebug) {
         parserLog("Block..");
     }
+    if (currentToken.type == "LEFT_BRACE") {
         leftBrace();
         statementList();
-    } else if (currentToken == "RIGHT_BRACE" ) {
+    } else if (currentToken.type == "RIGHT_BRACE" ) {
         rightBrace();
         program();
     } else {
@@ -88,40 +88,40 @@ function block() {
 //checks for programs
 function program() {
     getToken;
-    if (currentToken == "LEFT_BRACE") {
     if (pDebug) {
         parserLog("Program..");
     }
+    if (currentToken.type == "LEFT_BRACE") {
         block();
-    } else if ((braceLevel == 0) || (currentToken != "EOP")) {
+    } else if ((braceLevel == 0) && (currentToken.type != "EOP")) {
         //increases errors
         pErrors++;
         //Outputs failed
         handle(currentToken, "LEFT_BRACE");
     }
 
-    if (currentToken == "EOP") {
         eOP();
+    if (currentToken.type == "EOP") {
         program();
     }  
 }
 
 //checks for statements
 function statement() {
-    if (currentToken == "PRINT") {
     if (pDebug) {
         parserLog("Statement..");
     }
+    if (currentToken.type == "PRINT") {
         printStatement();
-    } else if (currentToken == "ID") {
+    } else if (currentToken.type == "ID") {
         assignmentStatement();
-    } else if (currentToken == "INT" || currentToken == "STRING" || currentToken == "BOOLEAN") {
+    } else if (currentToken.type == "INT" || currentToken.type == "STRING" || currentToken.type == "BOOLEAN") {
         varDecl();
-    } else if (currentToken == "WHILE") {
+    } else if (currentToken.type == "WHILE") {
         whileStatement();
-    } else if (currentToken == "IF") {
+    } else if (currentToken.type == "IF") {
         ifStatement();
-    } else if (currentToken == "LEFT_BRACE" || currentToken == "RIGHT_BRACE") {
+    } else if (currentToken.type == "LEFT_BRACE" || currentToken.type == "RIGHT_BRACE") {
         block();
     } else {
         //increases errors
