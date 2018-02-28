@@ -20,7 +20,7 @@ function getToken() {
 //runs the parser
 function parser(input) {
     //Outputs starting
-    parserLog("\n\nParser is starting..\n\n");
+    parserLog("Parser is starting..\n\n");
     //sets the token list
     tokens = input;
     //calls the first token check
@@ -46,10 +46,10 @@ function rightBrace() {
 }
 
 function statementList() {
-    getToken;
     if (pDebug) {
         parserLog("Statement List..");
     }
+    getToken();
     if (currentToken.type == "PRINT" || currentToken.type == "ID" 
     || currentToken.type == "INT" || currentToken.type == "STRING"
     || currentToken.type == "BOOLEAN" || currentToken.type == "WHILE" 
@@ -87,10 +87,10 @@ function block() {
 
 //checks for programs
 function program() {
-    getToken;
     if (pDebug) {
         parserLog("Program..");
     }
+    getToken();
     if (currentToken.type == "LEFT_BRACE") {
         block();
     } else if ((braceLevel == 0) && (currentToken.type != "EOP")) {
