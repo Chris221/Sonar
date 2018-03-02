@@ -85,7 +85,7 @@ body {
 .log {
 	height: 242px;
 }
-.input, .log {
+.input, .log, .cst {
 	margin-left: auto;
 	margin-right: auto;
 	width: 80%;
