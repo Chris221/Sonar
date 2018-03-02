@@ -5,6 +5,9 @@ var debug = false;
 
 //Starts the compile
 function compile() {
+	//Sets the visualizer defaults
+	$('#lexer').addClass("btn-secondary").removeClass("btn-success").removeClass("btn-danger").removeClass("btn-warning");
+	$('#parser').addClass("btn-secondary").removeClass("btn-success").removeClass("btn-danger");
 	//Clears the marquee for tokens
 	$('#token-marquee').text("");
 	//Gets the input
