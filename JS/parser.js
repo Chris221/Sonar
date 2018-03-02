@@ -73,6 +73,7 @@ function parser(input) {
 	} else {
 		//Makes the visual parser green
         $('#parser').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-danger");
+        $('#cst').val(cst.toString());
     }
 	//Outputs the completed Text
 	$('#Lexer_log').text($('#Lexer_log').val()+completedText);
@@ -120,12 +121,16 @@ function eOP() {
 }
 
 function statementList() {
+    //starts cst branch
+    cst.addNode("StatementList", "branch");
     //debugging
     if (pDebug) {
         parserLog("Statement List..");
     }
     //if a Right Brace
     if (currentToken.type == "RIGHT_BRACE") {
+        //cst backs out a branch
+        cst.kick();
         //go to block
         block();
     //if any other statement keyword
@@ -135,6 +140,8 @@ function statementList() {
     || currentToken.type == "IF" || currentToken.type == "LEFT_BRACE") {
         //goes to statement
         statement();
+        //cst backs out a branch
+        cst.kick();
         //if the current token is EOP then  loop here
         while (currentToken.type != "EOP") {
             //changes the token
@@ -148,6 +155,8 @@ function statementList() {
         //Outputs failed
         handle("PRINT, ID, INT, STRING, BOOLEAN, WHILE, STRING, IF, LEFT_BRACE, RIGHT_BRACE");
     }
+    //cst backs out a branch
+    cst.kick();
     //backs out
     return;
 }
@@ -160,6 +169,8 @@ function block() {
     }
     //if current token is a lerft brace
     if (currentToken.type == "LEFT_BRACE") {
+        //starts cst branch
+        cst.addNode("Block", "branch");
         //goes to left brace
         leftBrace();
         //changes the token
@@ -172,12 +183,18 @@ function block() {
         rightBrace();
         //changes the token
         getToken();
+        //cst backs out a branch
+        cst.kick();
         if (currentToken.type == "EOP" && (braceLevel == 0)) {
             //go to eOP
             eOP();
+            //cst backs out a branch
+            cst.kick();
             //go to program
             program();
         } else {
+            //cst backs out a branch
+            cst.kick();
             //goes to statement
             statementList();
         }
@@ -222,15 +239,21 @@ function program() {
     
     //if current token is a lerft brace
     if (currentToken.type == "LEFT_BRACE") {
+        //starts cst branch
+        cst.addNode("Program "+programLevel, "branch");
         //Goes to the block
         block();
     }
+    //cst backs out a branch
+    cst.kick();
     //backs out
     return;
 }
 
 //checks for statements
 function statement() {
+    //starts cst branch
+    cst.addNode("Statement", "branch");
     //debugging
     if (pDebug) {
         parserLog("Statement..");
@@ -257,6 +280,8 @@ function statement() {
         ifStatement();
     //if LEFT_BRACE or RIGHT_BRACE
     } else if (currentToken.type == "LEFT_BRACE" || currentToken.type == "RIGHT_BRACE") {
+        //cst backs out a branch
+        cst.kick();
         //goes to block
         block();
     } else {
@@ -265,12 +290,18 @@ function statement() {
         //Outputs failed
         handle("PRINT, ID, INT, STRING, BOOLEAN, WHILE, STRING, IF, LEFT_BRACE, RIGHT_BRACE");
     }
+    //cst backs out a branch
+    cst.kick();
+    //cst backs out a branch
+    cst.kick();
     //backs out
     return;
 }
 
 //handles the print statement
 function printStatement() {
+    //starts cst branch
+    cst.addNode("Print", "branch");
     //debugging
     if (pDebug) {
         parserLog("Print..");
@@ -291,6 +322,8 @@ function printStatement() {
         //Outputs failed
         handle("LEFT_PARENTHESES");
     }
+    //cst backs out a branch
+    cst.kick();
     //backs out
     return;
 }
@@ -384,6 +417,8 @@ function leftParentheses() {
 
 //handles expressions
 function expr() {
+    //starts cst branch
+    cst.addNode("Expr", "branch");
     //debugging
     if (pDebug) {
         parserLog("Expr..");
@@ -411,12 +446,16 @@ function expr() {
         handle("DIGIT, QUOTE, LEFT_PARENTHESES, TRUE, FALSE, ID");
     }
 
+    //cst backs out a branch
+    cst.kick();
     //backs out
     return;
 }
 
 //handles int expressions
 function intExpr() {
+    //starts cst branch
+    cst.addNode("Expr", "branch");
     //debugging
     if (pDebug) {
         parserLog("intExpr..");
@@ -433,9 +472,13 @@ function intExpr() {
         getToken();
         //goes to expr
         expr();
+        //cst backs out a branch
+        cst.kick();
         //backs out
         return;
     } else {
+        //cst backs out a branch
+        cst.kick();
         //backs out
         return;
     }
@@ -443,6 +486,8 @@ function intExpr() {
 
 //handles string expressions
 function stringExpr() {
+    //starts cst branch
+    cst.addNode("StringExpr", "branch");
     //debugging
     if (pDebug) {
         parserLog("stringExpr..");
@@ -452,11 +497,16 @@ function stringExpr() {
 
     //changes the token
     getToken();
+
+    //starts cst branch
+    cst.addNode("CharList", "branch");
     //goes to char list
     charList();
 
     //cheks for second quote
     if (currentToken.type == "QUOTE") {
+        //cst backs out a branch
+        cst.kick();
         //handles the second quote
         handle();
     } else {
@@ -465,7 +515,8 @@ function stringExpr() {
         //Outputs failed
         handle("QUOTE");
     }
-
+    //cst backs out a branch
+    cst.kick();
     //backs out
     return;
 }
@@ -500,6 +551,8 @@ function charList() {
 
 //handles boolean expression
 function booleanExpr() {
+    //starts cst branch
+    cst.addNode("BooleanExpr", "branch");
     //debugging
     if (pDebug) {
         parserLog("booleanExpr..");
@@ -514,13 +567,16 @@ function booleanExpr() {
         //handles the boolean val
         handle();
     }
-    
+    //cst backs out a branch
+    cst.kick();
     //backs out
     return;
 }
 
 //handles assignment statements
 function assignmentStatement() {
+    //starts cst branch
+    cst.addNode("AssignmentStatement", "branch");
     //debugging
     if (pDebug) {
         parserLog("assignmentStatement..");
@@ -551,12 +607,16 @@ function assignmentStatement() {
         //Outputs failed
         handle("ID");
     }
+    //cst backs out a branch
+    cst.kick();
     //backs out
     return;
 }
 
 //handles variable declarations
 function varDecl() {
+    //starts cst branch
+    cst.addNode("VariableDeclaration", "branch");
     //debugging
     if (pDebug) {
         parserLog("varDecl..");
@@ -575,11 +635,15 @@ function varDecl() {
         //Outputs failed
         handle("ID");
     }
+    //cst backs out a branch
+    cst.kick();
     //backs out
     return;
 }
 
 function whileStatement() {
+    //starts cst branch
+    cst.addNode("WhileStatement", "branch");
     //debugging
     if (pDebug) {
         parserLog("whileStatement..");
@@ -602,11 +666,15 @@ function whileStatement() {
         //Outputs failed
         handle("LEFT_PARENTHESES, TRUE, FALSE");
     }
+    //cst backs out a branch
+    cst.kick();
     //backs out
     return;
 }
 
 function ifStatement() {
+    //starts cst branch
+    cst.addNode("IfStatement", "branch");
     //debugging
     if (pDebug) {
         parserLog("ifStatement..");
@@ -629,6 +697,8 @@ function ifStatement() {
         //Outputs failed
         handle("LEFT_PARENTHESES, TRUE, FALSE");
     }
+    //cst backs out a branch
+    cst.kick();
     //backs out
     return;
 }
@@ -650,6 +720,7 @@ function handle(unexpected = '') {
     //Figures out if it is a successful or unexpected token output
     if (!unexpected) {
         text = "Passed! Expected token found [ "+type+" ] with a value of [ "+value+" ] on line "+line+", "+column+"..."; 
+        cst.addNode(currentToken.value, "leaf", currentToken.line);
     } else {
         text = "Failed! Unexpected token found [ "+type+" ] on line "+line+", "+column;
         //processes the the first text

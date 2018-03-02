@@ -82,7 +82,7 @@ body {
 	display: block;
 	margin-bottom: 10px;
 }
-.log {
+.log, .cst {
 	height: 242px;
 }
 .input, .log, .cst {
