@@ -84,6 +84,14 @@ function rightBrace() {
     return;
 }
 
+//handles the IDs
+function iD() {
+    //Outputs the token found
+    handle();
+    //backs out
+    return;
+}
+
 //handles the right brace
 function eOP() {
     //Outputs the token found
@@ -216,6 +224,10 @@ function statement() {
 
 //handles the print statement
 function printStatement() {
+    //debugging
+    if (pDebug) {
+        parserLog("Print..");
+    }
     //handels the print
     handle();
     //Changes the token
@@ -237,6 +249,10 @@ function printStatement() {
 
 //handles the print left parentheses statement
 function leftParentheses() {
+    //debugging
+    if (pDebug) {
+        parserLog("Parentheses..");
+    }
     //handels the print
     handle();
     //if in print
@@ -265,7 +281,7 @@ function expr() {
     //if left parentheses
     } else if (currentToken.type == "ID") {
         //go to ID
-        ID();
+        iD();
     } else {
         //increases errors
         pErrors++;
@@ -279,7 +295,7 @@ function expr() {
 
 //handles int expressions
 function intExpr() {
-    
+
 }
 
 //handles the parsering and CST
