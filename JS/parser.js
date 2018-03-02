@@ -11,10 +11,14 @@ var inPrint = false;
 var inBool = false;
 var finished = false;
 
+//sets the CST and root node
+var cst = new Tree();
+cst.addNode("Root", "branch");
+
 //sets the debug for parser
 var pDebug = true;
 
-//resets the globals and changes debug
+//resets the globals, cst, changes debug
 function resetGlobals() {
     tokens = [];
     currentToken;
@@ -25,6 +29,9 @@ function resetGlobals() {
     inPrint = false;
     inBool = false;
     finished = false;
+
+    cst = new Tree();
+    cst.addNode("Root", "branch");
 
     pDebug = true;
 }
