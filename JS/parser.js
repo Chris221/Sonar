@@ -1,12 +1,13 @@
 // JavaScript Document
 
-//defines the token list, current token, brace level, program level and parser errors.
+//defines the token list, current token, parser errors, brace level, program level, program level counter, and in print.
 var tokens = [];
 var currentToken;
 var pErrors = 0;
 var braceLevel = 0;
 var programLevel = 1;
 var programLevelCounter = 0;
+var inPrint = false;
 
 //sets the debug for parser
 var pDebug = true;
@@ -19,6 +20,7 @@ function resetGlobals() {
     braceLevel = 0;
     programLevel = 1;
     programLevelCounter = 0;
+    inPrint = false;
     pDebug = true;
 }
 
@@ -213,6 +215,24 @@ function statement() {
     return;
 }
 
+//handles the print statement
+function printStatement() {
+    //handels the print
+    handle();
+    //Changes the token
+    getToken();
+    //changes to in print
+    inPrint = true;
+    if (currentToken.type == "LEFT_PARENTHESES") {
+        //goes to left parentheses for print
+        printLeftP();
+    } else {
+        //increases errors
+        pErrors++;
+        //Outputs failed
+        handle("LEFT_PARENTHESES");
+    }
+}
 //handles the parsering and CST
 function handle(unexpected = '') {
     //sets the type of the token
