@@ -25,7 +25,7 @@ function resetGlobals() {
     inPrint = false;
     inBool = false;
     finished = false;
-    
+
     pDebug = true;
 }
 
@@ -117,14 +117,19 @@ function statementList() {
     if (pDebug) {
         parserLog("Statement List..");
     }
+    //if a statement keyword
     if (currentToken.type == "PRINT" || currentToken.type == "ID" 
     || currentToken.type == "INT" || currentToken.type == "STRING"
     || currentToken.type == "BOOLEAN" || currentToken.type == "WHILE" 
     || currentToken.type == "IF" || currentToken.type == "LEFT_BRACE"
     || currentToken.type == "RIGHT_BRACE") {
+        //goes to statement
         statement();
+        //if the current token is EOP then  loop here
         while (currentToken.type != "EOP") {
+            //changes the token
             getToken();
+            //calls self
             statementList();
         }
     } else {
@@ -145,6 +150,7 @@ function block() {
     }
     //if current token is a lerft brace
     if (currentToken.type == "LEFT_BRACE") {
+        //goes to left brace
         leftBrace();
         //changes the token
         getToken();
@@ -152,7 +158,9 @@ function block() {
         statementList();
     //if current token is a Right brace
     } else if (currentToken.type == "RIGHT_BRACE" ) {
+        //goes to right brace
         rightBrace();
+        //goes to program
         program();
         //backs out
         return;
@@ -225,17 +233,29 @@ function statement() {
     if (pDebug) {
         parserLog("Statement..");
     }
+    //if print
     if (currentToken.type == "PRINT") {
+        //goes to print statements
         printStatement();
+    //if ID
     } else if (currentToken.type == "ID") {
+        //goes to assignment statements
         assignmentStatement();
+    //if INT, STRING, or BOOLEAN
     } else if (currentToken.type == "INT" || currentToken.type == "STRING" || currentToken.type == "BOOLEAN") {
+        //goes to variable declarations
         varDecl();
+    //if WHILE
     } else if (currentToken.type == "WHILE") {
+        //goes to while statements
         whileStatement();
+    //if IF
     } else if (currentToken.type == "IF") {
+        //goes to if statements
         ifStatement();
+    //if LEFT_BRACE or RIGHT_BRACE
     } else if (currentToken.type == "LEFT_BRACE" || currentToken.type == "RIGHT_BRACE") {
+        //goes to block
         block();
     } else {
         //increases errors
@@ -259,6 +279,7 @@ function printStatement() {
     getToken();
     //changes to in print
     inPrint = true;
+    //if LEFT_PARENTHESES
     if (currentToken.type == "LEFT_PARENTHESES") {
         //goes to left parentheses for print
         leftParentheses();
@@ -280,7 +301,7 @@ function leftParentheses() {
     }
     //handels the print
     handle();
-    //if in print
+    //if in bool
     if (inBool) {
         //changes the token
         getToken();
@@ -289,6 +310,7 @@ function leftParentheses() {
 
         //changes the token
         getToken();
+        //if DOUBLE_EQUALS or NOT_EQUALS
         if (currentToken.type == "DOUBLE_EQUALS" || currentToken.type == "NOT_EQUALS") {
             //handles the current token either one
             handle();
@@ -302,19 +324,20 @@ function leftParentheses() {
             //Outputs failed
             handle("DOUBLE_EQUALS, NOT_EQUALS");
         }
-
+    //if in print
     } else if (inPrint) {
         //changes the token
         getToken();
         //goes to expresion
         expr();
     }
-
+    //if any errors back out
     if (pErrors) {
         //backs out
         return;
     }
     
+    //debugging
     if (pDebug) {
         parserLog("Parentheses end..");
     }
@@ -387,6 +410,7 @@ function intExpr() {
     }
     //handles the digit
     handle();
+    //if PLUS
     if (checkNext().type == "PLUS") {
         //changes the token
         getToken();
@@ -437,6 +461,7 @@ function charList() {
     if (pDebug) {
         parserLog("charList..");
     }
+    //if CHAR
     if (currentToken.type == "CHAR") {
         //handles the char
         handle();
@@ -444,7 +469,9 @@ function charList() {
         getToken();
         //Calls self
         charList();
+    //if QUOTE
     } else if (currentToken.type == "QUOTE") {
+        //backs out
         return;
     } else {
         //increases errors
@@ -465,6 +492,7 @@ function booleanExpr() {
     }
     //enters bool
     inBool = true;
+    //if LEFT_PARENTHESES
     if (currentToken.type == "LEFT_PARENTHESES") {
         //go to left parentheses
         leftParentheses();
