@@ -273,6 +273,10 @@ function leftParentheses() {
         expr();
     }
     
+    if (pDebug) {
+        parserLog("Parentheses..");
+    }
+
     //changes the token
     getToken();
     //cheks for right parentheses
@@ -331,7 +335,7 @@ function intExpr() {
     }
     //handles the digit
     handle();
-    if (checkNext().typem == "PLUS") {
+    if (checkNext().type == "PLUS") {
         //changes the token
         getToken();
         //handles the Plus
