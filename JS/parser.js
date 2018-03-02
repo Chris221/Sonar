@@ -132,6 +132,9 @@ function statementList() {
             //calls self
             statementList();
         }
+    } else if (currentToken.type == "EOP") {
+        //go to program
+        program();
     } else {
         //increases errors
         pErrors++;
