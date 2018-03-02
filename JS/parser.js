@@ -49,6 +49,7 @@ function leftBrace() {
     handle();
     //increases the braceLevel
     braceLevel++;
+    //backs out
     return;
 }
 
@@ -58,10 +59,22 @@ function rightBrace() {
     handle();
     //decreases the braceLevel
     braceLevel--;
+    //backs out
+    return;
+}
+
+//handles the right brace
+function eOP() {
+    //Outputs the token found
+    handle();
+    //increases the programLevel
+    programLevel++;
+    //backs out
     return;
 }
 
 function statementList() {
+    //debugging
     if (pDebug) {
         parserLog("Statement List..");
     }
@@ -79,17 +92,21 @@ function statementList() {
         text = "Failed! Unexpected token found [ "+type+" ] on line "+line+", "+column+"...";  
         parserLog(text);
     }
+    //backs out
     return;
 }
 
 //checks for blocks
 function block() {
+    //debugging
     if (pDebug) {
         parserLog("Block..");
     }
+    //if current token is a lerft brace
     if (currentToken.type == "LEFT_BRACE") {
         leftBrace();
         statementList();
+        //if current token is a Right brace
     } else if (currentToken.type == "RIGHT_BRACE" ) {
         rightBrace();
         program();
@@ -100,16 +117,19 @@ function block() {
         text = "Failed! Unexpected token found [ "+type+" ] on line "+line+", "+column+"...";  
         parserLog(text);
     }
+    //backs out
     return;
 }
 
 //checks for programs
 function program() {
+    //debugging
     if (pDebug) {
         parserLog("Program..");
     }
     getToken();
     if (currentToken.type == "LEFT_BRACE") {
+        //Goes to the block
         block();
     } else if ((braceLevel == 0) && (currentToken.type != "EOP")) {
         //increases errors
@@ -117,18 +137,20 @@ function program() {
         //Outputs failed
         handle("LEFT_BRACE");
     }
-
+    //if current token is a EOP
     if (currentToken.type == "EOP") {
-        //Outputs the token found
-        handle();
+        //Processes the end of program
+        eOP();
         //calls program
         program();
     }
+    //backs out
     return;
 }
 
 //checks for statements
 function statement() {
+    //debugging
     if (pDebug) {
         parserLog("Statement..");
     }
@@ -151,6 +173,7 @@ function statement() {
         text = "Failed! Unexpected token found [ "+type+" ] on line "+line+", "+column+"...";  
         parserLog(text);
     }
+    //backs out
     return;
 }
 
