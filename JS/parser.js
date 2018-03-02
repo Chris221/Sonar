@@ -108,8 +108,7 @@ function statementList() {
         //increases errors
         pErrors++;
         //Outputs failed
-        text = "Failed! Unexpected token found [ "+type+" ] on line "+line+", "+column+"...";  
-        parserLog(text);
+        handle("PRINT, ID, INT, STRING, BOOLEAN, WHILE, STRING, IF, LEFT_BRACE, RIGHT_BRACE");
     }
     //backs out
     return;
@@ -133,8 +132,7 @@ function block() {
         //increases errors
         pErrors++;
         //Outputs failed
-        text = "Failed! Unexpected token found [ "+type+" ] on line "+line+", "+column+"...";  
-        parserLog(text);
+        handle("LEFT_BRACE, RIGHT_BRACE");
     }
     //backs out
     return;
@@ -204,8 +202,7 @@ function statement() {
         //increases errors
         pErrors++;
         //Outputs failed
-        text = "Failed! Unexpected token found [ "+type+" ] on line "+line+", "+column+"...";  
-        parserLog(text);
+        handle("PRINT, ID, INT, STRING, BOOLEAN, WHILE, STRING, IF, LEFT_BRACE, RIGHT_BRACE");
     }
     //backs out
     return;
