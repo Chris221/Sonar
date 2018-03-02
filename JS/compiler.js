@@ -29,6 +29,12 @@ function verboseChange() {
 	}
 }
 
+//Scroll to the bottom of the log
+function logScroll() {
+	var textArea = $('#Lexer_log');
+	textArea.scrollTop( textArea[0].scrollHeight - textArea.height()   );
+}
+
 //Starts the compile
 function compile() {
 	//Sets the visualizer defaults
@@ -75,6 +81,8 @@ function compile() {
 	}
 	//Outputs the Lexer output
 	$('#Lexer_log').text($('#Lexer_log').val()+"\n\n"+text+"\n\n");
+	//Scroll to the bottom of the log
+	logScroll();
 	//if the lexer passes
 	if (lPass) {
 		//Starts the parser handler function
@@ -84,5 +92,29 @@ function compile() {
 
 //Moves the compiler to parse
 function compileParser(tokens) {
+	//Sets pass bool false
+	var pPass = false;
+	//Sets failed output text
+	var text = "==============================\n"+
+			   "\n"+
+			   "                        Parser Failed         \n"+
+			   "\n"+
+			   "==============================\n";
+	//runs parser
 	var pReturn = parser(tokens);
+	//if successful
+	if (!pReturn) {
+		//Sets pass bool true
+		pPass = true;
+		//Sets success output text
+		text = "==============================\n"+
+			   "\n"+
+			   "                        Parser Passed         \n"+
+			   "\n"+
+			   "==============================\n";
+	}
+	//Outputs the Lexer output
+	$('#Lexer_log').text($('#Lexer_log').val()+"\n\n"+text+"\n\n");
+	//Scroll to the bottom of the log
+	logScroll();
 }
