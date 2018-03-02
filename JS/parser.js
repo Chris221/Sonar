@@ -175,7 +175,7 @@ function program() {
         handle("EOP");
     }
     //if current token is a EOP
-    if (currentToken.type == "EOP") {
+    if (currentToken.type == "EOP" && tokens.length > 0) {
         //Processes the end of program
         eOP();
         //calls program
