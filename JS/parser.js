@@ -35,6 +35,11 @@ function getToken() {
     //return currentToken;
 }
 
+function checkNext() {
+    //Gets next
+    return tokens[0];
+}
+
 //runs the parser
 function parser(input) {
     //resets the globals
@@ -320,6 +325,26 @@ function expr() {
 
 //handles int expressions
 function intExpr() {
+    //debugging
+    if (pDebug) {
+        parserLog("intExpr..");
+    }
+    //handles the digit
+    handle();
+    if (checkNext().typem == "PLUS") {
+        //changes the token
+        getToken();
+        //handles the Plus
+        handle();
+        //changes the token
+        getToken();
+        //goes to expr
+        expr();
+    } else {
+        //backs out
+        return;
+    }
+}
 
 }
 
