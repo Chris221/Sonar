@@ -1,5 +1,8 @@
 # Design of Compilers
+### New Name of Compiler ###
+Sonar
 ## Compiler Information
+Name: Sonar
 Language: JavaScript
 ### How to compile
 Double click index.html
