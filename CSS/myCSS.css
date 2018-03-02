@@ -134,6 +134,7 @@ body {
 	-o-box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.07);
 	box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.07);
 	border-radius: 5px;
+	margin-bottom: 10px;
 }
 .token-marquee {
 	width: 100%;
