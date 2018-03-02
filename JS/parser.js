@@ -250,10 +250,36 @@ function leftParentheses() {
 
 //handles expressions
 function expr() {
-
+    //if Digit
+    if (currentToken.type == "DIGIT") {
+        //go to int expression
+        intExpr();
+    //if Quote
+    } else if (currentToken.type == "QUOTE") {
+        //go to string expression
+        stringExpr();
+    //if left parentheses
+    } else if (currentToken.type == "LEFT_PARENTHESES") {
+        //go to boolean expression
+        booleanExpr();
+    //if left parentheses
+    } else if (currentToken.type == "ID") {
+        //go to ID
+        ID();
+    } else {
+        //increases errors
+        pErrors++;
+        //Outputs failed
+        handle("DIGIT, QUOTE, LEFT_PARENTHESES, ID");
+    }
 
     //backs out
     return;
+}
+
+//handles int expressions
+function intExpr() {
+    
 }
 
 //handles the parsering and CST
