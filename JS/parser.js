@@ -1,6 +1,6 @@
 // JavaScript Document
 
-//defines the token list, current token, parser errors, brace level, program level, program level counter, and in print.
+//defines the token list, current token, parser errors, brace level, program level, program level counter, in print, and in bool.
 var tokens = [];
 var currentToken;
 var pErrors = 0;
@@ -8,6 +8,7 @@ var braceLevel = 0;
 var programLevel = 1;
 var programLevelCounter = 0;
 var inPrint = false;
+var inBool = false;
 
 //sets the debug for parser
 var pDebug = true;
@@ -21,6 +22,7 @@ function resetGlobals() {
     programLevel = 1;
     programLevelCounter = 0;
     inPrint = false;
+    inBool = false;
     pDebug = true;
 }
 
@@ -285,6 +287,10 @@ function leftParentheses() {
 
 //handles expressions
 function expr() {
+    //debugging
+    if (pDebug) {
+        parserLog("Expr..");
+    }
     //if Digit
     if (currentToken.type == "DIGIT") {
         //go to int expression
