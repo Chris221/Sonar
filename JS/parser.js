@@ -123,6 +123,10 @@ function statementList() {
     || currentToken.type == "IF" || currentToken.type == "LEFT_BRACE"
     || currentToken.type == "RIGHT_BRACE") {
         statement();
+        while (currentToken.type != "EOP") {
+            getToken();
+            statementList();
+        }
     } else {
         //increases errors
         pErrors++;
