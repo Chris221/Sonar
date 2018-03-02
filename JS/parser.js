@@ -457,6 +457,42 @@ function booleanExpr() {
     return;
 }
 
+//handles assignment statements
+function assignmentStatement() {
+    //debugging
+    if (pDebug) {
+        parserLog("assignmentStatement..");
+    }
+    //if ID
+    if (currentToken.type == "ID") {
+        //handles the ID
+        handle();
+        //changes the token
+        getToken();
+        //if ASSIGNMENT_OPERATOR
+        if (currentToken.type == "ASSIGNMENT_OPERATOR") {
+            //handles the ASSIGNMENT_OPERATOR
+            handle();
+            //changes the token
+            getToken();
+            //goes to expr
+            expr();
+        } else {
+            //increases errors
+            pErrors++;
+            //Outputs failed
+            handle("ASSIGNMENT_OPERATOR");
+        }
+    } else {
+        //increases errors
+        pErrors++;
+        //Outputs failed
+        handle("ID");
+    }
+    //backs out
+    return;
+}
+
 //handles the parsering and CST
 function handle(unexpected = '') {
     //sets the type of the token
