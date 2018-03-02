@@ -152,11 +152,16 @@ function handle(unexpected = '') {
     //Defines text
     var text;
 
+    //Figures out if it is a successful or unexpected token output
     if (!unexpected) {
         text = "Passed! Expected token found [ "+type+" ] with a value of [ "+value+" ] on line "+line+", "+column+"..."; 
     } else {
-        text = "Failed! Unexpected token found [ "+type+" ]!\n Expected token [ "+unexpected+" ] on line "+line+", "+column+"...";  
+        text = "Failed! Unexpected token found [ "+type+" ] on line "+line+", "+column;
+        //processes the the first text
+        parserLog(text);
+        text =  "------  Expected token(s) [ "+unexpected+" ] on line "+line+", "+column+"...";
     }
+    //processes the text
     parserLog(text);
 }
 
