@@ -264,7 +264,26 @@ function leftParentheses() {
     handle();
     //if in print
     if (inBool) {
-        //goes to 
+        //changes the token
+        getToken();
+        //goes to expression
+        expr();
+
+        //changes the token
+        getToken();
+        if (currentToken.type == "DOUBLE_EQUALS" || currentToken.type == "NOT_EQUALS") {
+            //handles the current token either one
+            handle();
+            //changes the token
+            getToken();
+            //goes to expression
+            expr();
+        } else {
+            //increases errors
+            pErrors++;
+            //Outputs failed
+            handle("DOUBLE_EQUALS, NOT_EQUALS");
+        }
 
     } else if (inPrint) {
         //changes the token
@@ -283,7 +302,15 @@ function leftParentheses() {
     if (currentToken.type == "RIGHT_PARENTHESES") {
         //handles right parentheses
         handle();
-    } else {
+        //if in bool
+        if (inBool) {
+            //leave bool
+            inBool = false;
+        } else if (inPrint) {
+            //leave print
+            inPrint = false;
+        }
+   } else {
         //increases errors
         pErrors++;
         //Outputs failed
@@ -309,7 +336,7 @@ function expr() {
         //go to string expression
         stringExpr();
     //if left parentheses
-    } else if (currentToken.type == "LEFT_PARENTHESES") {
+    } else if (currentToken.type == "LEFT_PARENTHESES" || currentToken.type == "TRUE" || currentToken.type == "FALSE") {
         //go to boolean expression
         booleanExpr();
     //if left parentheses
@@ -320,7 +347,7 @@ function expr() {
         //increases errors
         pErrors++;
         //Outputs failed
-        handle("DIGIT, QUOTE, LEFT_PARENTHESES, ID");
+        handle("DIGIT, QUOTE, LEFT_PARENTHESES, TRUE, FALSE, ID");
     }
 
     //backs out
@@ -404,6 +431,25 @@ function charList() {
     //backs out
     return;
 }
+
+//handles boolean expression
+function booleanExpr() {
+    //debugging
+    if (pDebug) {
+        parserLog("booleanExpr..");
+    }
+    //enters bool
+    inBool = true;
+    if (currentToken.type == "LEFT_PARENTHESES") {
+        //go to left parentheses
+        leftParentheses();
+    } else {
+        //handles the boolean val
+        handle();
+    }
+    
+    //backs out
+    return;
 }
 
 //handles the parsering and CST
