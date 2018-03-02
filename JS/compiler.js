@@ -3,6 +3,32 @@
 //Debugger
 var debug = false;
 
+//verbose mode
+var verbose = true;
+
+//sets verbose button color
+$(function() {
+	if (verbose) {
+		$('#verbose').addClass("btn-success").removeClass("btn-secondary")
+	} else {
+		$('#verbose').addClass("btn-secondary").removeClass("btn-success")
+	}
+});
+
+//allows for the switching of verbose
+function verboseChange() {
+	//if on
+	if (verbose) {
+		//turn off
+		verbose = false;
+		$('#verbose').addClass("btn-secondary").removeClass("btn-success")
+	} else {
+		//otherwise turn on
+		verbose = true;
+		$('#verbose').addClass("btn-success").removeClass("btn-secondary")
+	}
+}
+
 //Starts the compile
 function compile() {
 	//Sets the visualizer defaults

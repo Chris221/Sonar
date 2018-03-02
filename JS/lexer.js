@@ -64,7 +64,7 @@ function lexer(input) {
 			}
 			
 			//Which column we're at wile debugging
-			if (debug) {
+			if (debug && verbose) {
 				LexLog("*DEBUGGER* Line number "+(cLine+1)+", column location "+(column+1));
 			}
 			//Sets current character;
@@ -83,7 +83,7 @@ function lexer(input) {
 					isComment = true;
 				}
 				//Lets us know the comment is starting if debugging
-				if (debug) {
+				if (debug && verbose) {
 					LexLog("*DEBUGGER* **Comment starting will be ignored**");
 				}
 				continue;
@@ -102,7 +102,7 @@ function lexer(input) {
 					isComment = true;
 				}
 				//Lets us know the comment is ending if debugging
-				if (debug) {
+				if (debug && verbose) {
 					LexLog("*DEBUGGER* **Comment ending will be ignored**");
 				}
 				continue;
@@ -346,7 +346,7 @@ function lexer(input) {
 			//Checks for space or tab and ignores it
 			if (character.indexOf(' ') >= 0 || character.indexOf('	') >= 0) {
 				//If bebugging this will output when white space is found
-				if (debug) {
+				if (debug && verbose) {
 					LexLog("*DEBUGGER* Found whitespace at: "+(cLine+1)+", "+(column+1));
 				}
 				continue;
@@ -399,13 +399,25 @@ function addToken(type,val,line,col) {
 	var temp = new Token(type,val,line,col);
 	//Addes to the token list
 	tokens.push(temp);
+	//sets the text
+	var text = type+" [ "+val+" ] found on line "+line+", "+col+"...";
+	//if verbose mode
+	if (!verbose) {
+		//stops from ouputing
+		text = "DO NOT OUTPUT";
+	}
 	//Outputs new token to log
-	LexLog(type+" [ "+val+" ] found on line "+line+", "+col+"...");
+	LexLog(text);
 }
 
 function LexLog(text) {
 	//Appends new logging to current log
 	var lText = $('#Lexer_log').val()+"LEXER -- "+text+"\n";
+    //if not supposed to be output
+    if (text == "DO NOT OUTPUT") {
+        //No need to change
+        lText = $('#Lexer_log').val();
+    }
 	//Sets the Log
 	$('#Lexer_log').text(lText);
 }
