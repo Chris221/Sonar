@@ -346,6 +346,60 @@ function intExpr() {
     }
 }
 
+//handles string expressions
+function stringExpr() {
+    //debugging
+    if (pDebug) {
+        parserLog("stringExpr..");
+    }
+    //handles the quote
+    handle();
+
+    //changes the token
+    getToken();
+    //goes to char list
+    charList();
+
+    //cheks for second quote
+    if (currentToken.type == "QUOTE") {
+        //handles the second quote
+        handle();
+    } else {
+        //increases errors
+        pErrors++;
+        //Outputs failed
+        handle("QUOTE");
+    }
+
+    //backs out
+    return;
+}
+
+//handles char list
+function charList() {
+    //debugging
+    if (pDebug) {
+        parserLog("charList..");
+    }
+    if (currentToken.type == "CHAR") {
+        //handles the char
+        handle();
+        //changes the token
+        getToken();
+        //Calls self
+        charList();
+    } else if (currentToken.type == "QUOTE") {
+        return;
+    } else {
+        //increases errors
+        pErrors++;
+        //Outputs failed
+        handle("CHAR, QUOTE");
+    }
+    
+    //backs out
+    return;
+}
 }
 
 //handles the parsering and CST
