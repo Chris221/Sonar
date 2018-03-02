@@ -224,29 +224,36 @@ function printStatement() {
     inPrint = true;
     if (currentToken.type == "LEFT_PARENTHESES") {
         //goes to left parentheses for print
-        printLeftP();
+        leftParentheses();
     } else {
         //increases errors
         pErrors++;
         //Outputs failed
         handle("LEFT_PARENTHESES");
     }
+    //backs out
+    return;
 }
 
-function printLeftP() {
+//handles the print left parentheses statement
+function leftParentheses() {
     //handels the print
     handle();
-    //Changes the token
-    getToken();
-    if (currentToken.type == "LEFT_PARENTHESES") {
-        //goes to left parentheses for print
-        printLeftP();
-    } else {
-        //increases errors
-        pErrors++;
-        //Outputs failed
-        handle("LEFT_PARENTHESES");
-    } 
+    //if in print
+    if (inPrint) {
+        //goes to expresion
+        expr();
+    }
+    //backs out
+    return;
+}
+
+//handles expressions
+function expr() {
+
+
+    //backs out
+    return;
 }
 
 //handles the parsering and CST
