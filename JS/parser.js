@@ -560,6 +560,29 @@ function varDecl() {
         pErrors++;
         //Outputs failed
         handle("ID");
+
+function ifStatement() {
+    //debugging
+    if (pDebug) {
+        parserLog("ifStatement..");
+    }
+    //handles if
+    handle();
+    //changes the token
+    getToken();
+    //if LEFT_PARENTHESES, TRUE, or FALSE
+    if (currentToken.type == "LEFT_PARENTHESES" || currentToken.type == "TRUE" || currentToken.type == "FALSE") {
+        //go to boolean expression
+        booleanExpr();
+        //changes the token
+        getToken();
+        //goes to block
+        block();
+    } else {
+        //increases errors
+        pErrors++;
+        //Outputs failed
+        handle("LEFT_PARENTHESES, TRUE, FALSE");
     }
     //backs out
     return;
