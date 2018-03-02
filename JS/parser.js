@@ -256,10 +256,29 @@ function leftParentheses() {
     //handels the print
     handle();
     //if in print
-    if (inPrint) {
+    if (inBool) {
+        //goes to 
+
+    } else if (inPrint) {
+        //changes the token
+        getToken();
         //goes to expresion
         expr();
     }
+    
+    //changes the token
+    getToken();
+    //cheks for right parentheses
+    if (currentToken.type == "RIGHT_PARENTHESES") {
+        //handles right parentheses
+        handle();
+    } else {
+        //increases errors
+        pErrors++;
+        //Outputs failed
+        handle("RIGHT_PARENTHESES");
+    }
+
     //backs out
     return;
 }
