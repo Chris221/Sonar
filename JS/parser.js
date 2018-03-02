@@ -493,6 +493,30 @@ function assignmentStatement() {
     return;
 }
 
+//handles variable declarations
+function varDecl() {
+    //debugging
+    if (pDebug) {
+        parserLog("varDecl..");
+    }
+    //handles type
+    handle();
+    //if ID
+    if (currentToken.type == "ID") {
+        //handles the ID
+        handle();
+        //changes the token
+        getToken();
+    } else {
+        //increases errors
+        pErrors++;
+        //Outputs failed
+        handle("ID");
+    }
+    //backs out
+    return;
+}
+
 //handles the parsering and CST
 function handle(unexpected = '') {
     //sets the type of the token
