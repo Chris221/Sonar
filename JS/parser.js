@@ -97,7 +97,6 @@ function statementList() {
     if (pDebug) {
         parserLog("Statement List..");
     }
-    getToken();
     if (currentToken.type == "PRINT" || currentToken.type == "ID" 
     || currentToken.type == "INT" || currentToken.type == "STRING"
     || currentToken.type == "BOOLEAN" || currentToken.type == "WHILE" 
@@ -123,8 +122,11 @@ function block() {
     //if current token is a lerft brace
     if (currentToken.type == "LEFT_BRACE") {
         leftBrace();
+        //changes the token
+        getToken();
+        //Goes to statementList
         statementList();
-        //if current token is a Right brace
+    //if current token is a Right brace
     } else if (currentToken.type == "RIGHT_BRACE" ) {
         rightBrace();
         program();
@@ -163,11 +165,14 @@ function program() {
     if (currentToken.type == "LEFT_BRACE") {
         //Goes to the block
         block();
+    } else if (braceLevel > 0) {
+        //Goes to statementList
+        statementList();
     } else if ((braceLevel == 0) && (currentToken.type != "EOP")) {
         //increases errors
         pErrors++;
         //Outputs failed
-        handle("LEFT_BRACE");
+        handle("EOP");
     }
     //if current token is a EOP
     if (currentToken.type == "EOP") {
