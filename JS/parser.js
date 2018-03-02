@@ -41,6 +41,32 @@ function parser(input) {
     tokens = input;
     //calls the first token check
     program();
+
+    //Defines part of the completion text
+    var cText = "passed";
+    
+    //if any errors
+    if (pErrors) {
+		//Sets failed for the completed parser output
+		cText = "FAILED";
+		//Makes the visual parser red
+		$('#parser').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-warning");
+	/*} else if (warnings) {
+		//If there are warnings
+		//Makes the visual parser yellow
+		$('#parser').addClass("btn-warning").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-danger");*/
+	} else {
+		//Makes the visual parser green
+		$('#parser').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-warning").removeClass("btn-danger");
+    }
+	//Defines the full output of the completed text
+	var completedText = "\nParser "+cText+" with "+pErrors+" errors!\n\n";
+	//Outputs the completed Text
+	$('#Lexer_log').text($('#Lexer_log').val()+completedText);
+    
+
+    //returns error number
+    return pErrors;
 }
 
 //handles the left brace
