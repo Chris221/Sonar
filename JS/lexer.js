@@ -268,7 +268,7 @@ function lexer(input) {
 					//Adds the '==' token
 					addToken("DOUBLE_EQUALS","==",cLine+1,column+1);
 					//Moves the pointer
-					column+=4;
+					column+=2;
 					continue;
 				} else {
 					//Adds the '=' token

@@ -291,9 +291,14 @@ function leftParentheses() {
         //goes to expresion
         expr();
     }
+
+    if (pErrors) {
+        //backs out
+        return;
+    }
     
     if (pDebug) {
-        parserLog("Parentheses..");
+        parserLog("Parentheses end..");
     }
 
     //changes the token
