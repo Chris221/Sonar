@@ -55,7 +55,7 @@ function parser(input) {
     //resets the globals
     resetGlobals();
     //Outputs starting
-    parserLog("Parser is starting..\n\n");
+    parserLog("Parser is starting..\n");
     //sets the token list
     tokens = input;
     //calls the first token check
@@ -72,7 +72,7 @@ function parser(input) {
 		$('#parser').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success");
 	} else {
 		//Makes the visual parser green
-		$('#parser').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-danger");
+        $('#parser').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-danger");
     }
 	//Outputs the completed Text
 	$('#Lexer_log').text($('#Lexer_log').val()+completedText);
@@ -124,12 +124,15 @@ function statementList() {
     if (pDebug) {
         parserLog("Statement List..");
     }
-    //if a statement keyword
-    if (currentToken.type == "PRINT" || currentToken.type == "ID" 
+    //if a Right Brace
+    if (currentToken.type == "RIGHT_BRACE") {
+        //go to block
+        block();
+    //if any other statement keyword
+    } else if (currentToken.type == "PRINT" || currentToken.type == "ID" 
     || currentToken.type == "INT" || currentToken.type == "STRING"
     || currentToken.type == "BOOLEAN" || currentToken.type == "WHILE" 
-    || currentToken.type == "IF" || currentToken.type == "LEFT_BRACE"
-    || currentToken.type == "RIGHT_BRACE") {
+    || currentToken.type == "IF" || currentToken.type == "LEFT_BRACE") {
         //goes to statement
         statement();
         //if the current token is EOP then  loop here
@@ -139,9 +142,6 @@ function statementList() {
             //calls self
             statementList();
         }
-    } else if (currentToken.type == "EOP") {
-        //go to program
-        program();
     } else {
         //increases errors
         pErrors++;
@@ -170,8 +170,17 @@ function block() {
     } else if (currentToken.type == "RIGHT_BRACE" ) {
         //goes to right brace
         rightBrace();
-        //goes to program
-        program();
+        //changes the token
+        getToken();
+        if (currentToken.type == "EOP" && (braceLevel == 0)) {
+            //go to eOP
+            eOP();
+            //go to program
+            program();
+        } else {
+            //goes to statement
+            statementList();
+        }
         //backs out
         return;
     } else {
@@ -202,6 +211,9 @@ function program() {
         parserLog("Program..");
     }
     if (programLevel != programLevelCounter) {
+        if (programLevel > 1) {
+            parserLog("\n");
+        }
         //Outputs program number
         parserLog("Parsing Program #"+programLevel);
         //increases the counter
@@ -212,26 +224,6 @@ function program() {
     if (currentToken.type == "LEFT_BRACE") {
         //Goes to the block
         block();
-    } else if (braceLevel > 0) {
-        //Goes to statementList
-        statementList();
-    } else if ((braceLevel == 0) && (currentToken.type != "EOP")) {
-        //increases errors
-        pErrors++;
-        //Outputs failed
-        handle("EOP");
-    }
-    //if current token is a EOP
-    if (currentToken.type == "EOP" && tokens.length > 0) {
-        //Processes the end of program
-        eOP();
-        //calls program
-        program();
-    } else if (currentToken.type == "EOP" && tokens.length == 0 && !finished) {
-        //Processes the end of program
-        eOP();
-        //finished
-        finished = true;
     }
     //backs out
     return;
@@ -441,6 +433,8 @@ function intExpr() {
         getToken();
         //goes to expr
         expr();
+        //backs out
+        return;
     } else {
         //backs out
         return;
@@ -500,7 +494,6 @@ function charList() {
         //Outputs failed
         handle("CHAR, QUOTE");
     }
-    
     //backs out
     return;
 }
