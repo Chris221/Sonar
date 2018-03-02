@@ -303,6 +303,10 @@ function leftParentheses() {
     handle();
     //if in bool
     if (inBool) {
+        //debugging
+        if (pDebug) {
+            parserLog("Parentheses (Bool)..");
+        }
         //changes the token
         getToken();
         //goes to expression
@@ -326,13 +330,20 @@ function leftParentheses() {
         }
     //if in print
     } else if (inPrint) {
+        //debugging
+        if (pDebug) {
+            parserLog("Parentheses (Print)..");
+        }
         //changes the token
         getToken();
         //goes to expresion
         expr();
     }
     //if any errors back out
-    if (pErrors) {
+    if (pErrors) {//debugging
+        if (pDebug) {
+            parserLog("Parentheses KILLED..");
+        }
         //backs out
         return;
     }
@@ -549,6 +560,8 @@ function varDecl() {
     }
     //handles type
     handle();
+    //changes the token
+    getToken();
     //if ID
     if (currentToken.type == "ID") {
         //handles the ID
