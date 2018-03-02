@@ -36,6 +36,8 @@ function compile() {
 	$('#parser').addClass("btn-secondary").removeClass("btn-success").removeClass("btn-danger");
 	//Clears the marquee for tokens
 	$('#token-marquee').text("");
+	//Clears the CST
+	$('#cst').val("");
 	//Gets the input
 	var input = $('#input').val();
 	//Sets pass bool false
