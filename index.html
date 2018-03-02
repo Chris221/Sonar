@@ -19,7 +19,7 @@
 	<link type="text/css" rel="stylesheet" href="bootstrap-4.0.0/css/bootstrap-4-navbar.css">
 	<script type="text/javascript" src="bootstrap-4.0.0/js/bootstrap-4-navbar.js"></script>
 </head>
-<body onLoad="testProgram('project1_clean');">
+<body onLoad="testProgram('good_case_1');">
 	<div class="holder">
 		<span class="topbar">
 		Compiler
@@ -48,6 +48,11 @@
 									<a class="dropdown-item" onclick="testProgram('project1_ugly');">Ugly</a>
 								</ul>
 							</li>
+							<li><a class="dropdown-item dropdown-toggle">Project 2</a>
+								<ul class="dropdown-menu">
+									<a class="dropdown-item" onclick="testProgram('project1_clean');">Clean</a>
+								</ul>
+							</li>
 						</ul>
 						<a class="nav-link dropdown-toggle">Lex Errors</a>
 						<ul class="dropdown-menu">
@@ -57,7 +62,7 @@
 						</ul>
 						<a class="nav-link dropdown-toggle">Parse Errors</a>
 						<ul class="dropdown-menu">
-							<a class="dropdown-item" onclick="testProgram('project1_lex');">Project 2</a>
+							<a class="dropdown-item" onclick="testProgram('project1_clean');">Project 2</a>
 							<a class="dropdown-item" onclick="testProgram('invalid_string_declare');">Invalid String Declare</a>
 							<a class="dropdown-item" onclick="testProgram('invalid_expression');">Invalid Expression</a>
 							<a class="dropdown-item" onclick="testProgram('print_EOP');">Print $</a>
