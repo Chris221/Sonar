@@ -158,7 +158,6 @@ function program() {
     if (programLevel != programLevelCounter) {
         //Outputs program number
         parserLog("Parsing Program #"+programLevel);
-        parserLog("Parsing Program #"+programLevel);
         //increases the counter
         programLevelCounter++;
     }
@@ -233,6 +232,23 @@ function printStatement() {
         handle("LEFT_PARENTHESES");
     }
 }
+
+function printLeftP() {
+    //handels the print
+    handle();
+    //Changes the token
+    getToken();
+    if (currentToken.type == "LEFT_PARENTHESES") {
+        //goes to left parentheses for print
+        printLeftP();
+    } else {
+        //increases errors
+        pErrors++;
+        //Outputs failed
+        handle("LEFT_PARENTHESES");
+    } 
+}
+
 //handles the parsering and CST
 function handle(unexpected = '') {
     //sets the type of the token
