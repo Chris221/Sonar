@@ -1,12 +1,26 @@
 // JavaScript Document
 
-//defines the token list, current token, brace level and parser errors.
+//defines the token list, current token, brace level, program level and parser errors.
 var tokens = [];
-var currentToken, pErrors;
+var currentToken;
+var pErrors = 0;
 var braceLevel = 0;
+var programLevel = 1;
+var programLevelCounter = 0;
 
 //sets the debug for parser
 var pDebug = true;
+
+//resets the globals and changes debug
+function resetGlobals() {
+    tokens = [];
+    currentToken;
+    pErrors = 0;
+    braceLevel = 0;
+    programLevel = 1;
+    programLevelCounter = 0;
+    pDebug = true;
+}
 
 function getToken() {
     //sets current token
@@ -19,6 +33,8 @@ function getToken() {
 
 //runs the parser
 function parser(input) {
+    //resets the globals
+    resetGlobals();
     //Outputs starting
     parserLog("Parser is starting..\n\n");
     //sets the token list
