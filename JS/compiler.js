@@ -53,7 +53,7 @@ function compile() {
 			   "\n"+
 			   "                         Lexer Failed         \n"+
 			   "\n"+
-			   "==============================\n";
+			   "==============================";
 	//Moves the input to the lexer
 	if (tokens = lexer(input)) {
 		//Sets pass bool true
@@ -63,7 +63,7 @@ function compile() {
 			   "\n"+
 			   "                         Lexer Passed         \n"+
 			   "\n"+
-			   "==============================\n";
+			   "==============================";
 		//Loops through each token in the list
 		for(var tCount = 0; tCount < tokens.length; tCount++) {
 			//Gets the current token
@@ -99,7 +99,7 @@ function compileParser(tokens) {
 			   "\n"+
 			   "                        Parser Failed         \n"+
 			   "\n"+
-			   "==============================\n";
+			   "==============================";
 	//runs parser
 	var pReturn = parser(tokens);
 	//if successful
@@ -111,7 +111,7 @@ function compileParser(tokens) {
 			   "\n"+
 			   "                        Parser Passed         \n"+
 			   "\n"+
-			   "==============================\n";
+			   "==============================";
 	}
 	//Outputs the Lexer output
 	$('#Lexer_log').text($('#Lexer_log').val()+"\n\n"+text+"\n\n");
