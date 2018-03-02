@@ -504,10 +504,10 @@ function booleanExpr() {
     if (pDebug) {
         parserLog("booleanExpr..");
     }
-    //enters bool
-    inBool = true;
     //if LEFT_PARENTHESES
     if (currentToken.type == "LEFT_PARENTHESES") {
+        //enters bool
+        inBool = true;
         //go to left parentheses
         leftParentheses();
     } else {
