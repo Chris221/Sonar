@@ -553,13 +553,42 @@ function varDecl() {
     if (currentToken.type == "ID") {
         //handles the ID
         handle();
-        //changes the token
-        getToken();
     } else {
         //increases errors
         pErrors++;
         //Outputs failed
         handle("ID");
+    }
+    //backs out
+    return;
+}
+
+function whileStatement() {
+    //debugging
+    if (pDebug) {
+        parserLog("whileStatement..");
+    }
+    //handles while
+    handle();
+    //changes the token
+    getToken();
+    //if LEFT_PARENTHESES, TRUE, or FALSE
+    if (currentToken.type == "LEFT_PARENTHESES" || currentToken.type == "TRUE" || currentToken.type == "FALSE") {
+        //go to boolean expression
+        booleanExpr();
+        //changes the token
+        getToken();
+        //goes to block
+        block();
+    } else {
+        //increases errors
+        pErrors++;
+        //Outputs failed
+        handle("LEFT_PARENTHESES, TRUE, FALSE");
+    }
+    //backs out
+    return;
+}
 
 function ifStatement() {
     //debugging
