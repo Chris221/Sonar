@@ -1,6 +1,6 @@
 // JavaScript Document
 
-//defines the token list, current token, parser errors, brace level, program level, program level counter, in print, and in bool.
+//defines the token list, current token, parser errors, brace level, program level, program level counter, in print, in bool, and finished.
 var tokens = [];
 var currentToken;
 var pErrors = 0;
@@ -9,6 +9,7 @@ var programLevel = 1;
 var programLevelCounter = 0;
 var inPrint = false;
 var inBool = false;
+var finished = false;
 
 //sets the debug for parser
 var pDebug = true;
@@ -23,6 +24,8 @@ function resetGlobals() {
     programLevelCounter = 0;
     inPrint = false;
     inBool = false;
+    finished = false;
+    
     pDebug = true;
 }
 
@@ -147,6 +150,8 @@ function block() {
     } else if (currentToken.type == "RIGHT_BRACE" ) {
         rightBrace();
         program();
+        //backs out
+        return;
     } else {
         //increases errors
         pErrors++;
@@ -159,13 +164,17 @@ function block() {
 
 //checks for programs
 function program() {
-    //Changes token
-    getToken();
     //breaks out of the parsers loop
     if (tokens.length == 0) {
+        //debugging
+        if (pDebug) {
+            parserLog("Program KILLED..");
+        }
         //backs out of the program
         return;
     }
+    //Changes token
+    getToken();
     //debugging
     if (pDebug) {
         parserLog("Program..");
@@ -196,6 +205,11 @@ function program() {
         eOP();
         //calls program
         program();
+    } else if (currentToken.type == "EOP" && tokens.length == 0 && !finished) {
+        //Processes the end of program
+        eOP();
+        //finished
+        finished = true;
     }
     //backs out
     return;
@@ -315,6 +329,8 @@ function leftParentheses() {
             //leave print
             inPrint = false;
         }
+        //backs out
+        return;
    } else {
         //increases errors
         pErrors++;
