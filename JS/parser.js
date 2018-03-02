@@ -60,7 +60,7 @@ function parser(input) {
     //if any errors
     if (pErrors) {
 		//Sets failed for the completed parser output
-		completedText = "\nThe parser FAILED with an error";
+		completedText = "\nThe parser FAILED with errors ("+pErrors+")";
 		//Makes the visual parser red
 		$('#parser').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success");
 	} else {
