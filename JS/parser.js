@@ -149,11 +149,26 @@ function block() {
 
 //checks for programs
 function program() {
+    //Changes token
+    getToken();
+    //breaks out of the parsers loop
+    if (tokens.length == 0) {
+        //backs out of the program
+        return;
+    }
     //debugging
     if (pDebug) {
         parserLog("Program..");
     }
-    getToken();
+    if (programLevel != programLevelCounter) {
+        //Outputs program number
+        parserLog("Parsing Program #"+programLevel);
+        parserLog("Parsing Program #"+programLevel);
+        //increases the counter
+        programLevelCounter++;
+    }
+    
+    //if current token is a lerft brace
     if (currentToken.type == "LEFT_BRACE") {
         //Goes to the block
         block();
