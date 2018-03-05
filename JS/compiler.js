@@ -57,6 +57,9 @@ function logScroll() {
 
 //Starts the compile
 function compile() {
+	//Sets the visualizer defaults
+	$('#lexer').addClass("btn-secondary").removeClass("btn-success").removeClass("btn-danger").removeClass("btn-warning");
+	$('#parser').addClass("btn-secondary").removeClass("btn-success").removeClass("btn-danger").removeClass("btn-warning");
 	//set defaults
 	programNumber = 1;
 	lexfail = 0;
@@ -174,9 +177,6 @@ function compileInput() {
 
 //Starts the compile
 function compileLexer(input) {
-	//Sets the visualizer defaults
-	$('#lexer').addClass("btn-secondary").removeClass("btn-success").removeClass("btn-danger").removeClass("btn-warning");
-	$('#parser').addClass("btn-secondary").removeClass("btn-success").removeClass("btn-danger");
 	//Sets failed output text
 	var text = "==============================\n"+
 			   "\n"+
@@ -252,19 +252,21 @@ function changeVisualizer() {
 	} else if (parsefail) {
 		//yellow
 		$('#parser').addClass("btn-warning").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-danger");
+	//if parser never ran
+	} else if (lexfail == programNumber) {
+		//gray
+		$('#parser').addClass("btn-secondary").removeClass("btn-danger").removeClass("btn-btn-success").removeClass("btn-warning");\
 	//otherwise parser must have passed
 	} else {
 		//green
 		$('#parser').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-warning").removeClass("btn-danger");
 	}
-	
+
 	//sets the lexer visualizer
-	//if parser never ran then gray it out and lexer has failed
+	//if lexer has failed
 	if (lexfail == programNumber) {
 		//red
 		$('#lexer').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-warning");
-		//gray
-		$('#parser').addClass("btn-secondary").removeClass("btn-danger").removeClass("btn-btn-success").removeClass("btn-warning");
 	//if lex failed in one program
 	} else if (lexfail) {
 		//yellow
