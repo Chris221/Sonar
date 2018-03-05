@@ -52,6 +52,34 @@ function compile() {
 	}
 }
 
+//gets the input in a nice readable manor
+function compileInput() {
+	//Gets the input
+	var input = $('#input').val();
+	//checks if theres a $ at the end
+	if (input.trim().slice(-1) != "$") {
+		//if so
+		var doNotAddToLast = true;
+	}
+	//splits the input up by program
+	var programs = input.split("$");
+
+	//if there was a $ there is now extra space
+	if (!doNotAddToLast) {
+		//remove it
+		programs.pop();
+	}
+
+	//goes through and adds if its supposed too
+	for (var i = 0; i < programs.length; i++) {
+		if (!((programs.length == (i+1)) && doNotAddToLast)) {
+			programs[i] += "$";
+			console.log("adding $ to "+i);
+		}
+	}
+	return programs;
+}
+
 //Starts the compile
 function compileLexer() {
 	//Sets the visualizer defaults
