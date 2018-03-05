@@ -21,9 +21,9 @@ var parsefail = 0;
 //sets verbose button color
 $(function() {
 	if (verbose) {
-		$('#verbose').addClass("btn-success").removeClass("btn-secondary")
+		$('#verbose').addClass("btn-success").removeClass("btn-secondary");
 	} else {
-		$('#verbose').addClass("btn-secondary").removeClass("btn-success")
+		$('#verbose').addClass("btn-secondary").removeClass("btn-success");
 	}
 });
 
@@ -33,18 +33,18 @@ function verboseChange() {
 	if (verbose) {
 		//turn off
 		verbose = false;
-		$('#verbose').addClass("btn-secondary").removeClass("btn-success")
+		$('#verbose').addClass("btn-secondary").removeClass("btn-success");
 	} else {
 		//otherwise turn on
 		verbose = true;
-		$('#verbose').addClass("btn-success").removeClass("btn-secondary")
+		$('#verbose').addClass("btn-success").removeClass("btn-secondary");
 	}
 }
 
 //Scroll to the bottom of the log
 function logScroll() {
 	var textArea = $('#Lexer_log');
-	textArea.scrollTop( textArea[0].scrollHeight - textArea.height()   );
+	textArea.scrollTop( textArea[0].scrollHeight - textArea.height());
 }
 
 //Starts the compile
@@ -143,7 +143,6 @@ function compileInput() {
 	for (var i = 0; i < programs.length; i++) {
 		if (!((programs.length == (i+1)) && doNotAddToLast)) {
 			programs[i] += "$";
-			console.log("adding $ to "+i);
 		}
 	}
 	return programs;
