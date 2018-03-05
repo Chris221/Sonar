@@ -37,6 +37,23 @@ function logScroll() {
 
 //Starts the compile
 function compile() {
+	//clears the token array
+	tokens = [];
+	//if the lexer passes
+	if (compileLexer()) {
+		//Starts the parser handler function
+		compileParser();
+	} else {
+		//No need to parse
+		var text = "No need to parse program due to a lex error";
+		$('#Lexer_log').text($('#Lexer_log').val()+text+"\n\n");
+		//Scroll to the bottom of the log
+		logScroll();
+	}
+}
+
+//Starts the compile
+function compileLexer() {
 	//Sets the visualizer defaults
 	$('#lexer').addClass("btn-secondary").removeClass("btn-success").removeClass("btn-danger").removeClass("btn-warning");
 	$('#parser').addClass("btn-secondary").removeClass("btn-success").removeClass("btn-danger");
@@ -46,8 +63,6 @@ function compile() {
 	$('#cst').val("");
 	//Gets the input
 	var input = $('#input').val();
-	//Sets pass bool false
-	var lPass = false;
 	//Sets failed output text
 	var text = "==============================\n"+
 			   "\n"+
@@ -55,9 +70,7 @@ function compile() {
 			   "\n"+
 			   "==============================";
 	//Moves the input to the lexer
-	if (tokens = lexer(input)) {
-		//Sets pass bool true
-		lPass = true;
+	if (tokensLex = lexer(input)) {
 		//Sets success output text
 		text = "==============================\n"+
 			   "\n"+
@@ -83,15 +96,12 @@ function compile() {
 	$('#Lexer_log').text($('#Lexer_log').val()+"\n\n"+text+"\n\n");
 	//Scroll to the bottom of the log
 	logScroll();
-	//if the lexer passes
-	if (lPass) {
-		//Starts the parser handler function
-		compileParser(tokens);
-	}
+	//rerurns token list
+	return tokensLex;
 }
 
 //Moves the compiler to parse
-function compileParser(tokens) {
+function compileParser() {
 	//Sets pass bool false
 	var pPass = false;
 	//Sets failed output text
@@ -100,10 +110,8 @@ function compileParser(tokens) {
 			   "                        Parser Failed         \n"+
 			   "\n"+
 			   "==============================";
-	//runs parser
-	var pReturn = parser(tokens);
-	//if successful
-	if (!pReturn) {
+	//runs parser gets the cst
+	if (cst = parser(tokens)) {
 		//Sets pass bool true
 		pPass = true;
 		//Sets success output text
@@ -115,6 +123,11 @@ function compileParser(tokens) {
 	}
 	//Outputs the Lexer output
 	$('#Lexer_log').text($('#Lexer_log').val()+"\n\n"+text+"\n\n");
+
+	//if parsed output the cst
+	if (cst) {
+		$('#Lexer_log').text($('#Lexer_log').val()+cst.toString()+"\n\n");
+	}
 	//Scroll to the bottom of the log
 	logScroll();
 }

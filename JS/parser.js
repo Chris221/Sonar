@@ -77,7 +77,7 @@ function parser(input) {
 	$('#Lexer_log').text($('#Lexer_log').val()+completedText);
     
     //returns error number
-    return pErrors;
+    return cst;
 }
 
 //handles the left brace
