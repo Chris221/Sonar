@@ -103,6 +103,21 @@ function compile() {
 		//increase the program number
 		programNumber++;
 	}
+	if (!lexfail) {
+		//Loops through each token in the list
+		for(var tCount = 0; tCount < programsTokens.length; tCount++) {
+			//Gets the current token
+			var cToken = programsTokens[tCount];
+			//Gets the token name
+			var tName = cToken.type;
+			//Gets the token value
+			var tVal = cToken.value;
+			//Adds token to the marquee
+			$('#token-marquee').append($('#token-marquee').val()+'<span class="token small"><span class="text-cyan">'+tCount+'</span> <span class="text-blue">:</span> <span class="text-red">'+tName+'</span> <span class="text-cyan">[</span> <span class="text-gray">'+tVal+'</span> <span class="text-cyan">]</span></span>');
+		}
+	} else {
+		//Sets marquee to failed text :(
+		$('#token-marquee').append('<span class="token small text-red">No tokens due to lexer error</span>');
 	}
 }
 
@@ -153,20 +168,6 @@ function compileLexer(input) {
 			   "                         Lexer Passed         \n"+
 			   "\n"+
 			   "==============================";
-		//Loops through each token in the list
-		for(var tCount = 0; tCount < tokens.length; tCount++) {
-			//Gets the current token
-			var cToken = tokens[tCount];
-			//Gets the token name
-			var tName = cToken.type;
-			//Gets the token value
-			var tVal = cToken.value;
-			//Adds token to the marquee
-			$('#token-marquee').append('<span class="token small"><span class="text-cyan">'+tCount+'</span> <span class="text-blue">:</span> <span class="text-red">'+tName+'</span> <span class="text-cyan">[</span> <span class="text-gray">'+tVal+'</span> <span class="text-cyan">]</span></span>');
-		}
-	} else {
-		//Sets marquee to failed text :(
-		$('#token-marquee').append('<span class="token small text-red">No tokens due to lexer error</span>');
 	}
 	//Outputs the Lexer output
 	$('#Lexer_log').text($('#Lexer_log').val()+"\n\n"+text+"\n\n");
