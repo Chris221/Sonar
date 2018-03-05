@@ -71,7 +71,7 @@ function parser(input) {
 	} else {
 		//Makes the visual parser green
         $('#parser').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-danger");
-        $('#cst').val(cst.toString());
+        $('#cst').val($('#cst').val()+cst.toString());
     }
 	//Outputs the completed Text
 	$('#Lexer_log').text($('#Lexer_log').val()+completedText);
