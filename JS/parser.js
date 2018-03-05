@@ -227,7 +227,7 @@ function program() {
     }
     if (programLevel != programLevelCounter) {
         //Outputs program number
-        parserLog("Parsing Program #"+programLevel);
+        parserLog("Parsing Program #"+programNumber);
         //increases the counter
         programLevelCounter++;
     }
@@ -235,7 +235,7 @@ function program() {
     //if current token is a lerft brace
     if (currentToken.type == "LEFT_BRACE") {
         //starts cst branch
-        cst.addNode("Program "+programLevel, "branch");
+        cst.addNode("Program "+programNumber, "branch");
         //Goes to the block
         block();
     }

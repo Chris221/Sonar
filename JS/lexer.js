@@ -49,7 +49,7 @@ function lexer(input) {
 			//Checks to confirm a new program
 			if (program != programOutCounter) {
 				//Outputs program number
-				LexLog("Lexing program "+program);
+				LexLog("Lexing program "+programNumber);
 				//Updates outpur counter
 				programOutCounter++;
 			}
