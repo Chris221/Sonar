@@ -202,8 +202,14 @@ function compileParser() {
 	$('#Lexer_log').text($('#Lexer_log').val()+"\n\n"+text+"\n\n");
 
 	//if parsed output the cst
-	if (cst) {
+	if (!pErrors) {
 		$('#Lexer_log').text($('#Lexer_log').val()+cst.toString()+"\n\n");
+	} else {
+		//increas parsefail count
+		parsefail++;
+		//No CST to show
+		var text = "No CST to showe due to a parse error";
+		$('#Lexer_log').text($('#Lexer_log').val()+text+"\n\n");
 	}
 	//Scroll to the bottom of the log
 	logScroll();
