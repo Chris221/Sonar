@@ -367,14 +367,14 @@ function lexer(input) {
 		cText = "FAILED";
 		tokens = false;
 		//Makes the visual lexer red
-		$('#lexer').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-warning");
+		//$('#lexer').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-warning");
 	} else if (warnings) {
 		//If there are warnings
 		//Makes the visual lexer yellow
-		$('#lexer').addClass("btn-warning").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-danger");
+		//$('#lexer').addClass("btn-warning").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-danger");
 	} else {
 		//Makes the visual lexer green
-		$('#lexer').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-warning").removeClass("btn-danger");
+		//$('#lexer').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-warning").removeClass("btn-danger");
 	}
 	//Defines the full output of the completed text
 	var completedText = "\nLexer "+cText+" with "+warnings+" warnings and "+errors+" errors!";

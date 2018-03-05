@@ -67,10 +67,10 @@ function parser(input) {
 		//Sets failed for the completed parser output
 		completedText = "\nThe parser FAILED with errors ("+pErrors+")";
 		//Makes the visual parser red
-		$('#parser').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success");
+		//$('#parser').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success");
 	} else {
 		//Makes the visual parser green
-        $('#parser').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-danger");
+        //$('#parser').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-danger");
         $('#cst').val($('#cst').val()+cst.toString());
     }
 	//Outputs the completed Text

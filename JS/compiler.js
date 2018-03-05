@@ -134,7 +134,11 @@ function compile() {
 		//Sets marquee to failed text :(
 		$('#token-marquee').append('<span class="token small text-red">No tokens due to lexer error</span>');
 	}
-	
+	//removes the extra number from program number
+	programNumber--;
+
+	//go to change visualizer
+	changeVisualizer();
 	//adds new  hover text
 	$('#lexer').attr("data-original-title", lexHover );
 	$('#parser').attr("data-original-title", parseHover );
@@ -236,4 +240,38 @@ function compileParser() {
 	}
 	//Scroll to the bottom of the log
 	logScroll();
+}
+
+function changeVisualizer() {
+	//sets the parser visualizer
+	//if parser failed everytime
+	if (parsefail == programNumber) {
+		//red
+		$('#parser').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-warning");
+	//if parse failed in one program
+	} else if (parsefail) {
+		//yellow
+		$('#parser').addClass("btn-warning").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-danger");
+	//otherwise parser must have passed
+	} else {
+		//green
+		$('#parser').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-warning").removeClass("btn-danger");
+	}
+	
+	//sets the lexer visualizer
+	//if parser never ran then gray it out and lexer has failed
+	if (lexfail == programNumber) {
+		//red
+		$('#lexer').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-warning");
+		//gray
+		$('#parser').addClass("btn-secondary").removeClass("btn-danger").removeClass("btn-btn-success").removeClass("btn-warning");
+	//if lex failed in one program
+	} else if (lexfail) {
+		//yellow
+		$('#lexer').addClass("btn-warning").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-danger");
+	//otherwise lexer must have passed
+	} else {
+		//green
+		$('#lexer').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-warning").removeClass("btn-danger");
+	}
 }
