@@ -6,6 +6,18 @@ var debug = false;
 //verbose mode
 var verbose = true;
 
+//program array
+var programsTokens = [];
+
+//program number
+var programNumber = 1;
+
+//lexer fail count
+var lexfail = 0;
+
+//parser fail count
+var parsefail = 0;
+
 //sets verbose button color
 $(function() {
 	if (verbose) {
@@ -37,18 +49,39 @@ function logScroll() {
 
 //Starts the compile
 function compile() {
+	//set defaults
+	programNumber = 1;
+	lexfail = 0;
+	parsefail = 0;
+	//Clears the log
+	$('#Lexer_log').text("");
+	//Clears the marquee for tokens
+	$('#token-marquee').text("");
+	//Clears the CST
+	$('#cst').val("");
 	//clears the token array
 	tokens = [];
 	//if the lexer passes
 	if (compileLexer()) {
 		//Starts the parser handler function
 		compileParser();
+	programsTokens = [];
+	//gets the list of programs
+	var programs = compileInput();
+
+	//if verbose
+	if (verbose) {
+		//Outputs the verbose mode
+		$('#Lexer_log').text($('#Lexer_log').val()+"Sonar is running in Verbose mode..\n\n");
 	} else {
 		//No need to parse
 		var text = "No need to parse program due to a lex error";
 		$('#Lexer_log').text($('#Lexer_log').val()+text+"\n\n");
 		//Scroll to the bottom of the log
 		logScroll();
+		//Outputs the non verbose mode
+		$('#Lexer_log').text($('#Lexer_log').val()+"Sonar is running..\n\n");
+	}
 	}
 }
 
@@ -85,12 +118,6 @@ function compileLexer() {
 	//Sets the visualizer defaults
 	$('#lexer').addClass("btn-secondary").removeClass("btn-success").removeClass("btn-danger").removeClass("btn-warning");
 	$('#parser').addClass("btn-secondary").removeClass("btn-success").removeClass("btn-danger");
-	//Clears the marquee for tokens
-	$('#token-marquee').text("");
-	//Clears the CST
-	$('#cst').val("");
-	//Gets the input
-	var input = $('#input').val();
 	//Sets failed output text
 	var text = "==============================\n"+
 			   "\n"+

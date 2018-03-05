@@ -10,18 +10,6 @@ function lexer(input) {
 	var warnings = 0;
 	var errors = 0;
 	
-	//Clears the log
-	$('#Lexer_log').text("");
-
-	//if verbose
-	if (verbose) {
-		//Outputs the verbose mode
-		$('#Lexer_log').text($('#Lexer_log').val()+"Sonar is running in Verbose mode..\n\n");
-	} else {
-		//Outputs the non verbose mode
-		$('#Lexer_log').text($('#Lexer_log').val()+"Sonar is running..\n\n");
-	}
-	
 	//Resets the token list
 	tokens = [];
 	
