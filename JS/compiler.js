@@ -105,6 +105,8 @@ function compile() {
 		} else {
 			//Adds hover text if lexer fails
 			lexHover += "Program "+programNumber+": Error<br/>" ;
+			//Adds hover text if lexer fails
+			parseHover += "Program "+programNumber+": <em>None</em><br/>" ;
 			//increas lexfail count
 			lexfail++;
 			//No need to parse

@@ -102,8 +102,12 @@ function rightBrace() {
 
 //handles the IDs
 function iD() {
+    //starts cst branch
+    cst.addNode("ID", "branch");
     //Outputs the token found
     handle();
+    //cst backs out a branch
+    cst.kick();
     //backs out
     return;
 }
@@ -138,8 +142,6 @@ function statementList() {
     || currentToken.type == "IF" || currentToken.type == "LEFT_BRACE") {
         //goes to statement
         statement();
-        //cst backs out a branch
-        cst.kick();
         //if the current token is EOP then  loop here
         while (currentToken.type != "EOP") {
             //changes the token
@@ -578,8 +580,8 @@ function assignmentStatement() {
     }
     //if ID
     if (currentToken.type == "ID") {
-        //handles the ID
-        handle();
+        //goes to  ID
+        iD();
         //changes the token
         getToken();
         //if ASSIGNMENT_OPERATOR
