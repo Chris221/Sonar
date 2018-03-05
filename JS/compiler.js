@@ -18,6 +18,9 @@ var lexfail = 0;
 //parser fail count
 var parsefail = 0;
 
+//lexer and parser hover text
+var lexHover, parseHover;
+
 //sets verbose button color
 $(function() {
 	if (verbose) {
@@ -26,6 +29,11 @@ $(function() {
 		$('#verbose').addClass("btn-secondary").removeClass("btn-success");
 	}
 });
+
+//enables tooltips in bootstrap
+$(function () {
+	$('[data-toggle="tooltip"]').tooltip();
+})
 
 //allows for the switching of verbose
 function verboseChange() {
@@ -53,6 +61,8 @@ function compile() {
 	programNumber = 1;
 	lexfail = 0;
 	parsefail = 0;
+	lexHover = "";
+	parseHover = "";
 	//Clears the log
 	$('#Lexer_log').text("");
 	//Clears the marquee for tokens
@@ -63,6 +73,10 @@ function compile() {
 	programsTokens = [];
 	//gets the list of programs
 	var programs = compileInput();
+
+	//removes the hover text
+	$('#lexer').removeAttr("data-original-title");
+	$('#parser').removeAttr("data-original-title");
 
 	//if verbose
 	if (verbose) {
@@ -79,23 +93,22 @@ function compile() {
 		var inputText = programs[p];
 		//if the lexer passes
 		if (compileLexer(inputText)) {
-			//If not on the very first program
-			if (programNumber > 1) {
-			//Output a blank line for spacing and readablity
-				$('#Lexer_log').text($('#Lexer_log').val()+"\n");
-			}
 			//adds the current program to the full array of tokens
 			for (var t = 0; t < tokens.length; t++) {
 				//adds each and every token :)
 				programsTokens.push(tokens[t]);
 			}
+			//Adds hover text if lexer pass
+			lexHover += "Program "+programNumber+": Passed<br/>" ;
 			//Starts the parser handler function
 			compileParser();
 		} else {
+			//Adds hover text if lexer fails
+			lexHover += "Program "+programNumber+": Error<br/>" ;
 			//increas lexfail count
 			lexfail++;
 			//No need to parse
-			var text = "No need to parse program due to a lex error";
+			var text = "No need to parse program "+programNumber+" due to a lex error";
 			$('#Lexer_log').text($('#Lexer_log').val()+text+"\n\n");
 			//Scroll to the bottom of the log
 			logScroll();
@@ -119,6 +132,10 @@ function compile() {
 		//Sets marquee to failed text :(
 		$('#token-marquee').append('<span class="token small text-red">No tokens due to lexer error</span>');
 	}
+	
+	//adds new  hover text
+	$('#lexer').attr("data-original-title", lexHover );
+	$('#parser').attr("data-original-title", parseHover );
 }
 
 //gets the input in a nice readable manor
@@ -145,6 +162,7 @@ function compileInput() {
 			programs[i] += "$";
 		}
 	}
+	//returns programs
 	return programs;
 }
 
@@ -202,8 +220,12 @@ function compileParser() {
 
 	//if parsed output the cst
 	if (!pErrors) {
+		//Adds hover text if parser pass
+		parseHover += "Program "+programNumber+": Passed<br/>" ;
 		$('#Lexer_log').text($('#Lexer_log').val()+cst.toString()+"\n\n");
 	} else {
+		//Adds hover text if parser fails
+		parseHover += "Program "+programNumber+": Error<br/>" ;
 		//increas parsefail count
 		parsefail++;
 		//No CST to show
