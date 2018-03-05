@@ -12,7 +12,6 @@ function lexer(input) {
 	
 	//Resets the token list
 	tokens = [];
-	
 	//Check that the EOP operator is there
 	if (input.trim().slice(-1) != "$") {
 		//Throws warning
@@ -49,11 +48,6 @@ function lexer(input) {
 		for (var column = 0; column < line.length; column++) {
 			//Checks to confirm a new program
 			if (program != programOutCounter) {
-				//If not on the very first program
-				if (program > 1) {
-					//Output a blank line for spacing and readablity
-					$('#Lexer_log').text($('#Lexer_log').val()+"\n");
-				}
 				//Outputs program number
 				LexLog("Lexing program "+program);
 				//Updates outpur counter

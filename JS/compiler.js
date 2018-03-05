@@ -69,11 +69,6 @@ function compile() {
 		//Outputs the verbose mode
 		$('#Lexer_log').text($('#Lexer_log').val()+"Sonar is running in Verbose mode..\n\n");
 	} else {
-		//No need to parse
-		var text = "No need to parse program due to a lex error";
-		$('#Lexer_log').text($('#Lexer_log').val()+text+"\n\n");
-		//Scroll to the bottom of the log
-		logScroll();
 		//Outputs the non verbose mode
 		$('#Lexer_log').text($('#Lexer_log').val()+"Sonar is running..\n\n");
 	}
@@ -84,6 +79,11 @@ function compile() {
 		var inputText = programs[p];
 		//if the lexer passes
 		if (compileLexer(inputText)) {
+			//If not on the very first program
+			if (programNumber > 1) {
+			//Output a blank line for spacing and readablity
+				$('#Lexer_log').text($('#Lexer_log').val()+"\n");
+			}
 			//adds the current program to the full array of tokens
 			for (var t = 0; t < tokens.length; t++) {
 				//adds each and every token :)

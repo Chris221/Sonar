@@ -226,10 +226,6 @@ function program() {
         parserLog("Program..");
     }
     if (programLevel != programLevelCounter) {
-        if (programLevel >= 2) {
-            lText = $('#Lexer_log').val()+"\n";
-            $('#Lexer_log').text(lText);
-        }
         //Outputs program number
         parserLog("Parsing Program #"+programLevel);
         //increases the counter
