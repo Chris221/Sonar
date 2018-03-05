@@ -1,6 +1,6 @@
-# Design of Compilers
-### New Name of Compiler ###
-Sonar
+# Sonar
+### The next generation of Compiler Design
+https://chris221.github.io/Sonar/
 ## Compiler Information
 Name: Sonar
 
