@@ -12,6 +12,13 @@ function lexer(input) {
 	
 	//Resets the token list
 	tokens = [];
+	//if the input is empty
+	if ($.trim(input) == '') {
+		//Throws error for no input
+		LexLog("ERROR! Nothing to lex, the input is empty...");
+		//kills the lexer
+		return false;
+	}
 	//Check that the EOP operator is there
 	if (input.trim().slice(-1) != "$") {
 		//Throws warning
