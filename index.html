@@ -20,11 +20,13 @@
 	<script type="text/javascript" src="bootstrap-4.0.0/js/bootstrap-4-navbar.js"></script>
 </head>
 <body onLoad="testProgram('good_case_1');">
-	<div class="holder">
-		<span class="topbar">
-		Sonar
-		</span>
-	</div>
+	<nav class="topbar navbar navbar-expand-lg navbar-light sticky-top">
+	<!--<div class="holder">
+		<span class="topbar">-->
+		<a class="navbar-brand sonar" href="#">Sonar</a>
+		<!--</span>
+	</div>-->
+	</nav>
 	<span class="page">
 		<!-- Page controls -->
 		<span class="controls">
@@ -81,18 +83,50 @@
 			<button class="btn btn-secondary" id="4">Code Generation</button>&emsp;
 		</span>
 		<span class="page-left">
-			<!-- Compiler Input -->
-			<span class="title">Input:</span>
-			<small>
-				<textarea class="input" id="input" rows="12"></textarea>
-			</small>
+			<div class="container">
+				<div class="row">
+					<!-- Compiler Input -->
+					<div class="col-sm">
+						<ul class="nav nav-tabs">
+							<li class="nav-item">
+								<a class="nav-link active" id="input-tab" data-toggle="tab" href="#inputBox" role="tab" aria-controls="inputBox" aria-expanded="true">Input</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane fade active show" id="inputBox" role="tabpanel" aria-labelledby="input-tab" aria-expanded="true">
+								<div class="panel panel-default">
+									<small>
+										<textarea class="input form-control" id="input" rows="12"></textarea>
+									</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</span>
 		<span class="page-right">
-			<!-- Compiler Output -->
-			<span class="title">Console:</span>
-			<small>
-				<textarea class="log" id="Lexer_log" disabled></textarea>
-			</small>
+			<div class="container">
+				<div class="row">
+					<!-- Compiler Output -->
+					<div class="col-sm">
+						<ul class="nav nav-tabs">
+							<li class="nav-item">
+								<a class="nav-link active" id="log-tab" data-toggle="tab" href="#logBox" role="tab" aria-controls="logBox" aria-expanded="true">Console</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane fade active show" id="logBox" role="tabpanel" aria-labelledby="log-tab" aria-expanded="true">
+								<div class="panel panel-default">
+									<small>
+											<textarea class="log form-control" id="Lexer_log" readonly></textarea>
+									</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</span>
 		<span class="page-bottom">
 			<!-- Token Ticker -->
@@ -101,13 +135,38 @@
 				<marquee id="token-marquee" class="token-marquee" behavior="scroll" scrollamount="10" direction="left"></marquee>
 			</span>
 		</span>
-
 		<span class="page-left">
-			<!-- Compiler Input -->
-			<span class="title">Concrete Syntax Tree:</span>
-			<small>
-				<textarea class="cst" id="cst" disabled></textarea>
-			</small>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm">
+						<!-- Syntax tree output -->
+						<ul class="nav nav-tabs">
+							<li class="nav-item">
+								<a class="nav-link active" id="cst-tab" data-toggle="tab" href="#cstBox" role="tab" aria-controls="cstBox" aria-expanded="true">Concrete Syntax Tree</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="ast-tab" data-toggle="tab" href="#astBox" role="tab" aria-controls="astBox" aria-expanded="true">Abstract Syntax Tree</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane fade active show" id="cstBox" role="tabpanel" aria-labelledby="cst-tab" aria-expanded="true">
+								<div class="panel panel-default">
+								<small>
+									<textarea class="cst form-control" id="cst" placeholder="No CST currently" readonly></textarea>
+								</small>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="astBox" role="tabpanel" aria-labelledby="ast-tab" aria-expanded="true">
+								<div class="panel panel-default">
+									<small>
+										<textarea class="ast form-control" id="ast" placeholder="No AST currently" readonly></textarea>
+									</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</span>
 	</span>
 </body>

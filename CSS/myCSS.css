@@ -34,17 +34,9 @@ body {
     min-height: 100px;
 }
 .topbar {
-    position: fixed;
-    top: 0px;
-	left: 0px;
-	width: 100%;
-	z-index: 99999;
-	background-color: #FFFFFF;
-}
-.topbar {
-	display: block;
-	text-align: center;
-	background-color: rgba(13,78,215,0.73);
+	display: block !important;
+	text-align: center !important;
+	background-color: rgba(13,78,215,0.73) !important;
 	font-size: 28px;
 	padding: 10px;
 	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
@@ -56,6 +48,7 @@ body {
 .page {
 	margin: 0px 10px;
 	display: block;
+	padding-top: 10px;
 }
 .page-left {
 	display: block;
@@ -66,7 +59,6 @@ body {
 }
 .page-right {
 	display: inline-block;
-	float: right;
 	width: calc(50% - 5px);
 	padding-left: 5px;
 	height: 300px;
@@ -82,21 +74,23 @@ body {
 	display: block;
 	margin-bottom: 10px;
 }
-.log, .cst {
+.log, .cst, .ast {
 	height: 242px;
 }
-.input, .log, .cst {
+.input, .log, .cst, .ast {
 	margin-left: auto;
 	margin-right: auto;
-	width: 80%;
+	width: 100%;
 	display: block;
+	font-size: inherit !important;
 }
 .input {
+	padding: 0 0 !important;
 	background: url(http://i.imgur.com/2cOaJ.png);
 	background-attachment: local;
 	background-repeat: no-repeat;
-	padding-left: 35px;
-	padding-top: 10px;
+	padding-left: 35px !important;
+	padding-top: 10px !important;
 	border-color:#ccc;
 }
 .controls, .compilerVis {
@@ -127,6 +121,7 @@ body {
 .tokenTicker {
 	display: inline-block;
 	width: 100%;
+	height: 30px;
 	background-color: #f7f7f7;
 	-webkit-box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.07);
 	-moz-box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.07);
@@ -138,4 +133,8 @@ body {
 }
 .token-marquee {
 	width: 100%;
+	height: 24px;
+}
+.sonar {
+	font-size: 36px !important;;
 }
