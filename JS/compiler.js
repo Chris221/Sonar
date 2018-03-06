@@ -9,6 +9,9 @@ var verbose = true;
 //program array
 var programsTokens = [];
 
+//program pass/fail
+var programPass = [];
+
 //program number
 var programNumber = 1;
 
@@ -74,6 +77,8 @@ function compile() {
 	$('#cst').val("");
 	//clears the token array
 	programsTokens = [];
+	//clears the program pass/fail list
+	var programPass = [];
 	//gets the list of programs
 	var programs = compileInput();
 
@@ -106,6 +111,8 @@ function compile() {
 			//Starts the parser handler function
 			compileParser();
 		} else {
+			//adds a failure to the array
+			programPass.push("Lex fail");
 			//Adds hover text if lexer fails
 			lexHover += "Program "+programNumber+": Error<br/>" ;
 			//Adds hover text if lexer fails
@@ -226,10 +233,14 @@ function compileParser() {
 
 	//if parsed output the cst
 	if (!pErrors) {
+		//adds a pass to the array
+		programPass.push("Pass");
 		//Adds hover text if parser pass
 		parseHover += "Program "+programNumber+": Passed<br/>" ;
 		$('#Lexer_log').text($('#Lexer_log').val()+cst.toString()+"\n\n");
 	} else {
+		//adds a failure to the array
+		programPass.push("Parse fail");
 		//Adds hover text if parser fails
 		parseHover += "Program "+programNumber+": Error<br/>" ;
 		//increas parsefail count
