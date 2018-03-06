@@ -19,8 +19,8 @@
 	<link type="text/css" rel="stylesheet" href="bootstrap-4.0.0/css/bootstrap-4-navbar.css">
 	<script type="text/javascript" src="bootstrap-4.0.0/js/bootstrap-4-navbar.js"></script>
 </head>
-<body onLoad="testProgram('good_case_1');">
-	<nav class="topbar navbar navbar-expand-lg navbar-light sticky-top">
+<body onLoad="//testProgram('good_case_1');">
+	<nav class="topbar navbar navbar-expand-lg navbar-light bg-primary sticky-top">
 	<!--<div class="holder">
 		<span class="topbar">-->
 		<a class="navbar-brand sonar" href="#">Sonar</a>
@@ -80,7 +80,7 @@
 			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="lexer">Lexer</button>&emsp;
 			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="parser">Parser</button>&emsp;
 			<button class="btn btn-secondary" id="3">Semantic Analysis</button>&emsp;
-			<button class="btn btn-secondary" id="4">Code Generation</button>&emsp;
+			<button class="btn btn-secondary" id="4">Code Generation</button>
 		</span>
 		<span class="page-left">
 			<div class="container">
@@ -96,7 +96,7 @@
 							<div class="tab-pane fade active show" id="inputBox" role="tabpanel" aria-labelledby="input-tab" aria-expanded="true">
 								<div class="panel panel-default">
 									<small>
-										<textarea class="input form-control" id="input" rows="12"></textarea>
+										<textarea class="input form-control" id="input" placeholder="Example:&#10;{}$"></textarea>
 									</small>
 								</div>
 							</div>
@@ -112,14 +112,14 @@
 					<div class="col-sm">
 						<ul class="nav nav-tabs">
 							<li class="nav-item">
-								<a class="nav-link active" id="log-tab" data-toggle="tab" href="#logBox" role="tab" aria-controls="logBox" aria-expanded="true">Console</a>
+								<a class="nav-link active" id="log-tab" data-toggle="tab" href="#logBox" role="tab" aria-controls="logBox" aria-expanded="true">Log</a>
 							</li>
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane fade active show" id="logBox" role="tabpanel" aria-labelledby="log-tab" aria-expanded="true">
 								<div class="panel panel-default">
 									<small>
-											<textarea class="log form-control" id="Lexer_log" readonly></textarea>
+											<textarea class="log form-control" id="Lexer_log" placeholder="Log is currently empty" readonly></textarea>
 									</small>
 								</div>
 							</div>

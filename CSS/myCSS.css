@@ -36,7 +36,7 @@ body {
 .topbar {
 	display: block !important;
 	text-align: center !important;
-	background-color: rgba(13,78,215,0.73) !important;
+	/*background-color: rgba(13,78,215,0.73) !important;*/
 	font-size: 28px;
 	padding: 10px;
 	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
@@ -56,12 +56,14 @@ body {
 	width: calc(50% - 5px);
 	padding-right: 5px;
 	height: 300px;
+	margin-bottom: 10px;
 }
 .page-right {
 	display: inline-block;
 	width: calc(50% - 5px);
 	padding-left: 5px;
 	height: 300px;
+	margin-bottom: 10px;
 }
 .page-bottom {
 	display: block;
@@ -74,10 +76,9 @@ body {
 	display: block;
 	margin-bottom: 10px;
 }
-.log, .cst, .ast {
-	height: 242px;
-}
 .input, .log, .cst, .ast {
+    resize: none;
+	height: 252px;
 	margin-left: auto;
 	margin-right: auto;
 	width: 100%;
@@ -121,7 +122,7 @@ body {
 .tokenTicker {
 	display: inline-block;
 	width: 100%;
-	height: 30px;
+	height: 27px;
 	background-color: #f7f7f7;
 	-webkit-box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.07);
 	-moz-box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.07);
@@ -133,7 +134,7 @@ body {
 }
 .token-marquee {
 	width: 100%;
-	height: 24px;
+	height: 21px;
 }
 .sonar {
 	font-size: 36px !important;;
