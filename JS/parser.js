@@ -240,6 +240,11 @@ function program() {
         cst.addNode("Program "+programNumber, "branch");
         //Goes to the block
         block();
+    } else {
+        //increases errors
+        pErrors++;
+        //Outputs failed
+        handle("LEFT_BRACE");
     }
     //cst backs out a branch
     cst.kick();
