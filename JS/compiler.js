@@ -255,7 +255,7 @@ function changeVisualizer() {
 	//if parser never ran
 	} else if (lexfail == programNumber) {
 		//gray
-		$('#parser').addClass("btn-secondary").removeClass("btn-danger").removeClass("btn-btn-success").removeClass("btn-warning");\
+		$('#parser').addClass("btn-secondary").removeClass("btn-danger").removeClass("btn-btn-success").removeClass("btn-warning");
 	//otherwise parser must have passed
 	} else {
 		//green
