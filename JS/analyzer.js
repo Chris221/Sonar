@@ -214,7 +214,7 @@ function aStatement() {
         //goes to block
         aBlock();
     } 
-    //cst backs out a branch
+    //backs out a branch
     ast.kick();
 }
 
@@ -244,6 +244,37 @@ function aPrintStatement() {
         aGetToken();
     }
 
-    //cst backs out a branch
+    //backs out a branch
+    ast.kick();
+}
+
+//handles expressions
+function aExpr() {
+    //Creates a Branch
+    addBranch("Expr");
+
+    //debugging
+    if (debug && verbose) {
+        analysisLog("Expr..");
+    }
+    //if Digit
+    if (aCurrentToken.type == "DIGIT") {
+        //go to int expression
+        aIntExpr();
+    //if Quote
+    } else if (aCurrentToken.type == "QUOTE") {
+        //go to string expression
+        aStringExpr();
+    //if left parentheses
+    } else if (aCurrentToken.type == "LEFT_PARENTHESES" || aCurrentToken.type == "TRUE" || aCurrentToken.type == "FALSE") {
+        //go to boolean expression
+        aBooleanExpr();
+    //if left parentheses
+    } else if (aCurrentToken.type == "ID") {
+        //go to ID
+        aID();
+    }
+
+    //backs out a branch
     ast.kick();
 }
