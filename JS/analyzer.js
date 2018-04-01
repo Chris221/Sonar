@@ -248,6 +248,31 @@ function aPrintStatement() {
     ast.kick();
 }
 
+//handles assignment statements
+function assignmentStatement() {
+    //Creates a Branch
+    addBranch("AssignmentStatement");
+    //debugging
+    if (debug && verbose) {
+        analysisLog("assignmentStatement..");
+    }
+    //goes to ID
+    aID();
+    //changes the token
+    aGetToken();
+
+    //if ASSIGNMENT_OPERATOR
+    if (aCurrentToken.type == "ASSIGNMENT_OPERATOR") {
+        //changes the token
+        aGetToken();
+        //goes to expr
+        aExpr();
+    }
+
+    //backs out a branch
+    ast.kick();
+}
+
 //handles expressions
 function aExpr() {
     //Creates a Branch
