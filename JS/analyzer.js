@@ -90,3 +90,63 @@ function analysisLog(text) {
     //Sets the Log
     $('#Lexer_log').text(lText);
 }
+
+function aProgram() {
+    //starts ast branch
+    ast.addNode("Program "+programNumber, "branch");
+
+    //debugging
+    if (debug && verbose) {
+        analysisLog("Program..");
+    }
+
+    //moves token pointer
+    aGetToken();
+
+    // Initialize parsing of Block
+    aBlock();
+    
+    //Checks for EOP
+    if (aCurrentToken.type == "EOP") {
+        //moves token pointer
+        aGetToken();
+    }
+    
+    //back out a level in the ast
+    ast.kick();
+}
+
+function aBlock() {
+    //increases the scope levels
+    scopeLevel++;
+    scope++;
+
+    //debugging
+    if (debug && verbose) {
+        analysisLog("Block..");
+    }
+    
+    //Creates Scope Node in Symbol Tree
+    st.addNode("ScopeLevel: " + scope, "branch", scope);
+
+    //Creates a Branch
+    addBranch("Block");
+    
+    //Checks for LEFT_BRACE
+    if (aCurrentToken.type == "LEFT_BRACE") {
+        //nothing
+    }
+
+    // Initialize parsing of StatementList
+    aStatementList();
+    
+    //Checks for RIGHT_BRACE
+    if (aCurrentToken.type == "RIGHT_BRACE"){
+        //moves token pointer
+        aGetToken();
+    }
+    
+    scopeLevel--;
+    // Kicks you one Scope up the Symbol Tree
+    st.kick();
+}
