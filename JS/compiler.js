@@ -12,6 +12,9 @@ var programsTokens = [];
 //Token list for analysis
 var analysisTokens = [];
 
+//Symbol list
+var allSymbols = [];
+
 //program number
 var programNumber = 1;
 
@@ -75,6 +78,7 @@ function compile() {
 	lexHover = "";
 	parseHover = "";
 	analysisHover = "";
+	allSymbols = [];
 	//Clears the log
 	$('#Lexer_log').text("");
 	//Clears the marquee for tokens
