@@ -249,7 +249,7 @@ function aPrintStatement() {
 }
 
 //handles assignment statements
-function assignmentStatement() {
+function aAssignmentStatement() {
     //Creates a Branch
     addBranch("AssignmentStatement");
     //debugging
@@ -273,6 +273,54 @@ function assignmentStatement() {
     ast.kick();
 }
 
+//handles variable declarations
+function aVarDecl() {
+    //Creates a Branch
+    addBranch("VarDecl");
+    //debugging
+    if (debug && verbose) {
+        analysisLog("varDecl..");
+    }
+    //changes the token
+    aGetToken();
+    //if ID
+    if (aCurrentToken.type == "ID") {
+		//Creates new symbol
+		var symbol = new Symbol(aCheckNext.type, aCurrentToken.type, aCurrentToken.line, scope, scopeLevel, false, false, "");
+		
+		//Adds the symbol to Current Branch
+		st.cur.symbols.push(symbol);
+		
+		//Adds the symbol to allSymbols
+		allSymbols.push(symbol);
+    }
+
+    //backs out a branch
+    ast.kick();
+}
+
+function aWhileStatement() {
+    //Creates a Branch
+    addBranch("WhileStatement");
+    //debugging
+    if (debug && verbose) {
+        analysisLog("whileStatement..");
+    }
+    //changes the token
+    aGetToken();
+    //if LEFT_PARENTHESES, TRUE, or FALSE
+    if (aCurrentToken.type == "LEFT_PARENTHESES" || aCurrentToken.type == "TRUE" || aCurrentToken.type == "FALSE") {
+        //go to boolean expression
+        aBooleanExpr();
+        //changes the token
+        aGetToken();
+        //goes to block
+        aBlock();
+    }
+
+    //backs out a branch
+    ast.kick();
+}
 //handles expressions
 function aExpr() {
     //Creates a Branch
@@ -322,6 +370,59 @@ function aIntExpr() {
         aGetToken();
         //goes to expr
         aExpr();
+    }
+    //backs out a branch
+    ast.kick();
+}
+
+//handles string expressions
+function aStringExpr() {
+    //Creates a Branch
+    addBranch("StringExpr");
+
+    //debugging
+    if (debug && verbose) {
+        analysisLog("stringExpr..");
+    }
+
+    //changes the token
+    aGetToken();
+
+    //goes to char list
+    aCharList();
+
+    //cheks for second quote
+    if (aCurrentToken.type == "QUOTE") {
+        //changes the token
+        aGetToken();
+    } 
+    //backs out a branch
+    ast.kick();
+}
+
+//handles boolean expression
+function aBooleanExpr() {
+    //Creates a Branch
+    addBranch("BooleanExpr");
+    //debugging
+    if (debug && verbose) {
+        analysisLog("booleanExpr..");
+    }
+    //if LEFT_PARENTHESES
+    if (aCurrentToken.type == "LEFT_PARENTHESES") {
+        //changes the token
+        aGetToken();
+        //goes to expression
+        aExpr();
+        //changes the token
+        aGetToken();
+        //if DOUBLE_EQUALS or NOT_EQUALS
+        if (aCurrentToken.type == "DOUBLE_EQUALS" || aCurrentToken.type == "NOT_EQUALS") {
+            //changes the token
+            aGetToken();
+            //goes to expression
+            aExpr();
+        }
     }
     //backs out a branch
     ast.kick();
