@@ -73,3 +73,20 @@ function analyzer(input) {
     return ast;
 }
 
+function addBranch(name) {
+    //Creates a Branch
+    ast.addNode(name, "branch", aCurrentToken.line, scope, name);
+}
+
+//Sets the parsers log
+function analysisLog(text) {
+    //Appends new logging to current log
+    var lText = $('#Lexer_log').val()+"ANALYZER -- "+text+"\n";
+    //if not supposed to be output
+    if (text == "DO NOT OUTPUT") {
+        //No need to change
+        lText = $('#Lexer_log').val();
+    }
+    //Sets the Log
+    $('#Lexer_log').text(lText);
+}
