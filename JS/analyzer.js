@@ -217,3 +217,33 @@ function aStatement() {
     //cst backs out a branch
     ast.kick();
 }
+
+//handles the print statement
+function aPrintStatement() {
+    //Creates a Branch
+    addBranch("Print");
+    
+    //debugging
+    if (debug && verbose) {
+        analysisLog("Print..");
+    }
+    //Changes the token
+    aGetToken();
+    //if LEFT_PARENTHESES
+    if (aCurrentToken.type == "LEFT_PARENTHESES") {
+        //Changes the token
+        aGetToken();
+    }
+
+    //goes to expressions
+    aExpr();
+
+    //if RIGHT_PARENTHESES
+    if (aCurrentToken.type == "RIGHT_PARENTHESES") {
+        //Changes the token
+        aGetToken();
+    }
+
+    //cst backs out a branch
+    ast.kick();
+}
