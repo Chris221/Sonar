@@ -11,6 +11,8 @@ var programsTokens = [];
 
 //program pass/fail
 var programPass = [];
+//Token list for analysis
+var analysisTokens = [];
 
 //program number
 var programNumber = 1;
@@ -21,8 +23,11 @@ var lexfail = 0;
 //parser fail count
 var parsefail = 0;
 
-//lexer and parser hover text
-var lexHover, parseHover;
+//parser fail count
+var analysisfail = 0;
+
+//lexer, parser, and analysis hover text
+var lexHover, parseHover, analysisHover;
 
 //sets verbose button color
 $(function() {
@@ -82,6 +87,7 @@ function compile() {
 	$('#ast').val("");
 	//clears the token array
 	programsTokens = [];
+	analysisTokens = [];
 	//clears the program pass/fail list
 	var programPass = [];
 	//gets the list of programs
@@ -111,6 +117,7 @@ function compile() {
 			for (var t = 0; t < tokens.length; t++) {
 				//adds each and every token :)
 				programsTokens.push(tokens[t]);
+				analysisTokens.push(tokens[t]);
 			}
 			//Adds hover text if lexer pass
 			lexHover += "Program "+programNumber+": Passed<br/>" ;
@@ -126,6 +133,8 @@ function compile() {
 			lexHover += "Program "+programNumber+": Error<br/>" ;
 			//Adds hover text if lexer fails
 			parseHover += "Program "+programNumber+": <em>None</em><br/>" ;
+			//Adds hover text if lexer fails
+			analysisHover += "Program "+programNumber+": <em>None</em><br/>" ;
 			//increas lexfail count
 			lexfail++;
 			//No need to parse
@@ -249,6 +258,8 @@ function compileParser() {
 		programPass.push("Parse fail");
 		//Adds hover text if parser fails
 		parseHover += "Program "+programNumber+": Error<br/>" ;
+		//Adds hover text if lexer fails
+		analysisHover += "Program "+programNumber+": <em>None</em><br/>" ;
 		//increas parsefail count
 		parsefail++;
 		//No CST to show
@@ -265,37 +276,33 @@ function compileAnalysis() {
 	//Sets failed output text
 	var text = "==============================\n"+
 			   "\n"+
-			   "                        Parser Failed         \n"+
+			   "                        Analysis Failed         \n"+
 			   "\n"+
 			   "==============================";
-	//runs parser gets the cst
-	if (cst = parser(tokens)) {
+	//runs analysis gets the ast
+	if (ast = analyzer(analysisTokens)) {
 		//Sets success output text
 		text = "==============================\n"+
 			   "\n"+
-			   "                        Parser Passed         \n"+
+			   "                        Analysis Passed         \n"+
 			   "\n"+
 			   "==============================";
 	}
 	//Outputs the Lexer output
 	$('#Lexer_log').text($('#Lexer_log').val()+"\n\n"+text+"\n\n");
 
-	//if parsed output the cst
-	if (!pErrors) {
-		//adds a pass to the array
-		programPass.push("Pass");
-		//Adds hover text if parser pass
-		parseHover += "Program "+programNumber+": Passed<br/>" ;
-		$('#Lexer_log').text($('#Lexer_log').val()+cst.toString()+"\n\n");
+	//if analyzer output the ast
+	if (!aErrors) {
+		//Adds hover text if analysis pass
+		analysisHover += "Program "+programNumber+": Passed<br/>" ;
+		$('#Lexer_log').text($('#Lexer_log').val()+ast.toString()+"\n\n");
 	} else {
-		//adds a failure to the array
-		programPass.push("Parse fail");
-		//Adds hover text if parser fails
-		parseHover += "Program "+programNumber+": Error<br/>" ;
-		//increas parsefail count
-		parsefail++;
-		//No CST to show
-		var text = "No CST to showe due to a parse error";
+		//Adds hover text if analysis fails
+		analysisHover += "Program "+programNumber+": Error<br/>" ;
+		//increas analysisfail count
+		analysisfail++;
+		//No AST to show
+		var text = "No AST to show due to a semantic analysis error";
 		$('#Lexer_log').text($('#Lexer_log').val()+text+"\n\n");
 	}
 	//Scroll to the bottom of the log
