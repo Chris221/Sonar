@@ -321,6 +321,30 @@ function aWhileStatement() {
     //backs out a branch
     ast.kick();
 }
+
+function aIfStatement() {
+    //Creates a Branch
+    addBranch("IfStatement");
+    //debugging
+    if (debug && verbose) {
+        analysisLog("ifStatement..");
+    }
+    //changes the token
+    aGetToken();
+    //if LEFT_PARENTHESES, TRUE, or FALSE
+    if (aCurrentToken.type == "LEFT_PARENTHESES" || aCurrentToken.type == "TRUE" || aCurrentToken.type == "FALSE") {
+        //go to boolean expression
+        aBooleanExpr();
+        //changes the token
+        aGetToken();
+        //goes to block
+        aBlock();
+    }
+
+    //backs out a branch
+    ast.kick();
+}
+
 //handles expressions
 function aExpr() {
     //Creates a Branch
