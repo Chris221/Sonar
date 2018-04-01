@@ -150,3 +150,32 @@ function aBlock() {
     // Kicks you one Scope up the Symbol Tree
     st.kick();
 }
+
+function aStatementList() {
+    //moves token pointer
+    aGetToken();
+
+    //Creates a Branch
+    addBranch("StatementList");
+
+    //debugging
+    if (debug && verbose) {
+        analysisLog("Statement List..");
+    }
+    //if a Right Brace
+    if (aCurrentToken.type == "RIGHT_BRACE") {
+    //if any other statement keyword
+    } else if (aCurrentToken.type == "PRINT" || aCurrentToken.type == "ID" 
+    || aCurrentToken.type == "INT" || aCurrentToken.type == "STRING"
+    || aCurrentToken.type == "BOOLEAN" || aCurrentToken.type == "WHILE" 
+    || aCurrentToken.type == "IF" || aCurrentToken.type == "LEFT_BRACE") {
+        //goes to statement
+        aStatement();
+        //changes the token
+        aGetToken();
+        //calls self
+        aStatementList();
+    }
+    //backs out a branch
+    ast.kick();
+}
