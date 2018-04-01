@@ -278,3 +278,26 @@ function aExpr() {
     //backs out a branch
     ast.kick();
 }
+
+//handles int expressions
+function aIntExpr() {
+    //Creates a Branch
+    addBranch("IntExpr");
+
+    //debugging
+    if (debug && verbose) {
+        analysisLog("intExpr..");
+    }
+    //Changes the token
+    aGetToken();
+
+    //if PLUS
+    if (aCurrentToken.type == "PLUS") {
+        //changes the token
+        aGetToken();
+        //goes to expr
+        aExpr();
+    }
+    //backs out a branch
+    ast.kick();
+}
