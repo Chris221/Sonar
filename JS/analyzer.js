@@ -179,3 +179,41 @@ function aStatementList() {
     //backs out a branch
     ast.kick();
 }
+
+//checks for statements
+function aStatement() {
+    //Creates a Branch
+    addBranch("Statement");
+    
+    //debugging
+    if (debug && verbose) {
+        analysisLog("Statement..");
+    }
+    //if print
+    if (aCurrentToken.type == "PRINT") {
+        //goes to print statements
+        aPrintStatement();
+    //if ID
+    } else if (aCurrentToken.type == "ID") {
+        //goes to assignment statements
+        aAssignmentStatement();
+    //if INT, STRING, or BOOLEAN
+    } else if (aCurrentToken.type == "INT" || aCurrentToken.type == "STRING" || aCurrentToken.type == "BOOLEAN") {
+        //goes to variable declarations
+        aVarDecl();
+    //if WHILE
+    } else if (aCurrentToken.type == "WHILE") {
+        //goes to while statements
+        aWhileStatement();
+    //if IF
+    } else if (aCurrentToken.type == "IF") {
+        //goes to if statements
+        aIfStatement();
+    //if LEFT_BRACE
+    } else if (aCurrentToken.type == "LEFT_BRACE") {
+        //goes to block
+        aBlock();
+    } 
+    //cst backs out a branch
+    ast.kick();
+}
