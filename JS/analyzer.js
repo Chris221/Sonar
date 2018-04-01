@@ -1,11 +1,10 @@
 // JavaScript Document
 
 //defines the token list, current token, parser errors, brace level, program level, program level counter, in print, in bool, and finished.
-var tokens = [];
-var tokenNumber = 0;
-var currentToken;
+var aTokens = [];
+var aTokenNumber = 0;
+var aCurrentToken;
 var aErrors = 0;
-var tokenNumber = 0;
 var scope = -1;
 var scopeLevel = -1;
 
@@ -17,11 +16,11 @@ ast.addNode("Root", "branch");
 var st = new symbolTree();
 
 //resets the globals and AST
-function resetGlobals() {
-    tokens = [];
-    currentToken;
+function aResetGlobals() {
+    aTokens = [];
+    aTokenNumber = 0;
+    aCurrentToken;
     aErrors = 0;
-    tokenNumber = 0;
     scope = -1;
     scopeLevel = -1;
 
@@ -29,33 +28,33 @@ function resetGlobals() {
     ast.addNode("Root", "branch");
 }
 
-function getToken() {
-   //increases token count
-    tokenNumber++;
+function aGetToken() {
+    //increases token count
+    aTokenNumber++;
     //sets current token
-    currentToken = tokens[0];
+    aCurrentToken = aTokens[0];
     //removes the token from the list
-    tokens.shift();
+    aTokens.shift();
 }
 
-function checkNext() {
+function aCheckNext() {
     //Gets next
-    return tokens[0];
+    return aTokens[0];
 }
  
-//runs the parser
+//runs the analyzer
 function analyzer(input) {
     //resets the globals
-    resetGlobals();
+    aResetGlobals();
     //if verbose
     if (verbose) {
         //Outputs starting
         parserLog("Semantic Analysis is starting..\n");
     }
     //sets the token list
-    tokens = input;
+    aTokens = input;
     //calls the first token check
-    program();
+    aProgram();
 
     //Defines the completion text
     var completedText = "\nThe semantic analysis successfully passed";
