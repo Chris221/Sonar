@@ -278,18 +278,17 @@ function aVarDecl() {
     if (debug && verbose) {
         analysisLog("varDecl..");
     }
+    //temp variable for getting the type of var
     //changes the token
     aGetToken();
     //if ID
     if (aCurrentToken.type == "ID") {
 		//Creates new symbol
-		var symbol = new Symbol(aCheckNext.type, aCurrentToken.type, aCurrentToken.line, scope, scopeLevel, false, false, "");
 		
 		//Adds the symbol to Current Branch
-		st.cur.symbols.push(symbol);
 		
 		//Adds the symbol to allSymbols
-		allSymbols.push(symbol);
+        allSymbols.push(symbol);
     }
 
     //backs out a branch

@@ -78,6 +78,7 @@ function compile() {
 	lexHover = "";
 	parseHover = "";
 	analysisHover = "";
+	st = new symbolTree();
 	allSymbols = [];
 	//Clears the log
 	$('#Lexer_log').text("");
@@ -87,6 +88,10 @@ function compile() {
 	$('#cst').val("");
 	//Clears the AST
 	$('#ast').val("");
+	//Clears the Scope Tree
+	$('#scopetree').val("");
+	//Clears the Symbol Table
+	$('#symboltable').val("");
 	//clears the token array
 	programsTokens = [];
 	analysisTokens = [];
@@ -294,6 +299,7 @@ function compileAnalysis() {
 		//Adds hover text if analysis pass
 		analysisHover += "Program "+programNumber+": Passed<br/>" ;
 		$('#Lexer_log').text($('#Lexer_log').val()+ast.toString()+"\n\n");
+		$('#Lexer_log').text($('#Lexer_log').val()+st.toString()+"\n\n");
 	} else {
 		//Adds hover text if analysis fails
 		analysisHover += "Program "+programNumber+": Error<br/>" ;
