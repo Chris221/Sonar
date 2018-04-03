@@ -50,6 +50,36 @@ function checkIfVarExists(id) {
         }
     }
 }
+
+function setVarValue(id, val, level) {
+    //Checks if the symbol already exists in the scope
+    //if symbols exist search 
+    if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
+        for(var i = 0; i < level.symbols.length; i++) {
+            //when the correct ID is found
+            if (id == level.symbols[i].getKey()) {
+                //Outputs setting text
+                analysisLog("Setting variable [ "+id+" ] to [ "+val+" ]");
+                //sets initialized and the value
+                level.symbols[i].initialized = true;
+                level.symbols[i].value = val;
+            }
+        }
+    //If higher level, search there
+    } else if (level.parent != undefined || level.parent != null) {
+        //calls a search in the higher levels
+        setVarValue(id,val,level.parent);
+    }
+    for(var i = 0; i < allSymbols.length; i++) {
+        //when the correct ID is found
+        if (id == allSymbols[i].getKey()) {
+            //Outputs setting text
+            //sets initialized and the value
+            allSymbols[i].initialized = true;
+            allSymbols[i].value = val;
+        }
+    }
+}
  
 //runs the analyzer
 function analyzer(input) {
