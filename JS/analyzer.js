@@ -442,7 +442,13 @@ function aAssignmentStatement() {
                 tempValue = null;
             } else if ((aCurrentToken.type == "TRUE") || (aCurrentToken.type == "FALSE")) {
                 if (tempType == "BOOLEAN") {
-                    setVarValue(tempID,aCurrentToken.value,st.cur);
+                    var val;
+                    if (aCurrentToken.type == "TRUE") {
+                        val = true;
+                    } else if (aCurrentToken.type == "FALSE") {
+                        val = false;
+                    }
+                    setVarValue(tempID,val,st.cur);
                     addingValue = false;
                     tempID = null;
                     tempType = null;
