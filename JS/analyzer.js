@@ -195,7 +195,7 @@ function analyzer(input) {
 		completedText = "\nThe semantic analysis FAILED with "+aErrors+" errors and "+aWarnings+" warnings";
 	} else {
         $('#ast').val($('#ast').val()+ast.toString());
-        $('#scopetree').val(st.toString());
+        $('#scopetree').val($('#scopetree').val()+"Program "+programNumber+"\n"+st.toString());
     }
 	//Outputs the completed Text
 	$('#Lexer_log').text($('#Lexer_log').val()+completedText);

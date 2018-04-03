@@ -304,8 +304,8 @@ function compileAnalysis() {
 	if (!aErrors) {
 		//Adds hover text if analysis pass
 		analysisHover += "Program "+programNumber+": Passed<br/>" ;
-		$('#Lexer_log').text($('#Lexer_log').val()+ast.toString()+"\n\n");
-		$('#Lexer_log').text($('#Lexer_log').val()+st.toString()+"\n\n");
+		$('#Lexer_log').text($('#Lexer_log').val()+ast.toString()+"\n");
+		$('#Lexer_log').text($('#Lexer_log').val()+"Program "+programNumber+" Scope Tree\n"+st.toString()+"\n\n");
 	} else {
 		//Adds hover text if analysis fails
 		analysisHover += "Program "+programNumber+": Error<br/>" ;
