@@ -80,6 +80,24 @@ function setVarValue(id, val, level) {
         }
     }
 }
+
+function getVarType(id,level) {
+    //Gets the type of ID
+    //if symbols exist search 
+    if (level.symbols.length > 0) {
+        for(var i = 0; i < level.symbols.length; i++) {
+            //when the correct ID is found
+            if (id == level.symbols[i].getKey() && programNumber == level.symbols[i].programNumber) {
+                //returns the type
+                return level.symbols[i].type;
+            }
+        }
+    //If higher level, search there
+    } else if (level.parent != undefined || level.parent != null) {
+        //calls a search in the higher levels
+        return getVarType(id,level.parent);
+    }
+}
  
 //runs the analyzer
 function analyzer(input) {
@@ -329,7 +347,7 @@ function aVarDecl() {
             analysisLog("ERROR! ID [ "+aCurrentToken.value+" ] on line "+aCurrentToken.line+" was prevously declared on line "+line+"...");
         } else {
             //Create new symbol
-            var symbol = new Symbol(aCurrentToken.value, type, aCurrentToken.line, scope, scopeLevel, false, false);
+            var symbol = new Symbol(aCurrentToken.value, type, aCurrentToken.line, scope, scopeLevel, programNumber, false, false, false);
             //Adds the symbol to Current Branch
             st.cur.symbols.push(symbol);
             //Adds the symbol to allSymbols

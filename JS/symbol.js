@@ -1,11 +1,12 @@
 // Creates Symbol class for Symbol Table
 class Symbol {
-	constructor(key, type, line, scope, scopeLevel, initialized, utilized, value, stringHex, tempStore) {
+	constructor(key, type, line, scope, scopeLevel, programNumber, initialized, utilized, value, stringHex, tempStore) {
 		this.key = key;
 		this.type = type;
 		this.line = line;
 		this.scope = scope;
 		this.scopeLevel = scopeLevel;
+		this.program = programNumber;
 		this.initialized = initialized;
 		this.utilized = utilized;
 		this.value = value;
