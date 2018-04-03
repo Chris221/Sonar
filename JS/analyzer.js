@@ -58,6 +58,27 @@ function checkIfVarExists(id) {
     }
 }
 
+function setVarUsed(id, level) {
+    //Checks if the symbol already exists in the scope
+    //if symbols exist search 
+    if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
+        console.log(id)
+        for(var i = 0; i < level.symbols.length; i++) {
+            //when the correct ID is found
+            if (id == level.symbols[i].getKey()) {
+                //Outputs setting text
+                analysisLog("Variable [ "+id+" ] used on line "+aCurrentToken.line);
+                //sets initialized and the value
+                level.symbols[i].utilized = true;
+            }
+        }
+    //If higher level, search there
+    } else if (level.parent != undefined || level.parent != null) {
+        //calls a search in the higher levels
+        setVarUsed(id,level.parent);
+    }
+}
+
 function setVarValue(id, val, level) {
     //Checks if the symbol already exists in the scope
     //if symbols exist search 
