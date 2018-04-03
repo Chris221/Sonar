@@ -30,9 +30,12 @@ function aResetGlobals() {
     addingValue = false;
     tempID = null;
     tempType = null;
+    scope = -1;
+    scopeLevel = -1;
 
     ast = new Tree();
     ast.addNode("Root", "branch");
+    st = new symbolTree();
 }
 
 function aGetToken() {
