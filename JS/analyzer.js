@@ -8,6 +8,9 @@ var aErrors = 0;
 var aWarrings = 0;
 var scope = -1;
 var scopeLevel = -1;
+var tempID = null;
+var tempValue = null;
+var addingValue = false;
 
 //sets the AST and root node
 var ast = new Tree();
@@ -23,6 +26,8 @@ function aResetGlobals() {
     aCurrentToken;
     aErrors = 0;
     aWarrings = 0;
+    addingValue = false;
+    tempID = null;
 
     ast = new Tree();
     ast.addNode("Root", "branch");
@@ -308,6 +313,24 @@ function aAssignmentStatement() {
     }
     //if ASSIGNMENT_OPERATOR
     if (aCurrentToken.type == "ID") {
+        var id = aCurrentToken.value;
+        var type = getVarType(id, st.cur);
+        if (type == undefined) {
+            //increases errors
+            aErrors++;
+            //outputs error
+            analysisLog("ERROR! ID [ "+id+" ] on line "+aCurrentToken.line+" was not declared in scope "+scope+"...");
+        }
+        if (!addingValue) {
+            tempID = id;
+            addingValue = true;
+        } else if (addingValue) {
+            setVarValue(tempID,aCurrentToken.value,st.cur);
+            addingValue = false;
+            tempID = null;
+            tempValue = null;
+        }
+        
         //goes to ID
         aID();
     }
@@ -428,6 +451,15 @@ function aExpr() {
         aBooleanExpr();
     //if left parentheses
     } else if (aCurrentToken.type == "ID") {
+        //if adding a value
+        if (addingValue) {
+            //add the value
+            setVarValue(tempID,aCurrentToken.value,st.cur);
+            //reset the tempory bool and ID
+            addingValue = false;
+            tempID = null;
+            tempValue = null;
+        }
         //go to ID
         aID();
     }
@@ -443,6 +475,14 @@ function aIntExpr() {
     if (aCheckNext().type == "PLUS") {
         addBranch("Addition");
     }
+    //if adding a value
+    if (addingValue) {
+        if (tempValue == null) {
+            tempValue = aCurrentToken.value;
+        } else {
+            tempValue += aCurrentToken.value;
+        }
+    }
     //goes to aID
     aID();
 
@@ -455,6 +495,15 @@ function aIntExpr() {
 
         //backs out a branch
         ast.kick();
+    }
+    //if adding a value
+    if (addingValue) {
+        //add the value
+        setVarValue(tempID,tempValue,st.cur);
+        //reset the tempory bool and ID
+        addingValue = false;
+        tempID = null;
+        tempValue = null;
     }
 }
 
@@ -471,14 +520,21 @@ function aStringExpr() {
         //changes the token
         aGetToken();
     }
-    //changes the token
-    aGetToken();
 
     //goes to char list
     aCharList();
 
     //cheks for second quote
     if (aCurrentToken.type == "QUOTE") {
+        //if adding a value
+        if (addingValue) {
+            //add the value
+            setVarValue(tempID,tempValue,st.cur);
+            //reset the tempory bool and ID
+            addingValue = false;
+            tempID = null;
+            tempValue = null;
+        }
         //changes the token
         aGetToken();
     }
@@ -497,8 +553,17 @@ function aCharList() {
     if (debug && verbose) {
         analysisLog("charList..");
     }
+    
     //if CHAR
     if (aCurrentToken.type == "CHAR") {
+        //if adding a value
+        if (addingValue) {
+            if (tempValue == null) {
+                tempValue = aCurrentToken.value;
+            } else {
+                tempValue += aCurrentToken.value;
+            }
+        }
         //changes the token
         aGetToken();
         //Calls self
@@ -514,6 +579,15 @@ function aBooleanExpr() {
         analysisLog("booleanExpr..");
     }
     if (aCurrentToken.type == "TRUE" || aCurrentToken.type == "FALSE") {
+        //if adding a value
+        if (addingValue) {
+            //add the value
+            setVarValue(tempID,aCurrentToken.value,st.cur);
+            //reset the tempory bool and ID
+            addingValue = false;
+            tempID = null;
+            tempValue = null;
+        }
         //goes to aID
         aID();
     }
