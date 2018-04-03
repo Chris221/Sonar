@@ -50,7 +50,9 @@ function aCheckNext() {
 function checkIfVarExists(id) {
     //Checks if the symbol already exists in the scope
     for(var i = 0; i < st.cur.symbols.length; i++) {
+        //when the correct ID is found
         if (id == st.cur.symbols[i].getKey()) {
+            //returns the line
             return st.cur.symbols[i].getLine();
         }
     }
