@@ -23,8 +23,6 @@ function aResetGlobals() {
     aCurrentToken;
     aErrors = 0;
     aWarrings = 0;
-    scope = -1;
-    scopeLevel = -1;
 
     ast = new Tree();
     ast.addNode("Root", "branch");

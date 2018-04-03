@@ -27,6 +27,9 @@ var parsefail = 0;
 //parser fail count
 var analysisfail = 0;
 
+//master line number
+var masterLine = 0;
+
 //lexer, parser, and analysis hover text
 var lexHover, parseHover, analysisHover;
 
@@ -75,11 +78,14 @@ function compile() {
 	lexfail = 0;
 	parsefail = 0;
 	analysisfail = 0;
+	masterLine = 0;
 	lexHover = "";
 	parseHover = "";
 	analysisHover = "";
 	st = new symbolTree();
 	allSymbols = [];
+    scope = -1;
+    scopeLevel = -1;
 	//Clears the log
 	$('#Lexer_log').text("");
 	//Clears the marquee for tokens
