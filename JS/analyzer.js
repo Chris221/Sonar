@@ -35,6 +35,13 @@ function aGetToken() {
     aCurrentToken = aTokens[0];
     //removes the token from the list
     aTokens.shift();
+    if (aTokens.length > 0 && (debug && verbose)) {
+        console.log("Current Token ("+aTokens.length+" left)");
+        console.log("Type: " + aCurrentToken.type);
+        console.log("Value: " + aCurrentToken.value);
+        console.log("Line: " + aCurrentToken.line);
+        console.log("Column: " + aCurrentToken.column);
+    }
 }
 
 function aCheckNext() {
@@ -49,7 +56,7 @@ function analyzer(input) {
     //if verbose
     if (verbose) {
         //Outputs starting
-        parserLog("Semantic Analysis is starting..\n");
+        analysisLog("Semantic Analysis is starting..\n");
     }
     //sets the token list
     aTokens = input;
@@ -65,6 +72,7 @@ function analyzer(input) {
 		completedText = "\nThe semantic analysis FAILED with errors ("+aErrors+")";
 	} else {
         $('#ast').val($('#ast').val()+ast.toString());
+        $('#scopetree').val(st.toString());
     }
 	//Outputs the completed Text
 	$('#Lexer_log').text($('#Lexer_log').val()+completedText);
@@ -134,7 +142,8 @@ function aBlock() {
     
     //Checks for LEFT_BRACE
     if (aCurrentToken.type == "LEFT_BRACE") {
-        //nothing
+        //changes the token
+        aGetToken();
     }
 
     // Initialize parsing of StatementList
@@ -152,18 +161,13 @@ function aBlock() {
 }
 
 function aStatementList() {
-    //moves token pointer
-    aGetToken();
-
-    //Creates a Branch
-    addBranch("StatementList");
-
     //debugging
     if (debug && verbose) {
         analysisLog("Statement List..");
     }
     //if a Right Brace
     if (aCurrentToken.type == "RIGHT_BRACE") {
+        //NOTHING TIME TO RETURN!!!
     //if any other statement keyword
     } else if (aCurrentToken.type == "PRINT" || aCurrentToken.type == "ID" 
     || aCurrentToken.type == "INT" || aCurrentToken.type == "STRING"
@@ -171,20 +175,13 @@ function aStatementList() {
     || aCurrentToken.type == "IF" || aCurrentToken.type == "LEFT_BRACE") {
         //goes to statement
         aStatement();
-        //changes the token
-        aGetToken();
         //calls self
         aStatementList();
     }
-    //backs out a branch
-    ast.kick();
 }
 
 //checks for statements
 function aStatement() {
-    //Creates a Branch
-    addBranch("Statement");
-    
     //debugging
     if (debug && verbose) {
         analysisLog("Statement..");
@@ -214,8 +211,6 @@ function aStatement() {
         //goes to block
         aBlock();
     } 
-    //backs out a branch
-    ast.kick();
 }
 
 //handles the print statement
@@ -256,10 +251,12 @@ function aAssignmentStatement() {
     if (debug && verbose) {
         analysisLog("assignmentStatement..");
     }
-    //goes to ID
-    aID();
-    //changes the token
-    aGetToken();
+    //if ASSIGNMENT_OPERATOR
+    if (aCurrentToken.type == "ID") {
+        //goes to ID
+        aID();
+    }
+
 
     //if ASSIGNMENT_OPERATOR
     if (aCurrentToken.type == "ASSIGNMENT_OPERATOR") {
@@ -347,9 +344,6 @@ function aIfStatement() {
 
 //handles expressions
 function aExpr() {
-    //Creates a Branch
-    addBranch("Expr");
-
     //debugging
     if (debug && verbose) {
         analysisLog("Expr..");
@@ -371,16 +365,10 @@ function aExpr() {
         //go to ID
         aID();
     }
-
-    //backs out a branch
-    ast.kick();
 }
 
 //handles int expressions
 function aIntExpr() {
-    //Creates a Branch
-    addBranch("IntExpr");
-
     //debugging
     if (debug && verbose) {
         analysisLog("intExpr..");
@@ -394,15 +382,14 @@ function aIntExpr() {
         aGetToken();
         //goes to expr
         aExpr();
+
+        //backs out a branch
+        ast.kick();
     }
-    //backs out a branch
-    ast.kick();
 }
 
 //handles string expressions
 function aStringExpr() {
-    //Creates a Branch
-    addBranch("StringExpr");
 
     //debugging
     if (debug && verbose) {
@@ -419,15 +406,10 @@ function aStringExpr() {
     if (aCurrentToken.type == "QUOTE") {
         //changes the token
         aGetToken();
-    } 
-    //backs out a branch
-    ast.kick();
 }
 
 //handles boolean expression
 function aBooleanExpr() {
-    //Creates a Branch
-    addBranch("BooleanExpr");
     //debugging
     if (debug && verbose) {
         analysisLog("booleanExpr..");
@@ -448,6 +430,4 @@ function aBooleanExpr() {
             aExpr();
         }
     }
-    //backs out a branch
-    ast.kick();
 }
