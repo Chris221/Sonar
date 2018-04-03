@@ -393,8 +393,12 @@ function aIntExpr() {
     if (debug && verbose) {
         analysisLog("intExpr..");
     }
-    //Changes the token
-    aGetToken();
+    //if next is PLUS add branch
+    if (aCheckNext().type == "PLUS") {
+        addBranch("Addition");
+    }
+    //goes to aID
+    aID();
 
     //if PLUS
     if (aCurrentToken.type == "PLUS") {
@@ -416,6 +420,11 @@ function aStringExpr() {
         analysisLog("stringExpr..");
     }
 
+    //cheks for first quote
+    if (aCurrentToken.type == "QUOTE") {
+        //changes the token
+        aGetToken();
+    }
     //changes the token
     aGetToken();
 
@@ -457,6 +466,10 @@ function aBooleanExpr() {
     //debugging
     if (debug && verbose) {
         analysisLog("booleanExpr..");
+    }
+    if (aCurrentToken.type == "TRUE" || aCurrentToken.type == "FALSE") {
+        //goes to aID
+        aID();
     }
     //if LEFT_PARENTHESES
     if (aCurrentToken.type == "LEFT_PARENTHESES") {
