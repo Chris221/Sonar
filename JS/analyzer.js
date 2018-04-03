@@ -41,6 +41,15 @@ function aCheckNext() {
     //Gets next
     return aTokens[0];
 }
+
+function checkIfVarExists(id) {
+    //Checks if the symbol already exists in the scope
+    for(var i = 0; i < st.cur.symbols.length; i++) {
+        if (id == st.cur.symbols[i].getKey()) {
+            return st.cur.symbols[i].getLine();
+        }
+    }
+}
  
 //runs the analyzer
 function analyzer(input) {
@@ -277,14 +286,21 @@ function aVarDecl() {
     aGetToken();
     //if ID
     if (aCurrentToken.type == "ID") {
-		//Checks if previously used
-		checkIfVarExists();
-		//Create new symbol
-		var symbol = new Symbol(aCurrentToken.value, type, aCurrentToken.line, scope, scopeLevel, false, false, "");
-		//Adds the symbol to Current Branch
-        st.cur.symbols.push(symbol);
-		//Adds the symbol to allSymbols
-        allSymbols.push(symbol);
+		//Checks if previously declared
+		if (line = checkIfVarExists(aCurrentToken.value)) {
+            //increases errors
+            aErrors++;
+            //outputs error
+            analysisLog("ERROR! ID [ "+aCurrentToken.value+" ] on line "+aCurrentToken.line+" was prevously declared on line "+line+"...");
+        } else {
+            //Create new symbol
+            var symbol = new Symbol(aCurrentToken.value, type, aCurrentToken.line, scope, scopeLevel, false, false, "");
+            //Adds the symbol to Current Branch
+            st.cur.symbols.push(symbol);
+            //Adds the symbol to allSymbols
+            allSymbols.push(symbol);
+            analysisLog("New variable declared [ "+aCurrentToken.value+" ] on line "+aCurrentToken.line+" with type [ "+type+" ]");
+        }
         //goes to aID
         aID();
     }
