@@ -279,15 +279,15 @@ function compileAnalysis() {
 	//Sets failed output text
 	var text = "==============================\n"+
 			   "\n"+
-			   "                        Analysis Failed         \n"+
+			   "                      Analysis Failed         \n"+
 			   "\n"+
 			   "==============================";
 	//runs analysis gets the ast
-	if (ast = analyzer(analysisTokens)) {
+	if (analyzer(analysisTokens) == 0) {
 		//Sets success output text
 		text = "==============================\n"+
 			   "\n"+
-			   "                        Analysis Passed         \n"+
+			   "                      Analysis Passed         \n"+
 			   "\n"+
 			   "==============================";
 	}

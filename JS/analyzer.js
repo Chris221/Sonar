@@ -5,6 +5,7 @@ var aTokens = [];
 var aTokenNumber = 0;
 var aCurrentToken;
 var aErrors = 0;
+var aWarrings = 0;
 var scope = -1;
 var scopeLevel = -1;
 
@@ -21,6 +22,7 @@ function aResetGlobals() {
     aTokenNumber = 0;
     aCurrentToken;
     aErrors = 0;
+    aWarrings = 0;
     scope = -1;
     scopeLevel = -1;
 
@@ -69,7 +71,7 @@ function analyzer(input) {
     var completedText = "\nThe semantic analysis successfully passed";
     
     //if any errors
-    if (pErrors) {
+    if (aErrors) {
 		//Sets failed for the completed semantic analysis output
 		completedText = "\nThe semantic analysis FAILED with errors ("+aErrors+")";
 	} else {
@@ -80,7 +82,7 @@ function analyzer(input) {
 	$('#Lexer_log').text($('#Lexer_log').val()+completedText);
     
     //returns error number
-    return ast;
+    return aErrors;
 }
 
 function addBranch(name) {
@@ -92,6 +94,11 @@ function addBranch(name) {
 function analysisLog(text) {
     //Appends new logging to current log
     var lText = $('#Lexer_log').val()+"ANALYZER -- "+text+"\n";
+    //if verbose mode
+    if (!verbose) {
+        //stops from ouputing
+        text = "DO NOT OUTPUT";
+    }
     //if not supposed to be output
     if (text == "DO NOT OUTPUT") {
         //No need to change
