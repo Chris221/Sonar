@@ -301,7 +301,7 @@ function aVarDecl() {
             analysisLog("ERROR! ID [ "+aCurrentToken.value+" ] on line "+aCurrentToken.line+" was prevously declared on line "+line+"...");
         } else {
             //Create new symbol
-            var symbol = new Symbol(aCurrentToken.value, type, aCurrentToken.line, scope, scopeLevel, false, false, "");
+            var symbol = new Symbol(aCurrentToken.value, type, aCurrentToken.line, scope, scopeLevel, false, false);
             //Adds the symbol to Current Branch
             st.cur.symbols.push(symbol);
             //Adds the symbol to allSymbols
