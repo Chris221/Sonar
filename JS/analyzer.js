@@ -405,7 +405,29 @@ function aStringExpr() {
         aGetToken();
     }
 }
+
+function aID() {
+    // Creates a leaf
+	ast.addNode(aCurrentToken.value, "leaf", aCurrentToken.line, scope, aCurrentToken.type);
+    //Changes the token
+    aGetToken();
 }
+
+//handles char list
+function aCharList() {
+    //debugging
+    if (debug && verbose) {
+        analysisLog("charList..");
+    }
+    //if CHAR
+    if (aCurrentToken.type == "CHAR") {
+        //changes the token
+        aGetToken();
+        //Calls self
+        aCharList();
+    }
+}
+
 
 //handles boolean expression
 function aBooleanExpr() {
