@@ -35,13 +35,6 @@ function aGetToken() {
     aCurrentToken = aTokens[0];
     //removes the token from the list
     aTokens.shift();
-    if (aTokens.length > 0 && (debug && verbose)) {
-        console.log("Current Token ("+aTokens.length+" left)");
-        console.log("Type: " + aCurrentToken.type);
-        console.log("Value: " + aCurrentToken.value);
-        console.log("Line: " + aCurrentToken.line);
-        console.log("Column: " + aCurrentToken.column);
-    }
 }
 
 function aCheckNext() {
@@ -279,16 +272,21 @@ function aVarDecl() {
         analysisLog("varDecl..");
     }
     //temp variable for getting the type of var
+    var type = aCurrentToken.type.toLowerCase();
     //changes the token
     aGetToken();
     //if ID
     if (aCurrentToken.type == "ID") {
-		//Creates new symbol
-		
+		//Checks if previously used
+		checkIfVarExists();
+		//Create new symbol
+		var symbol = new Symbol(aCurrentToken.value, type, aCurrentToken.line, scope, scopeLevel, false, false, "");
 		//Adds the symbol to Current Branch
-		
+        st.cur.symbols.push(symbol);
 		//Adds the symbol to allSymbols
         allSymbols.push(symbol);
+        //goes to aID
+        aID();
     }
 
     //backs out a branch
@@ -405,6 +403,8 @@ function aStringExpr() {
     if (aCurrentToken.type == "QUOTE") {
         //changes the token
         aGetToken();
+    }
+}
 }
 
 //handles boolean expression
