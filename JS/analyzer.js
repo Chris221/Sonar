@@ -174,10 +174,7 @@ function analyzer(input) {
     //resets the globals
     aResetGlobals();
     //if verbose
-    if (verbose) {
-        //Outputs starting
-        analysisLog("Semantic Analysis is starting..\n");
-    }
+    analysisLog("Analysing program "+programNumber+"..\n",true);
     //sets the token list
     aTokens = input;
     //calls the first token check
@@ -210,13 +207,15 @@ function addBranch(name) {
 }
 
 //Sets the parsers log
-function analysisLog(text) {
+function analysisLog(text,override = false) {
     //Appends new logging to current log
     var lText = $('#Lexer_log').val()+"ANALYZER -- "+text+"\n";
     //if verbose mode
-    if (!verbose) {
-        //stops from ouputing
-        text = "DO NOT OUTPUT";
+    if (!override) {
+        if (!verbose) {
+            //stops from ouputing
+            text = "DO NOT OUTPUT";
+        }
     }
     //if not supposed to be output
     if (text == "DO NOT OUTPUT") {
