@@ -10,6 +10,7 @@ var scope = -1;
 var scopeLevel = -1;
 var tempID = null;
 var tempValue = null;
+var tempType = null;
 var addingValue = false;
 
 //sets the AST and root node
@@ -28,6 +29,7 @@ function aResetGlobals() {
     aWarrings = 0;
     addingValue = false;
     tempID = null;
+    tempType = null;
 
     ast = new Tree();
     ast.addNode("Root", "branch");
@@ -62,7 +64,6 @@ function setVarUsed(id, level) {
     //Checks if the symbol already exists in the scope
     //if symbols exist search 
     if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
-        console.log(id)
         for(var i = 0; i < level.symbols.length; i++) {
             //when the correct ID is found
             if (id == level.symbols[i].getKey()) {
@@ -87,7 +88,7 @@ function setVarValue(id, val, level) {
             //when the correct ID is found
             if (id == level.symbols[i].getKey()) {
                 //Outputs setting text
-                analysisLog("Setting variable [ "+id+" ] to [ "+val+" ]");
+                analysisLog("Setting variable [ "+id+" ] on line "+aCurrentToken.line+" to [ "+val+" ]");
                 //sets initialized and the value
                 level.symbols[i].initialized = true;
                 level.symbols[i].value = val;
@@ -364,6 +365,7 @@ function aAssignmentStatement() {
         }
         if (!addingValue) {
             tempID = id;
+            tempType = type.toUpperCase();
             addingValue = true;
             if (tempValue == null || tempValue == undefined) {
                 tempValue = getVarValue(id,st.cur);
@@ -383,15 +385,27 @@ function aAssignmentStatement() {
         aGetToken();
         if (addingValue) {
             if (aCurrentToken.type == "DIGIT") {
-                if (tempValue == 0) {
-                    tempValue = aCurrentToken.value;
+                if (tempType == "INT") {
+                    if (aCheckNext().type != "PLUS") {
+                        if (tempValue == 0) {
+                            tempValue = Number(aCurrentToken.value);
+                        } else {
+                            tempValue =  Number(tempValue) + Number(aCurrentToken.value);
+                        }
+                        setVarValue(tempID,tempValue,st.cur);
+                        addingValue = false;
+                        tempID = null;
+                        tempType = null;
+                        tempValue = null;
+                    } else {
+                        tempValue = null;
+                    }
                 } else {
-                    tempValue =  Number(tempValue) + Number(aCurrentToken.value);
+                    //increases errors
+                    aErrors++;
+                    //outputs error
+                    analysisLog("ERROR! ID [ "+tempID+" ] was expecting type [ "+tempType+" ] but was given [ INT ]...");
                 }
-                setVarValue(tempID,tempValue,st.cur);
-                addingValue = false;
-                tempID = null;
-                tempValue = null;
             } else if (aCurrentToken.type == "ID") {
                 if (tempValue == 0) {
                     tempValue = Number(getVarValue(aCurrentToken.value,st.cur));
@@ -401,12 +415,21 @@ function aAssignmentStatement() {
                 setVarValue(tempID,tempValue,st.cur);
                 addingValue = false;
                 tempID = null;
+                tempType = null;
                 tempValue = null;
             } else if ((aCurrentToken.type == "TRUE") || (aCurrentToken.type == "FALSE")) {
-                setVarValue(tempID,aCurrentToken.value,st.cur);
-                addingValue = false;
-                tempID = null;
-                tempValue = null;
+                if (tempType == "BOOLEAN") {
+                    setVarValue(tempID,aCurrentToken.value,st.cur);
+                    addingValue = false;
+                    tempID = null;
+                    tempType = null;
+                    tempValue = null;
+                } else {
+                    //increases errors
+                    aErrors++;
+                    //outputs error
+                    analysisLog("ERROR! ID [ "+tempID+" ] was expecting type [ "+tempType+" ] but was given [ BOOLEAN ]...");
+                }
             }
         }
         //goes to expr
@@ -522,7 +545,18 @@ function aExpr() {
     } else if (aCurrentToken.type == "ID") {
         //if adding a value
         if (addingValue) {
-            tempValue += aCurrentToken.value;
+            if (tempValue == 0) {
+                tempValue = Number(getVarValue(aCurrentToken.value,st.cur));
+            } else {
+                tempValue =  Number(tempValue) + Number(getVarValue(aCurrentToken.value,st.cur));
+            }
+            setVarValue(tempID,tempValue,st.cur);
+            addingValue = false;
+            tempID = null;
+            tempType = null;
+            tempValue = null;
+        } else {
+            setVarUsed(aCurrentToken.value,st.cur);
         }
         //go to ID
         aID();
@@ -542,9 +576,9 @@ function aIntExpr() {
     //if adding a value
     if (addingValue) {
         if (tempValue == null) {
-            tempValue = aCurrentToken.value;
+            tempValue = Number(aCurrentToken.value);
         } else {
-            tempValue += aCurrentToken.value;
+            tempValue = Number(tempValue) + Number(aCurrentToken.value);
         }
     }
     //goes to aID
@@ -587,12 +621,20 @@ function aStringExpr() {
     if (aCurrentToken.type == "QUOTE") {
         //if adding a value
         if (addingValue) {
-            //add the value
-            setVarValue(tempID,s,st.cur);
-            //reset the tempory bool and ID
-            addingValue = false;
-            tempID = null;
-            tempValue = null;
+            if (tempType == "STRING") {
+                //add the value
+                setVarValue(tempID,s,st.cur);
+                //reset the tempory bool and ID
+                addingValue = false;
+                tempID = null;
+                tempType = null;
+                tempValue = null;
+            } else {
+                //increases errors
+                aErrors++;
+                //outputs error
+                analysisLog("ERROR! ID [ "+tempID+" ] was expecting type [ "+tempType+" ] but was given [ STRING ]...");
+            }
         }
         //changes the token
         aGetToken();
