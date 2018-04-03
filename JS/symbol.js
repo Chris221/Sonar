@@ -6,7 +6,7 @@ class Symbol {
 		this.line = line;
 		this.scope = scope;
 		this.scopeLevel = scopeLevel;
-		this.program = programNumber;
+		this.programNumber = programNumber;
 		this.initialized = initialized;
 		this.utilized = utilized;
 		this.value = value;
