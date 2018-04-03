@@ -5,7 +5,7 @@ var aTokens = [];
 var aTokenNumber = 0;
 var aCurrentToken;
 var aErrors = 0;
-var aWarrings = 0;
+var aWarnings = 0;
 var scope = -1;
 var scopeLevel = -1;
 var tempID = null;
@@ -26,7 +26,7 @@ function aResetGlobals() {
     aTokenNumber = 0;
     aCurrentToken;
     aErrors = 0;
-    aWarrings = 0;
+    aWarnings = 0;
     addingValue = false;
     tempID = null;
     tempType = null;
@@ -57,6 +57,26 @@ function checkIfVarExists(id) {
             //returns the line
             return st.cur.symbols[i].getLine();
         }
+    }
+}
+
+function checkIfAllVarsUsed(level) {
+    //Checks if the symbol already exists in the scope
+    //if symbols exist search 
+    if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
+        for(var i = 0; i < level.symbols.length; i++) {
+            //when the correct ID is found
+            if (level.symbols[i].utilized == false && programNumber == level.symbols[i].programNumber) {
+                //increases Warnings
+                aWarnings++;
+                //outputs error
+                analysisLog("Warning! ID [ "+level.symbols[i].getKey()+" ] on line "+level.symbols[i].line+" was never utilized...");
+            }
+        }
+    //If higher level, search there
+    } else if (level.parent != undefined || level.parent != null) {
+        //calls a search in the higher levels
+        checkIfVarUsed(level.parent);
     }
 }
 
@@ -160,13 +180,16 @@ function analyzer(input) {
     //calls the first token check
     aProgram();
 
+    //Checks for unutilized IDs
+    checkIfAllVarsUsed(st.cur);
+
     //Defines the completion text
-    var completedText = "\nThe semantic analysis successfully passed";
+    var completedText = "\nThe semantic analysis successfully passed with "+aWarnings+" warnings";
     
     //if any errors
     if (aErrors) {
 		//Sets failed for the completed semantic analysis output
-		completedText = "\nThe semantic analysis FAILED with errors ("+aErrors+")";
+		completedText = "\nThe semantic analysis FAILED with "+aErrors+" errors and "+aWarnings+" warnings";
 	} else {
         $('#ast').val($('#ast').val()+ast.toString());
         $('#scopetree').val(st.toString());
