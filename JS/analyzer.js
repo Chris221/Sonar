@@ -105,6 +105,24 @@ function getVarType(id,level) {
         return getVarType(id,level.parent);
     }
 }
+
+function getVarValue(id,level) {
+    //Gets the type of ID
+    //if symbols exist search 
+    if (level.symbols.length > 0) {
+        for(var i = 0; i < level.symbols.length; i++) {
+            //when the correct ID is found
+            if (id == level.symbols[i].getKey() && programNumber == level.symbols[i].programNumber) {
+                //returns the type
+                return level.symbols[i].value;
+            }
+        }
+    //If higher level, search there
+    } else if (level.parent != undefined || level.parent != null) {
+        //calls a search in the higher levels
+        return getVarValue(id,level.parent);
+    }
+}
  
 //runs the analyzer
 function analyzer(input) {
@@ -326,11 +344,11 @@ function aAssignmentStatement() {
         if (!addingValue) {
             tempID = id;
             addingValue = true;
-        } else if (addingValue) {
-            setVarValue(tempID,aCurrentToken.value,st.cur);
-            addingValue = false;
-            tempID = null;
-            tempValue = null;
+            if (tempValue == null || tempValue == undefined) {
+                tempValue = getVarValue(id,st.cur);
+            } else {
+                tempValue = Number(tempValue) + Number(getVarValue(id,st.cur));
+            }
         }
         
         //goes to ID
@@ -342,6 +360,34 @@ function aAssignmentStatement() {
     if (aCurrentToken.type == "ASSIGNMENT_OPERATOR") {
         //changes the token
         aGetToken();
+        if (addingValue) {
+            if (aCurrentToken.type == "DIGIT") {
+                if (tempValue == 0) {
+                    tempValue = aCurrentToken.value;
+                } else {
+                    tempValue =  Number(tempValue) + Number(aCurrentToken.value);
+                }
+                setVarValue(tempID,tempValue,st.cur);
+                addingValue = false;
+                tempID = null;
+                tempValue = null;
+            } else if (aCurrentToken.type == "ID") {
+                if (tempValue == 0) {
+                    tempValue = Number(getVarValue(aCurrentToken.value,st.cur));
+                } else {
+                    tempValue = Number(tempValue) + Number(getVarValue(aCurrentToken.value,st.cur));
+                }
+                setVarValue(tempID,tempValue,st.cur);
+                addingValue = false;
+                tempID = null;
+                tempValue = null;
+            } else if ((aCurrentToken.type == "TRUE") || (aCurrentToken.type == "FALSE")) {
+                setVarValue(tempID,aCurrentToken.value,st.cur);
+                addingValue = false;
+                tempID = null;
+                tempValue = null;
+            }
+        }
         //goes to expr
         aExpr();
     }
@@ -455,12 +501,7 @@ function aExpr() {
     } else if (aCurrentToken.type == "ID") {
         //if adding a value
         if (addingValue) {
-            //add the value
-            setVarValue(tempID,aCurrentToken.value,st.cur);
-            //reset the tempory bool and ID
-            addingValue = false;
-            tempID = null;
-            tempValue = null;
+            tempValue += aCurrentToken.value;
         }
         //go to ID
         aID();
@@ -500,12 +541,7 @@ function aIntExpr() {
     }
     //if adding a value
     if (addingValue) {
-        //add the value
-        setVarValue(tempID,tempValue,st.cur);
-        //reset the tempory bool and ID
-        addingValue = false;
-        tempID = null;
-        tempValue = null;
+        tempValue += aCurrentToken.value;
     }
 }
 
@@ -524,14 +560,14 @@ function aStringExpr() {
     }
 
     //goes to char list
-    aCharList();
+    var s = aCharList();
 
     //cheks for second quote
     if (aCurrentToken.type == "QUOTE") {
         //if adding a value
         if (addingValue) {
             //add the value
-            setVarValue(tempID,tempValue,st.cur);
+            setVarValue(tempID,s,st.cur);
             //reset the tempory bool and ID
             addingValue = false;
             tempID = null;
@@ -556,20 +592,12 @@ function aCharList() {
         analysisLog("charList..");
     }
     
-    //if CHAR
+    var r = aCurrentToken.value;
+    aGetToken();
     if (aCurrentToken.type == "CHAR") {
-        //if adding a value
-        if (addingValue) {
-            if (tempValue == null) {
-                tempValue = aCurrentToken.value;
-            } else {
-                tempValue += aCurrentToken.value;
-            }
-        }
-        //changes the token
-        aGetToken();
-        //Calls self
-        aCharList();
+        return (r+aCharList());
+    } else {
+        return r;
     }
 }
 
@@ -581,15 +609,6 @@ function aBooleanExpr() {
         analysisLog("booleanExpr..");
     }
     if (aCurrentToken.type == "TRUE" || aCurrentToken.type == "FALSE") {
-        //if adding a value
-        if (addingValue) {
-            //add the value
-            setVarValue(tempID,aCurrentToken.value,st.cur);
-            //reset the tempory bool and ID
-            addingValue = false;
-            tempID = null;
-            tempValue = null;
-        }
         //goes to aID
         aID();
     }
