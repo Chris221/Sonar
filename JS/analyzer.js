@@ -475,16 +475,39 @@ function aBooleanExpr() {
     if (aCurrentToken.type == "LEFT_PARENTHESES") {
         //changes the token
         aGetToken();
+        //declairs a close out bool
+        var closeOut = false;
+        //if DOUBLE_EQUALS or NOT_EQUALS
+        if (aCheckNext().type == "DOUBLE_EQUALS") {
+            //Creates a Branch
+            addBranch("Equality");
+            //sets close out bool for the branch
+            closeOut = true;
+        } else if (aCheckNext().type == "NOT_EQUALS") {
+            //Creates a Branch
+            addBranch("Inequality");
+            //sets close out bool for the branch
+            closeOut = true;
+        }
         //goes to expression
         aExpr();
-        //changes the token
-        aGetToken();
         //if DOUBLE_EQUALS or NOT_EQUALS
         if (aCurrentToken.type == "DOUBLE_EQUALS" || aCurrentToken.type == "NOT_EQUALS") {
             //changes the token
             aGetToken();
             //goes to expression
             aExpr();
+        }
+
+        if (aCurrentToken.type == "RIGHT_PARENTHESES") {
+            //changes the token
+            aGetToken();
+        }
+
+        //if close out branch
+        if (closeOut) {
+            //backs out a branch
+            ast.kick();
         }
     }
 }
