@@ -88,7 +88,7 @@ function setVarUsed(id, level) {
             //when the correct ID is found
             if (id == level.symbols[i].getKey()) {
                 //Outputs setting text
-                analysisLog("Variable [ "+id+" ] used on line "+aCurrentToken.line);
+                analysisLog("Variable [ "+id+" ] used on line "+aCurrentToken.line+"...");
                 //sets initialized and the value
                 level.symbols[i].utilized = true;
             }
@@ -108,7 +108,7 @@ function setVarValue(id, val, level) {
             //when the correct ID is found
             if (id == level.symbols[i].getKey()) {
                 //Outputs setting text
-                analysisLog("Setting variable [ "+id+" ] on line "+aCurrentToken.line+" to [ "+val+" ]");
+                analysisLog("Setting variable [ "+id+" ] on line "+aCurrentToken.line+" to [ "+val+" ]...");
                 //sets initialized and the value
                 level.symbols[i].initialized = true;
                 level.symbols[i].value = val;
@@ -490,7 +490,7 @@ function aVarDecl() {
             st.cur.symbols.push(symbol);
             //Adds the symbol to allSymbols
             allSymbols.push(symbol);
-            analysisLog("New variable declared [ "+aCurrentToken.value+" ] on line "+aCurrentToken.line+" with type [ "+type+" ]");
+            analysisLog("New variable declared [ "+aCurrentToken.value+" ] on line "+aCurrentToken.line+" with type [ "+type+" ]...");
         }
         //goes to aID
         aID();
