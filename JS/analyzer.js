@@ -155,10 +155,31 @@ function setVarValue(id, val, level) {
     }
 }
 
+function isThere(id,level) {
+    //Gets the type of ID
+    //if symbols exist search 
+    if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
+        for(var i = 0; i < level.symbols.length; i++) {
+            //when the correct ID is found
+            if (id == level.symbols[i].getKey()) {
+                //returns true
+                return true;
+            }
+        }
+    }
+    //If higher level, search there
+    if (level.parent != undefined || level.parent != null) {
+        //calls a search in the higher levels
+        return getVarType(id,level.parent);
+    }
+    //returns true
+    return false;
+}
+
 function getVarType(id,level) {
     //Gets the type of ID
     //if symbols exist search 
-    if (level.symbols.length > 0) {
+    if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
         for(var i = 0; i < level.symbols.length; i++) {
             //when the correct ID is found
             if (id == level.symbols[i].getKey()) {
@@ -700,6 +721,14 @@ function aStringExpr() {
 }
 
 function aID() {
+    if (aCurrentToken.type == "ID") {
+        if (!isThere(aCurrentToken.value,st.cur)) {
+            //increases errors
+            aErrors++;
+            //outputs error
+            analysisLog("ERROR! ID [ "+aCurrentToken.value+" ] on line "+aCurrentToken.line+" was used before it was declared...");
+        }
+    }
     // Creates a leaf
 	ast.addNode(aCurrentToken.value, "leaf", aCurrentToken.line, scope, aCurrentToken.type);
     //Changes the token
