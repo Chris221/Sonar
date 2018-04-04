@@ -14,6 +14,33 @@ var project1Ugly = "/* Sample Data Ugly */"+
 				   "{{{{{{}}}	/*	comments	are	ignored	*/	}}}}$"+
 				   "{	/*	comments	are	still	ignored	*/	int	@}$";
 
+//Project 3
+var project3 = "/* Project 3 */\n"+
+			   "{\int a\n"+
+			   "    boolean b\n"+
+			   "    {\n"+
+			   "        string c\n"+
+			   "        a = 5\n"+
+			   "        b = true\n"+
+			   "        /* no comment */\n"+
+			   "        c = \"inta\"\n"+
+			   "        print(c)\n"+
+			   "    }\n"+
+			   "    print(b)\n"+
+			   "    print(a)\n"+
+			   "}$";
+
+//Project 3 fail
+var project3fail = "/* Project 3 Failure */\n"+
+				   "{\n"+
+				   "    int a \n"+
+				   "    {\n"+
+				   "        boolean b \n"+
+				   "        a = 1\n"+
+				   "    }\n"+
+				   "    print(b)\n"+
+				   "}$\n";
+
 //Lex errors
 //Invalid characters
 var project1Lex = "/* Invalid Characters */\n"+
@@ -94,6 +121,9 @@ var parseFail4 = "/* There is a missing Expr on line 19\n"+
 				 "		a = 1 + \n"+
 				 "	}\n"+
 				 "}$";
+/*
+ * These Analysis Failure test cases came from Tien's test cases
+ */
 
 //Output the testprogram
 function testProgram(name) {
@@ -106,6 +136,15 @@ function testProgram(name) {
 			break;
 		case "project1_clean":
 			rText  = project1;
+			break;
+		case "project3":
+			rText  = project3+"\n\n"+project3fail;
+			break;
+		case "project3_pass":
+			rText  = project3;
+			break;
+		case "project3_fail":
+			rText  = project3fail;
 			break;
 		case "project1_ugly":
 			rText = project1Ugly;

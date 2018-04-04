@@ -10,6 +10,9 @@
 	<script type="text/javascript" src="JS/lexer.js"></script>
 	<script type="text/javascript" src="JS/parser.js"></script>
 	<script type="text/javascript" src="JS/token.js"></script>
+	<script type="text/javascript" src="JS/symbol.js"></script>
+	<script type="text/javascript" src="JS/symbolTree.js"></script>
+	<script type="text/javascript" src="JS/analyzer.js"></script>
 	<script type="text/javascript" src="JS/testPrograms.js"></script>
 	<!-- Bootstrap -->
 	<link type="text/css" rel="stylesheet" href="bootstrap-4.0.0/css/bootstrap.min.css">
@@ -55,6 +58,13 @@
 									<a class="dropdown-item" onclick="testProgram('project1_clean');">Clean</a>
 								</ul>
 							</li>
+							<li><a class="dropdown-item dropdown-toggle">Project 3</a>
+								<ul class="dropdown-menu">
+									<a class="dropdown-item" onclick="testProgram('project3');">Both</a>
+									<a class="dropdown-item" onclick="testProgram('project3_pass');">First One</a>
+									<a class="dropdown-item" onclick="testProgram('project3_fail');">Second One</a>
+								</ul>
+							</li>
 						</ul>
 						<a class="nav-link dropdown-toggle">Lex Errors</a>
 						<ul class="dropdown-menu">
@@ -79,7 +89,7 @@
 		<span class="compilerVis">
 			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="lexer">Lexer</button>&emsp;
 			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="parser">Parser</button>&emsp;
-			<button class="btn btn-secondary" id="3">Semantic Analysis</button>&emsp;
+			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="analysis">Semantic Analysis</button>&emsp;
 			<button class="btn btn-secondary" id="4">Code Generation</button>
 		</span>
 		<span class="page-left">
@@ -166,6 +176,58 @@
 						</div>
 					</div>
 				</div>
+			</div>
+		</span>
+		<span class="page-right">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm">
+						<!-- Scope tree output -->
+						<ul class="nav nav-tabs">
+							<li class="nav-item">
+								<a class="nav-link active" id="scopetree-tab" data-toggle="tab" href="#scopetreeBox" role="tab" aria-controls="scopetreeBox" aria-expanded="true">Scope Tree</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="symboltable-tab" data-toggle="tab" href="#symboltableBox" role="tab" aria-controls="symboltableBox" aria-expanded="true">Symbol Table</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane fade active show" id="scopetreeBox" role="tabpanel" aria-labelledby="scopetree-tab" aria-expanded="true">
+								<div class="panel panel-default">
+									<small>
+										<textarea class="scopetree form-control" id="scopetree" placeholder="No Scope Tree currently" readonly></textarea>
+									</small>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="symboltableBox" role="tabpanel" aria-labelledby="symboltable-tab" aria-expanded="true">
+								<div class="panel panel-default">
+									<small>
+										<div class="symboltable form-control" id="symboltable" placeholder="No Symbol Table currently" readonly>No Symbol Table currently</div>
+									</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</span>
+		<span class="page-bottom">
+			<div class="container text-center">
+				<hr />
+				Projects:<br />
+				<small>
+					<a href="grammar.pdf" target="_blank">Grammar</a>&emsp;
+					<a href="projects/Project 1.pdf" target="_blank">Project 1</a>&emsp;
+					<a href="projects/Project 2.pdf" target="_blank">Project 2</a>&emsp;
+					<a href="projects/Project 3.pdf" target="_blank">Project 3</a>&emsp;
+					<a href="projects/Project 4.pdf" target="_blank">Project 4</a>&emsp;
+					<a href="http://labouseur.com/courses/compilers/" target="_blank">Class Site</a>
+				</small>
+				<hr width="50%" />
+				<small>
+					By: Chris Siena<br />
+					<a href="http://ChrisSiena.com/" target="_blank">ChrisSiena.com</a>
+				</small>
 			</div>
 		</span>
 	</span>

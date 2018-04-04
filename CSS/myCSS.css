@@ -58,6 +58,10 @@ body {
 	height: 300px;
 	margin-bottom: 10px;
 }
+td {
+	border: 1px solid;
+	min-width: 50px;
+}
 .page-right {
 	display: inline-block;
 	width: calc(50% - 5px);
@@ -76,7 +80,7 @@ body {
 	display: block;
 	margin-bottom: 10px;
 }
-.input, .log, .cst, .ast {
+.input, .log, .cst, .ast, .scopetree, .symboltable {
     resize: none;
 	height: 252px;
 	margin-left: auto;
@@ -84,6 +88,9 @@ body {
 	width: 100%;
 	display: block;
 	font-size: inherit !important;
+}
+.symboltable {
+	overflow-y: auto;
 }
 .input {
 	padding: 0 0 !important;

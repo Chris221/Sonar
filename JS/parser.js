@@ -457,7 +457,7 @@ function expr() {
 //handles int expressions
 function intExpr() {
     //starts cst branch
-    cst.addNode("Expr", "branch");
+    cst.addNode("IntExpr", "branch");
     //debugging
     if (debug && verbose) {
         parserLog("intExpr..");

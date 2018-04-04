@@ -9,8 +9,11 @@ var verbose = true;
 //program array
 var programsTokens = [];
 
-//program pass/fail
-var programPass = [];
+//Token list for analysis
+var analysisTokens = [];
+
+//Symbol list
+var allSymbols = [];
 
 //program number
 var programNumber = 1;
@@ -21,8 +24,14 @@ var lexfail = 0;
 //parser fail count
 var parsefail = 0;
 
-//lexer and parser hover text
-var lexHover, parseHover;
+//parser fail count
+var analysisfail = 0;
+
+//master line number
+var masterLine = 0;
+
+//lexer, parser, and analysis hover text
+var lexHover, parseHover, analysisHover;
 
 //sets verbose button color
 $(function() {
@@ -63,20 +72,36 @@ function compile() {
 	//Sets the visualizer defaults
 	$('#lexer').addClass("btn-secondary").removeClass("btn-success").removeClass("btn-danger").removeClass("btn-warning");
 	$('#parser').addClass("btn-secondary").removeClass("btn-success").removeClass("btn-danger").removeClass("btn-warning");
+	$('#analysis').addClass("btn-secondary").removeClass("btn-success").removeClass("btn-danger").removeClass("btn-warning");
 	//set defaults
 	programNumber = 1;
 	lexfail = 0;
 	parsefail = 0;
+	analysisfail = 0;
+	masterLine = 0;
 	lexHover = "";
 	parseHover = "";
+	analysisHover = "";
+	st = new symbolTree();
+	allSymbols = [];
+    scope = -1;
+	scopeLevel = -1;
+	symboltable = "";
 	//Clears the log
 	$('#Lexer_log').text("");
 	//Clears the marquee for tokens
 	$('#token-marquee').text("");
 	//Clears the CST
 	$('#cst').val("");
+	//Clears the AST
+	$('#ast').val("");
+	//Clears the Scope Tree
+	$('#scopetree').val("");
+	//Clears the Symbol Table
+	$('#symboltable').val("");
 	//clears the token array
 	programsTokens = [];
+	analysisTokens = [];
 	//clears the program pass/fail list
 	var programPass = [];
 	//gets the list of programs
@@ -85,6 +110,7 @@ function compile() {
 	//removes the hover text
 	$('#lexer').removeAttr("data-original-title");
 	$('#parser').removeAttr("data-original-title");
+	$('#analysis').removeAttr("data-original-title");
 
 	//if verbose
 	if (verbose) {
@@ -105,11 +131,15 @@ function compile() {
 			for (var t = 0; t < tokens.length; t++) {
 				//adds each and every token :)
 				programsTokens.push(tokens[t]);
+				analysisTokens.push(tokens[t]);
 			}
 			//Adds hover text if lexer pass
 			lexHover += "Program "+programNumber+": Passed<br/>" ;
 			//Starts the parser handler function
-			compileParser();
+			if (compileParser() == 0) {
+				//Starts the semantic analysis handler function
+				compileAnalysis();
+			}
 		} else {
 			//adds a failure to the array
 			programPass.push("Lex fail");
@@ -117,6 +147,8 @@ function compile() {
 			lexHover += "Program "+programNumber+": Error<br/>" ;
 			//Adds hover text if lexer fails
 			parseHover += "Program "+programNumber+": <em>None</em><br/>" ;
+			//Adds hover text if lexer fails
+			analysisHover += "Program "+programNumber+": <em>None</em><br/>" ;
 			//increas lexfail count
 			lexfail++;
 			//No need to parse
@@ -152,6 +184,7 @@ function compile() {
 	//adds new  hover text
 	$('#lexer').attr("data-original-title", lexHover );
 	$('#parser').attr("data-original-title", parseHover );
+	$('#analysis').attr("data-original-title", analysisHover );
 }
 
 //gets the input in a nice readable manor
@@ -209,8 +242,6 @@ function compileLexer(input) {
 
 //Moves the compiler to parse
 function compileParser() {
-	//Sets pass bool false
-	var pPass = false;
 	//Sets failed output text
 	var text = "==============================\n"+
 			   "\n"+
@@ -219,8 +250,6 @@ function compileParser() {
 			   "==============================";
 	//runs parser gets the cst
 	if (cst = parser(tokens)) {
-		//Sets pass bool true
-		pPass = true;
 		//Sets success output text
 		text = "==============================\n"+
 			   "\n"+
@@ -233,20 +262,59 @@ function compileParser() {
 
 	//if parsed output the cst
 	if (!pErrors) {
-		//adds a pass to the array
-		programPass.push("Pass");
 		//Adds hover text if parser pass
 		parseHover += "Program "+programNumber+": Passed<br/>" ;
 		$('#Lexer_log').text($('#Lexer_log').val()+cst.toString()+"\n\n");
 	} else {
-		//adds a failure to the array
-		programPass.push("Parse fail");
 		//Adds hover text if parser fails
 		parseHover += "Program "+programNumber+": Error<br/>" ;
+		//Adds hover text if lexer fails
+		analysisHover += "Program "+programNumber+": <em>None</em><br/>" ;
 		//increas parsefail count
 		parsefail++;
 		//No CST to show
-		var text = "No CST to showe due to a parse error";
+		var text = "No CST to show due to a parse error";
+		$('#Lexer_log').text($('#Lexer_log').val()+text+"\n\n");
+	}
+	//Scroll to the bottom of the log
+	logScroll();
+	return pErrors;
+}
+
+//Moves the compiler to analysis
+function compileAnalysis() {
+	//Sets failed output text
+	var text = "==============================\n"+
+			   "\n"+
+			   "                      Analysis Failed         \n"+
+			   "\n"+
+			   "==============================";
+	//runs analysis gets the ast
+	if (analyzer(analysisTokens) == 0) {
+		//Sets success output text
+		text = "==============================\n"+
+			   "\n"+
+			   "                      Analysis Passed         \n"+
+			   "\n"+
+			   "==============================";
+	}
+	//Outputs the Lexer output
+	$('#Lexer_log').text($('#Lexer_log').val()+"\n\n"+text+"\n\n");
+
+	//if analyzer output the ast
+	if (!aErrors) {
+		//Adds hover text if analysis pass
+		analysisHover += "Program "+programNumber+": Passed<br/>" ;
+		$('#Lexer_log').text($('#Lexer_log').val()+ast.toString()+"\n");
+		$('#Lexer_log').text($('#Lexer_log').val()+"Program "+programNumber+" Scope Tree\n"+st.toString()+"\n");
+		$('#Lexer_log').text($('#Lexer_log').val()+"The Symbol Table is located below in the Symbol Table tab.\n\n");
+	} else {
+		//Adds hover text if analysis fails
+		analysisHover += "Program "+programNumber+": Error<br/>" ;
+		//increas analysisfail count
+		analysisfail++;
+		//No AST to show
+		var text = "No AST or Symbol Table to show due to a semantic analysis error";
 		$('#Lexer_log').text($('#Lexer_log').val()+text+"\n\n");
 	}
 	//Scroll to the bottom of the log
@@ -254,6 +322,25 @@ function compileParser() {
 }
 
 function changeVisualizer() {
+	//sets the analysis visualizer
+	//if analysis failed everytime
+	if (analysisfail == programNumber) {
+		//red
+		$('#analysis').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-warning");
+	//if parse failed in one program
+	} else if (analysisfail) {
+		//yellow
+		$('#analysis').addClass("btn-warning").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-danger");
+	//if parser never ran
+	} else if ((lexfail == programNumber) || (parsefail == programNumber)) {
+		//gray
+		$('#analysis').addClass("btn-secondary").removeClass("btn-danger").removeClass("btn-btn-success").removeClass("btn-warning");
+	//otherwise parser must have passed
+	} else {
+		//green
+		$('#analysis').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-warning").removeClass("btn-danger");
+	}
+
 	//sets the parser visualizer
 	//if parser failed everytime
 	if (parsefail == programNumber) {
