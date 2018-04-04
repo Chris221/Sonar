@@ -24,7 +24,7 @@ var lexfail = 0;
 //parser fail count
 var parsefail = 0;
 
-//parser fail count
+//analyzer fail count
 var analysisfail = 0;
 
 //master line number
@@ -99,7 +99,7 @@ function compile() {
 	$('#scopetree').val("");
 	//Clears the Symbol Table
 	$('#symboltable').val("");
-	//clears the token array
+	//clears the token arrays
 	programsTokens = [];
 	analysisTokens = [];
 	//clears the program pass/fail list
@@ -278,6 +278,7 @@ function compileParser() {
 	}
 	//Scroll to the bottom of the log
 	logScroll();
+	//returns pass/fall
 	return pErrors;
 }
 
@@ -305,6 +306,7 @@ function compileAnalysis() {
 	if (!aErrors) {
 		//Adds hover text if analysis pass
 		analysisHover += "Program "+programNumber+": Passed<br/>" ;
+		//Outputs the ast, scope tree and symbol table text to the log
 		$('#Lexer_log').text($('#Lexer_log').val()+ast.toString()+"\n");
 		$('#Lexer_log').text($('#Lexer_log').val()+"Program "+programNumber+" Scope Tree\n"+st.toString()+"\n");
 		$('#Lexer_log').text($('#Lexer_log').val()+"The Symbol Table is located below in the Symbol Table tab.\n\n");
@@ -327,15 +329,15 @@ function changeVisualizer() {
 	if (analysisfail == programNumber) {
 		//red
 		$('#analysis').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-warning");
-	//if parse failed in one program
+	//if analysis failed in one program
 	} else if (analysisfail) {
 		//yellow
 		$('#analysis').addClass("btn-warning").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-danger");
-	//if parser never ran
+	//if analysis never ran
 	} else if ((lexfail == programNumber) || (parsefail == programNumber)) {
 		//gray
 		$('#analysis').addClass("btn-secondary").removeClass("btn-danger").removeClass("btn-btn-success").removeClass("btn-warning");
-	//otherwise parser must have passed
+	//otherwise analysis must have passed
 	} else {
 		//green
 		$('#analysis').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-warning").removeClass("btn-danger");

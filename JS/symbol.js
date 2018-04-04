@@ -1,3 +1,9 @@
+//-----------------------------------------
+// Based on symbol.js
+//
+// By Tien
+// work by Christopher Siena
+//-----------------------------------------
 // Creates Symbol class for Symbol Table
 class Symbol {
 	constructor(key, type, line, scope, scopeLevel, programNumber, initialized, utilized, value, stringHex, tempStore) {

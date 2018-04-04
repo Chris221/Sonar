@@ -1,17 +1,28 @@
 // JavaScript Document
 
-//defines the token list, current token, parser errors, brace level, program level, program level counter, in print, in bool, and finished.
+//defines the token list
 var aTokens = [];
+//defines the token number
 var aTokenNumber = 0;
+//defines the current token
 var aCurrentToken;
+//defines the analysis errors
 var aErrors = 0;
+//defines the analysis warnings
 var aWarnings = 0;
+//defines the scope
 var scope = -1;
+//defines the scope level
 var scopeLevel = -1;
+//defines the temp ID
 var tempID = null;
+//defines the temp value
 var tempValue = null;
+//defines the temp type
 var tempType = null;
+//defines the adding bool
 var addingValue = false;
+//defines the symbol table HTML string
 var symboltable = "";
 
 //sets the AST and root node
@@ -21,7 +32,7 @@ ast.addNode("Root", "branch");
 //sets the symbol tree
 var st = new symbolTree();
 
-//resets the globals and AST
+//resets the globals, AST, and symbol tree
 function aResetGlobals() {
     aTokens = [];
     aTokenNumber = 0;
@@ -67,13 +78,14 @@ function checkIfVarExists(id) {
 function buildSymbolTable(level) {
     //sets return value
     var r = "";
-    //Checks if the symbol already exists in the scope
-    //if symbols exist loop 
+    //if the current level has symbols
     if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
+        //for each symbol 
         for(var i = 0; i < level.symbols.length; i++) {
-            //add row
+            //add row to table
             r += "<tr><td>"+level.symbols[i].getKey()+"</td><td>"+level.symbols[i].getType()+"</td><td>"+level.symbols[i].getScope()+"</td><td>"+level.symbols[i].getLine()+"</td></tr>";
         }
+        //return table
         return r;
     //If higher level, search there
     }
@@ -84,9 +96,9 @@ function buildSymbolTable(level) {
 }
 
 function checkIfAllVarsUsed(level) {
-    //Checks if the symbol already exists in the scope
-    //if symbols exist search 
+    //if the current level has symbols
     if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
+        //Checks all symbols if they were used
         for(var i = 0; i < level.symbols.length; i++) {
             //when the correct ID is found
             if (level.symbols[i].utilized == false) {
@@ -104,9 +116,9 @@ function checkIfAllVarsUsed(level) {
 }
 
 function setVarUsed(id, level) {
-    //Checks if the symbol already exists in the scope
-    //if symbols exist search 
+    //if the current level has symbols
     if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
+        //Checks if the symbol already exists in the scope
         for(var i = 0; i < level.symbols.length; i++) {
             //when the correct ID is found
             if (id == level.symbols[i].getKey()) {
@@ -125,9 +137,9 @@ function setVarUsed(id, level) {
 }
 
 function setVarValue(id, val, level) {
-    //Checks if the symbol already exists in the scope
-    //if symbols exist search 
+    //if the current level has symbols
     if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
+        //Checks if the symbol already exists in the scope
         for(var i = 0; i < level.symbols.length; i++) {
             //when the correct ID is found
             if (id == level.symbols[i].getKey()) {
@@ -136,6 +148,7 @@ function setVarValue(id, val, level) {
                 //sets initialized and the value
                 level.symbols[i].initialized = true;
                 level.symbols[i].value = val;
+                //gets the scope for later 
             }
         }
     }
@@ -145,8 +158,8 @@ function setVarValue(id, val, level) {
         setVarValue(id,val,level.parent);
     }
     for(var i = 0; i < allSymbols.length; i++) {
-        //when the correct ID is found
         if (id == allSymbols[i].getKey()) {
+        //when the correct ID is found in the right scope
             //Outputs setting text
             //sets initialized and the value
             allSymbols[i].initialized = true;
@@ -156,9 +169,9 @@ function setVarValue(id, val, level) {
 }
 
 function isThere(id,level) {
-    //Gets the type of ID
-    //if symbols exist search 
+    //if the current level has symbols
     if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
+        //finds the ID
         for(var i = 0; i < level.symbols.length; i++) {
             //when the correct ID is found
             if (id == level.symbols[i].getKey()) {
@@ -172,14 +185,14 @@ function isThere(id,level) {
         //calls a search in the higher levels
         return getVarType(id,level.parent);
     }
-    //returns true
+    //or doesn't
     return false;
 }
 
 function getVarType(id,level) {
-    //Gets the type of ID
-    //if symbols exist search 
+    //if the current level has symbols
     if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
+        //Gets the type of ID
         for(var i = 0; i < level.symbols.length; i++) {
             //when the correct ID is found
             if (id == level.symbols[i].getKey()) {
@@ -196,13 +209,13 @@ function getVarType(id,level) {
 }
 
 function getVarValue(id,level) {
-    //Gets the type of ID
-    //if symbols exist search 
     if (level.symbols.length > 0) {
+    //if the current level has symbols
+        //Gets the value of ID
         for(var i = 0; i < level.symbols.length; i++) {
             //when the correct ID is found
             if (id == level.symbols[i].getKey() && programNumber == level.symbols[i].programNumber) {
-                //returns the type
+                //returns the value
                 return level.symbols[i].value;
             }
         }
@@ -236,6 +249,7 @@ function analyzer(input) {
 		//Sets failed for the completed semantic analysis output
 		completedText = "\nThe semantic analysis FAILED with "+aErrors+" errors and "+aWarnings+" warnings";
 	} else {
+        //outputs AST and Scope Tree to there locations on the page
         $('#ast').val($('#ast').val()+ast.toString());
         $('#scopetree').val($('#scopetree').val()+"Program "+programNumber+"\n"+st.toString()+"\n");
         //builds the symbol table
@@ -428,6 +442,7 @@ function aAssignmentStatement() {
     }
     //if ASSIGNMENT_OPERATOR
     if (aCurrentToken.type == "ID") {
+        //sets the id and type for later
         var id = aCurrentToken.value;
         var type = getVarType(id,st.cur);
         if (type == undefined) {
@@ -437,12 +452,18 @@ function aAssignmentStatement() {
             analysisLog("ERROR! ID [ "+id+" ] on line "+aCurrentToken.line+" was not declared in scope "+scope+"...");
         }
         if (!addingValue) {
+            //when adding set the temp globals to the locals
             tempID = id;
             tempType = type.toUpperCase();
+            //turn on adding value bool
             addingValue = true;
+            //if temps don't exist
             if (tempValue == null || tempValue == undefined) {
+                //set it
                 tempValue = getVarValue(id,st.cur);
+            //if temps exist
             } else {
+                //add them
                 tempValue = Number(tempValue) + Number(getVarValue(id,st.cur));
             }
         }
@@ -456,16 +477,26 @@ function aAssignmentStatement() {
     if (aCurrentToken.type == "ASSIGNMENT_OPERATOR") {
         //changes the token
         aGetToken();
+        //if adding
         if (addingValue) {
+            //a digit
             if (aCurrentToken.type == "DIGIT") {
+                //if temp is an int
                 if (tempType == "INT") {
+                    //and next is not a plus
                     if (aCheckNext().type != "PLUS") {
+                        //if temp is 0
                         if (tempValue == 0) {
+                            //set temp
                             tempValue = Number(aCurrentToken.value);
+                        //otherwise
                         } else {
+                            //add them together
                             tempValue =  Number(tempValue) + Number(aCurrentToken.value);
                         }
+                        //then set the value
                         setVarValue(tempID,tempValue,st.cur);
+                        //reset temps and adding bool
                         addingValue = false;
                         tempID = null;
                         tempType = null;
@@ -479,30 +510,47 @@ function aAssignmentStatement() {
                     //outputs error
                     analysisLog("ERROR! ID [ "+tempID+" ] was expecting type [ "+tempType+" ] but was given [ INT ]...");
                 }
+            //an id
             } else if (aCurrentToken.type == "ID") {
+                //if temp is 0
                 if (tempValue == 0) {
+                    //set temp
                     tempValue = Number(getVarValue(aCurrentToken.value,st.cur));
+                //otherwise
                 } else {
+                    //add them together
                     tempValue = Number(tempValue) + Number(getVarValue(aCurrentToken.value,st.cur));
                 }
+                //then set the value
                 setVarValue(tempID,tempValue,st.cur);
+                //reset temps and adding bool
                 addingValue = false;
                 tempID = null;
                 tempType = null;
                 tempValue = null;
+            //a bool value
             } else if ((aCurrentToken.type == "TRUE") || (aCurrentToken.type == "FALSE")) {
+                //if temp type is a bool
                 if (tempType == "BOOLEAN") {
+                    //set val
                     var val;
+                    //if type is true
                     if (aCurrentToken.type == "TRUE") {
+                        //set bool val
                         val = true;
+                    //if type is false
                     } else if (aCurrentToken.type == "FALSE") {
+                        //set bool val
                         val = false;
                     }
+                    //then set the value
                     setVarValue(tempID,val,st.cur);
+                    //reset temps and adding bool
                     addingValue = false;
                     tempID = null;
                     tempType = null;
                     tempValue = null;
+                //must be error
                 } else {
                     //increases errors
                     aErrors++;
@@ -546,6 +594,7 @@ function aVarDecl() {
             st.cur.symbols.push(symbol);
             //Adds the symbol to allSymbols
             allSymbols.push(symbol);
+            //outputs variable declared
             analysisLog("New variable declared [ "+aCurrentToken.value+" ] on line "+aCurrentToken.line+" with type [ "+type+" ]...");
         }
         //goes to aID
@@ -624,17 +673,24 @@ function aExpr() {
     } else if (aCurrentToken.type == "ID") {
         //if adding a value
         if (addingValue) {
+            //if temp is 0
             if (tempValue == 0) {
+                //gets temp value
                 tempValue = Number(getVarValue(aCurrentToken.value,st.cur));
+            //otherwise
             } else {
+                //adds the values together
                 tempValue =  Number(tempValue) + Number(getVarValue(aCurrentToken.value,st.cur));
             }
+            //sets value
             setVarValue(tempID,tempValue,st.cur);
+            //reset temps and adding bool
             addingValue = false;
             tempID = null;
             tempType = null;
             tempValue = null;
         } else {
+            //marks the var as used
             setVarUsed(aCurrentToken.value,st.cur);
         }
         //go to ID
@@ -654,9 +710,13 @@ function aIntExpr() {
     }
     //if adding a value
     if (addingValue) {
+        //if temp is null
         if (tempValue == null) {
+            //gets temp value
             tempValue = Number(aCurrentToken.value);
+        //otherwise
         } else {
+            //adds the values together
             tempValue = Number(tempValue) + Number(aCurrentToken.value);
         }
     }
@@ -700,6 +760,7 @@ function aStringExpr() {
     if (aCurrentToken.type == "QUOTE") {
         //if adding a value
         if (addingValue) {
+            //if temp type is a string
             if (tempType == "STRING") {
                 //add the value
                 setVarValue(tempID,s,st.cur);
@@ -721,7 +782,9 @@ function aStringExpr() {
 }
 
 function aID() {
+    //if type is ID
     if (aCurrentToken.type == "ID") {
+        //if is not defined
         if (!isThere(aCurrentToken.value,st.cur)) {
             //increases errors
             aErrors++;
@@ -742,11 +805,17 @@ function aCharList() {
         analysisLog("charList..");
     }
     
+    //sets string val
     var r = aCurrentToken.value;
+    //gets next token
     aGetToken();
+    //if CHAR
     if (aCurrentToken.type == "CHAR") {
+        //creturns self concating self
         return (r+aCharList());
+    //otherwise
     } else {
+        //return self
         return r;
     }
 }
@@ -789,10 +858,14 @@ function aBooleanExpr() {
             //goes to expression
             aExpr();
         }
+        //if the current branch has two leaves
         if (ast.cur.children.length >= 2) {
+            //loop through them
             for (var i = 0; i < (ast.cur.children.length-1); i++) {
                 console.log("before check")
+                //if this and the next are both IDs
                 if (ast.cur.children[i].type == "ID" && ast.cur.children[i+1].type == "ID") {
+                    //if the types don't match
                     if (getVarType(ast.cur.children[i].name, st.cur) != getVarType(ast.cur.children[i+1].name, st.cur)) {
                         //increases errors
                         aErrors++;
@@ -803,6 +876,7 @@ function aBooleanExpr() {
             }
         }
 
+        //if RIGHT_PARENTHESES
         if (aCurrentToken.type == "RIGHT_PARENTHESES") {
             //changes the token
             aGetToken();
