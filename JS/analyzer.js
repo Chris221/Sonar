@@ -149,6 +149,7 @@ function setVarValue(id, val, level) {
                 level.symbols[i].initialized = true;
                 level.symbols[i].value = val;
                 //gets the scope for later 
+                var localScope = level.symbols[i].scope;
             }
         }
     }
@@ -158,8 +159,8 @@ function setVarValue(id, val, level) {
         setVarValue(id,val,level.parent);
     }
     for(var i = 0; i < allSymbols.length; i++) {
-        if (id == allSymbols[i].getKey()) {
         //when the correct ID is found in the right scope
+        if ((id == allSymbols[i].getKey()) && (localScope == allSymbols[i].scope)) {
             //Outputs setting text
             //sets initialized and the value
             allSymbols[i].initialized = true;
