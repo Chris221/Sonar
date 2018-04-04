@@ -89,7 +89,7 @@ function checkIfAllVarsUsed(level) {
     if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
         for(var i = 0; i < level.symbols.length; i++) {
             //when the correct ID is found
-            if (level.symbols[i].utilized == false && programNumber == level.symbols[i].programNumber) {
+            if (level.symbols[i].utilized == false) {
                 //increases Warnings
                 aWarnings++;
                 //outputs error
@@ -161,7 +161,7 @@ function getVarType(id,level) {
     if (level.symbols.length > 0) {
         for(var i = 0; i < level.symbols.length; i++) {
             //when the correct ID is found
-            if (id == level.symbols[i].getKey() && programNumber == level.symbols[i].programNumber) {
+            if (id == level.symbols[i].getKey()) {
                 //returns the type
                 return level.symbols[i].type;
             }
