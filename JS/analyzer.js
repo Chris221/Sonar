@@ -109,9 +109,10 @@ function checkIfAllVarsUsed(level) {
             }
         }
     //If higher level, search there
-    } else if (level.parent != undefined || level.parent != null) {
+    }
+    if (level.parent != undefined || level.parent != null) {
         //calls a search in the higher levels
-        checkIfVarUsed(level.parent);
+        checkIfAllVarsUsed(level.parent);
     }
 }
 
