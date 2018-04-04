@@ -210,8 +210,8 @@ function getVarType(id,level) {
 }
 
 function getVarValue(id,level) {
-    if (level.symbols.length > 0) {
     //if the current level has symbols
+    if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
         //Gets the value of ID
         for(var i = 0; i < level.symbols.length; i++) {
             //when the correct ID is found
@@ -736,7 +736,8 @@ function aIntExpr() {
     }
     //if adding a value
     if (addingValue) {
-        tempValue += aCurrentToken.value;
+        //adds the values together
+        tempValue = Number(tempValue) + Number(aCurrentToken.value);
     }
 }
 
@@ -863,7 +864,6 @@ function aBooleanExpr() {
         if (ast.cur.children.length >= 2) {
             //loop through them
             for (var i = 0; i < (ast.cur.children.length-1); i++) {
-                console.log("before check")
                 //if this and the next are both IDs
                 if (ast.cur.children[i].type == "ID" && ast.cur.children[i+1].type == "ID") {
                     //if the types don't match
