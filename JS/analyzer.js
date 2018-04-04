@@ -254,8 +254,13 @@ function analyzer(input) {
         //outputs AST and Scope Tree to there locations on the page
         $('#ast').val($('#ast').val()+ast.toString());
         $('#scopetree').val($('#scopetree').val()+"Program "+programNumber+"\n"+st.toString()+"\n");
-        //builds the symbol table
-        symboltable += "Program "+programNumber+"<br/><table><tr><th>ID Name</th><th>Type</th><th>Scope</th><th>Line</th></tr>"+buildSymbolTable(st.cur)+"</table><br />";
+        //sets the table
+        var table = buildSymbolTable(st.cur);
+        //if table is empty
+        if (table == "" || table == null || table == undefined) {
+            table = "<tr><td><b><i>NA</i></b></td><td><b><i>NA</i></b></td><td><b><i>NA</i></b></td><td><b><i>NA</i></b></td></tr>";
+        }
+        symboltable += "Program "+programNumber+"<br/><table><tr><th>ID Name</th><th>Type</th><th>Scope</th><th>Line</th></tr>"+table+"</table><br />";
         $('#symboltable').html(symboltable);
     }
 	//Outputs the completed Text
