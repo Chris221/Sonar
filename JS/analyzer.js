@@ -12,6 +12,7 @@ var tempID = null;
 var tempValue = null;
 var tempType = null;
 var addingValue = false;
+var symboltable = "";
 
 //sets the AST and root node
 var ast = new Tree();
@@ -60,6 +61,25 @@ function checkIfVarExists(id) {
             //returns the line
             return st.cur.symbols[i].getLine();
         }
+    }
+}
+
+function buildSymbolTable(level) {
+    //sets return value
+    var r = "";
+    //Checks if the symbol already exists in the scope
+    //if symbols exist loop 
+    if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
+        for(var i = 0; i < level.symbols.length; i++) {
+            //add row
+            r += "<tr><td>"+level.symbols[i].getKey()+"</td><td>"+level.symbols[i].getType()+"</td><td>"+level.symbols[i].getScope()+"</td><td>"+level.symbols[i].getLine()+"</td></tr>";
+        }
+        return r;
+    //If higher level, search there
+    }
+    if (level.parent != undefined || level.parent != null) {
+        //calls a search in the higher levels
+        return buildSymbolTable(level.parent);
     }
 }
 
@@ -192,7 +212,10 @@ function analyzer(input) {
 		completedText = "\nThe semantic analysis FAILED with "+aErrors+" errors and "+aWarnings+" warnings";
 	} else {
         $('#ast').val($('#ast').val()+ast.toString());
-        $('#scopetree').val($('#scopetree').val()+"Program "+programNumber+"\n"+st.toString());
+        $('#scopetree').val($('#scopetree').val()+"Program "+programNumber+"\n"+st.toString()+"\n");
+        //builds the symbol table
+        symboltable += "Program "+programNumber+"<br/><table><tr><th>ID Name</th><th>Type</th><th>Scope</th><th>Line</th></tr>"+buildSymbolTable(st.cur)+"</table><br />";
+        $('#symboltable').html(symboltable);
     }
 	//Outputs the completed Text
 	$('#Lexer_log').text($('#Lexer_log').val()+completedText);

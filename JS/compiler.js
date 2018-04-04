@@ -85,7 +85,8 @@ function compile() {
 	st = new symbolTree();
 	allSymbols = [];
     scope = -1;
-    scopeLevel = -1;
+	scopeLevel = -1;
+	symboltable = "";
 	//Clears the log
 	$('#Lexer_log').text("");
 	//Clears the marquee for tokens
@@ -305,14 +306,15 @@ function compileAnalysis() {
 		//Adds hover text if analysis pass
 		analysisHover += "Program "+programNumber+": Passed<br/>" ;
 		$('#Lexer_log').text($('#Lexer_log').val()+ast.toString()+"\n");
-		$('#Lexer_log').text($('#Lexer_log').val()+"Program "+programNumber+" Scope Tree\n"+st.toString()+"\n\n");
+		$('#Lexer_log').text($('#Lexer_log').val()+"Program "+programNumber+" Scope Tree\n"+st.toString()+"\n");
+		$('#Lexer_log').text($('#Lexer_log').val()+"The Symbol Table is located below in the Symbol Table tab.\n\n");
 	} else {
 		//Adds hover text if analysis fails
 		analysisHover += "Program "+programNumber+": Error<br/>" ;
 		//increas analysisfail count
 		analysisfail++;
 		//No AST to show
-		var text = "No AST to show due to a semantic analysis error";
+		var text = "No AST or Symbol Table to show due to a semantic analysis error";
 		$('#Lexer_log').text($('#Lexer_log').val()+text+"\n\n");
 	}
 	//Scroll to the bottom of the log

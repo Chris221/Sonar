@@ -26,6 +26,10 @@ class Symbol {
 		return this.line;
 	}
 
+	getScope() {
+		return this.scope;
+	}
+
 	getDetails() {
 		var details = {
 			type: this.type,

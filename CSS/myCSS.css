@@ -58,6 +58,10 @@ body {
 	height: 300px;
 	margin-bottom: 10px;
 }
+td {
+	border: 1px solid;
+	min-width: 50px;
+}
 .page-right {
 	display: inline-block;
 	width: calc(50% - 5px);
@@ -84,6 +88,9 @@ body {
 	width: 100%;
 	display: block;
 	font-size: inherit !important;
+}
+.symboltable {
+	overflow-y: auto;
 }
 .input {
 	padding: 0 0 !important;
