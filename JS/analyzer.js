@@ -116,8 +116,9 @@ function setVarUsed(id, level) {
                 level.symbols[i].utilized = true;
             }
         }
+    }
     //If higher level, search there
-    } else if (level.parent != undefined || level.parent != null) {
+    if (level.parent != undefined || level.parent != null) {
         //calls a search in the higher levels
         setVarUsed(id,level.parent);
     }
@@ -137,8 +138,9 @@ function setVarValue(id, val, level) {
                 level.symbols[i].value = val;
             }
         }
+    }
     //If higher level, search there
-    } else if (level.parent != undefined || level.parent != null) {
+    if (level.parent != undefined || level.parent != null) {
         //calls a search in the higher levels
         setVarValue(id,val,level.parent);
     }
@@ -164,8 +166,9 @@ function getVarType(id,level) {
                 return level.symbols[i].type;
             }
         }
+    }
     //If higher level, search there
-    } else if (level.parent != undefined || level.parent != null) {
+    if (level.parent != undefined || level.parent != null) {
         //calls a search in the higher levels
         return getVarType(id,level.parent);
     }
@@ -182,8 +185,9 @@ function getVarValue(id,level) {
                 return level.symbols[i].value;
             }
         }
+    }
     //If higher level, search there
-    } else if (level.parent != undefined || level.parent != null) {
+    if (level.parent != undefined || level.parent != null) {
         //calls a search in the higher levels
         return getVarValue(id,level.parent);
     }
