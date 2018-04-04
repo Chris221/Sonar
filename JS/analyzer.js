@@ -408,7 +408,7 @@ function aAssignmentStatement() {
     //if ASSIGNMENT_OPERATOR
     if (aCurrentToken.type == "ID") {
         var id = aCurrentToken.value;
-        var type = getVarType(id, st.cur);
+        var type = getVarType(id,st.cur);
         if (type == undefined) {
             //increases errors
             aErrors++;
