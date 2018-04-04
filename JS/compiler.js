@@ -318,6 +318,9 @@ function compileAnalysis() {
 		//No AST to show
 		var text = "No AST or Symbol Table to show due to a semantic analysis error";
 		$('#Lexer_log').text($('#Lexer_log').val()+text+"\n\n");
+		//Also outputs that to the symbol table
+		symboltable += "Program "+programNumber+"<br />No Symbol table due to a semantic analysis error<br />";
+		$('#symboltable').html(symboltable);
 	}
 	//Scroll to the bottom of the log
 	logScroll();
