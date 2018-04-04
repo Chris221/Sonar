@@ -760,6 +760,19 @@ function aBooleanExpr() {
             //goes to expression
             aExpr();
         }
+        if (ast.cur.children.length >= 2) {
+            for (var i = 0; i < (ast.cur.children.length-1); i++) {
+                console.log("before check")
+                if (ast.cur.children[i].type == "ID" && ast.cur.children[i+1].type == "ID") {
+                    if (getVarType(ast.cur.children[i].name, st.cur) != getVarType(ast.cur.children[i+1].name, st.cur)) {
+                        //increases errors
+                        aErrors++;
+                        //outputs error
+                        analysisLog("ERROR! ID [ "+ast.cur.children[i].name+" ] on line "+ast.cur.children[i].line+" type [ "+getVarType(ast.cur.children[i].name, st.cur)+" ] cannot be compared to [ "+getVarType(ast.cur.children[i+1].name, st.cur)+" ]...");
+                    }
+                }
+            }
+        }
 
         if (aCurrentToken.type == "RIGHT_PARENTHESES") {
             //changes the token
