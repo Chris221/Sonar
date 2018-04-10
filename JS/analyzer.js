@@ -75,24 +75,25 @@ function checkIfVarExists(id) {
     }
 }
 
-function buildSymbolTable(level) {
-    //sets return value
-    var r = "";
+function buildSymbolTable(level, r = "") {
     //if the current level has symbols
-    if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
+    if (level.symbols.length > 0) {
         //for each symbol 
         for(var i = 0; i < level.symbols.length; i++) {
             //add row to table
             r += "<tr><td>"+level.symbols[i].getKey()+"</td><td>"+level.symbols[i].getType()+"</td><td>"+level.symbols[i].getScope()+"</td><td>"+level.symbols[i].getLine()+"</td></tr>";
         }
-        //return table
-        return r;
-    //If higher level, search there
     }
-    if (level.parent != undefined || level.parent != null) {
-        //calls a search in the higher levels
-        return buildSymbolTable(level.parent);
+    //If lower level, search there
+    if (level.children != undefined || level.children != null) {
+        //loops through all children
+        for (var j = 0; j < level.children.length; j++) {
+            //calls a search in the lover levels
+            r = buildSymbolTable(level.children[j],r);
+        }
     }
+    //return table
+    return r;
 }
 
 function checkIfAllVarsUsed(level) {
@@ -461,7 +462,11 @@ function aAssignmentStatement() {
         if (!addingValue) {
             //when adding set the temp globals to the locals
             tempID = id;
-            tempType = type.toUpperCase();
+            try {
+                tempType = type.toUpperCase();
+            } catch (e) {
+                tempType = null;
+            }
             //turn on adding value bool
             addingValue = true;
             //if temps don't exist
@@ -511,6 +516,19 @@ function aAssignmentStatement() {
                     } else {
                         tempValue = null;
                     }
+                } else if (tempType == "BOOLEAN") {
+                    if (Number(aCurrentToken.value) > 0) {
+                        var t = true;
+                    } else {
+                        t = false;
+                    }
+                    //add the value
+                    setVarValue(tempID,t,st.cur);
+                    //reset the tempory bool and ID
+                    addingValue = false;
+                    tempID = null;
+                    tempType = null;
+                    tempValue = null;
                 } else {
                     //increases errors
                     aErrors++;
@@ -519,10 +537,17 @@ function aAssignmentStatement() {
                 }
             //an id
             } else if (aCurrentToken.type == "ID") {
+                var cvType = getVarType(aCurrentToken.value,st.cur).toUpperCase();
+                if (tempType != cvType) {
+                    //increases errors
+                    aErrors++;
+                    //outputs error
+                    analysisLog("ERROR! Type mismatch [ "+id+" ] on line "+aCurrentToken.line+" is defined as [ "+tempType+" ] and was assigned [ "+cvType+" ]...");
+                }
                 //if temp is 0
                 if (tempValue == 0) {
                     //set temp
-                    tempValue = Number(getVarValue(aCurrentToken.value,st.cur));
+                    tempValue = getVarValue(aCurrentToken.value,st.cur);
                 //otherwise
                 } else {
                     //add them together
@@ -772,6 +797,19 @@ function aStringExpr() {
             if (tempType == "STRING") {
                 //add the value
                 setVarValue(tempID,s,st.cur);
+                //reset the tempory bool and ID
+                addingValue = false;
+                tempID = null;
+                tempType = null;
+                tempValue = null;
+            } else if (tempType == "BOOLEAN") {
+                if (s.length > 0) {
+                    var t = true;
+                } else {
+                    t = false;
+                }
+                //add the value
+                setVarValue(tempID,t,st.cur);
                 //reset the tempory bool and ID
                 addingValue = false;
                 tempID = null;

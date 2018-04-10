@@ -249,7 +249,7 @@ function compileParser() {
 			   "\n"+
 			   "==============================";
 	//runs parser gets the cst
-	if (cst = parser(tokens)) {
+	if (!parser(tokens)) {
 		//Sets success output text
 		text = "==============================\n"+
 			   "\n"+
