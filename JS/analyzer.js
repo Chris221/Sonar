@@ -355,6 +355,8 @@ function aBlock() {
     scopeLevel--;
     // Kicks you one Scope up the Symbol Tree
     st.kick();
+    //backs out a branch
+    ast.kick();
 }
 
 function aStatementList() {
