@@ -90,7 +90,7 @@ function addHex(val) {
 }
 
 function toHex(val) {
-    return pad(toHexidecimal(val.charCodeAt(0)), 2, '0');
+    return pad(toHexidecimal(val.charCodeAt(0)), 2, '0').toUpperCase();
  }
  
   function numtoHex(val) {
@@ -329,6 +329,6 @@ function addToHeap(str) {
         heap.unshift(toHex(str.charAt(i)));
         heapAddress--;
     }
-    codeLog("Added string [ "+str+" ] to heap, address "+heapAddress+"...");
+    codeLog("Added string [ "+str+" ] to heap, address "+heapAddress+" [ "+numtoHex(heapAddress)+" ]...");
     return heapAddress;
 }
