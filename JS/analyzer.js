@@ -193,16 +193,12 @@ function isThere(id, level) {
 }
 
 function getaVarType(id, level) {
-    console.log("getaVarType")
     //if the current level has symbols
     if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
-        console.log("k")
         //Gets the type of ID
         for (var i = 0; i < level.symbols.length; i++) {
-            console.log("Searching..")
             //when the correct ID is found
             if (id == level.symbols[i].getKey()) {
-                console.log("found")
                 //returns the type
                 return level.symbols[i].type;
             }
@@ -210,7 +206,6 @@ function getaVarType(id, level) {
     }
     //If higher level, search there
     if (level.parent != undefined || level.parent != null) {
-        console.log("deeper we go")
         //calls a search in the higher levels
         return getaVarType(id, level.parent);
     }
@@ -457,9 +452,7 @@ function aAssignmentStatement() {
     if (aCurrentToken.type == "ID") {
         //sets the id and type for later
         var id = aCurrentToken.value;
-        console.log(id)
         var type = getaVarType(id, st.cur);
-        console.log(type)
         if (type == undefined) {
             //increases errors
             aErrors++;
