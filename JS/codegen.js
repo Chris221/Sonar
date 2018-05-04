@@ -139,6 +139,28 @@ function backpatch() {
             }
         }
     }
+    //if outputting
+    if (verbose) {
+        //Outputs the change to the new address
+        codeLog("Replacing [ XX ] with [ 00 ]...");
+    }
+    //checks for the XX
+    if (code.includes("XX")) {
+        //Loops for it
+        for (var i = 0; i < code.length; i++) {
+            //if this element is temp 2
+            if (code[i] == "XX") {
+                //debug
+                if (debug) {
+                    //output found
+                    console.log("Found a XX")
+                }
+                //replace the second temp
+                code[i] = "00";
+            }
+        }
+    }
+
     //end
     codeLog("Backpatching Done...");
 }
