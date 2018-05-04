@@ -85,6 +85,15 @@ function generate() {
         code.push(heap[i])
     }
 
+    //if the code is longer then 256
+    if (code.length > MAX) {
+        //increases errors
+        cErrors++;
+        //outputs error
+        codeLog("ERROR! Not enough memory "+code.length+"/"+MAX+"...");
+    }
+
+    //joins the code in a nice readable string
     codeString = code.join(' ');
 }
 
