@@ -38,4 +38,34 @@ function generate() {
     traverseTree(ast.root, 0);
     addHex(breakOp);
 }
+
+function traverseTree(pos, depth) {
+    if (!pos.children || pos.children.length === 0) {
+        console.log(pos.name + " at depth " + depth);
+    } else {
+        if (pos.name == "Root")
+            cRoot(pos.children, depth);
+        else if (pos.name == "Program")
+            cProgram(pos.children, depth);
+        else if (pos.name == "Block")
+            cBlock(pos.children, depth);
+        else if (pos.name == "VariableDeclaration")
+            cVarDecl(pos, depth);
+        else if (pos.name == "AssignmentStatement")
+            cAssignState(pos, depth);
+        else if (pos.name == "PrintStatement")
+            cPrintState(pos, depth);
+        else if (pos.name == "IfStatement")
+            cIfState(pos, depth);
+        else if (pos.name == "WhileStatement")
+            cWhileState(pos, depth);
+        else if (pos.name == "Addition") {
+            return cAddition(pos, depth);
+        } else {
+            for (var i = 0; i < pos.children.length; i++) {
+                traverseTree(pos.children[i], depth + 1);
+            }
+        }
+    }
+}
 }
