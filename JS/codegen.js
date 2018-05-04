@@ -225,6 +225,23 @@ function cPrint(pos, depth) {
     //Generating
     codeLog("Generating [ Print ] on line " + pos.line + "..");
 
+    if (pos.children[0].type == "ID") {
+
+    } else if (pos.children[0].type == "CHARLIST") {
+        var address = numtoHex(addToHeap(pos.children[0].name));
+
+        addHex(loadAccFromMemo);
+        addHex(address);
+        addHex(loadYWithConst);
+        addHex(address);
+        addHex(storeAccInMemo);
+        addHex(TEMPORARY_ADDRESS);
+        addHex('XX');
+        addHex(loadXWithConst);
+        addHex(PrintStr);
+        addHex(systemCall);
+    } else {
+    }
     //Finished
     codeLog("Finished [ Print ] on line " + pos.line + "..");
 }
@@ -303,7 +320,7 @@ function cBool(pos, depth) {
     addHex(TEMPORARY_ADDRESS);
     addHex('XX');
     addHex(loadXWithConst);
-    addHex(toHex("1"));
+    addHex(printInt);
     addHex(compareMemoToX);
     addHex(TEMPORARY_ADDRESS);
     addHex('XX');
