@@ -245,30 +245,50 @@ function cAssign(pos, depth) {
 function cPrint(pos, depth) {
     //Generating
     codeLog("Generating [ Print ] on line " + pos.line + "..");
-
+    //id values
     if (pos.children[0].type == "ID") {
         var address = staticData.get(pos.children[0], depth);
         var varType = getTypeFromST(pos.children[0].name, pos.children[0].scope);
 
+        //ID ints
         if (varType == "int") {
+            //int print op codes
             addHex(loadYWithConst);
             addHex(address);
             addHex(loadXWithConst);
             addHex(printInt);
             addHex(systemCall);
+        //ID strings
         } else if (varType == "string") {
+            //string print op codes
             addHex(loadYWithConst);
             addHex(address);
             addHex(loadXWithConst);
             addHex(PrintStr);
             addHex(systemCall);
+        //ID booleans
         } else if (varType == "boolean") {
+            //bool print op codes
+            addHex(loadXWithConst);
+            addHex(printInt);
+            addHex(compareMemoToX);
+            addHex(address);
+            addHex(loadYWithConst);
+            addHex(falseAddress);
+            addHex(branchNBytes);
+            addHex("02");
+            addHex(loadYWithConst);
+            addHex(trueAddress);
+            addHex(loadXWithConst);
+            addHex(PrintStr);
+            addHex(systemCall);
 
         }
-
+    //raw strings
     } else if (pos.children[0].type == "CHARLIST") {
+        //adds the string to heap
         var address = numtoHex(addToHeap(pos.children[0].name));
-
+        //string print op codes
         addHex(loadAccFromMemo);
         addHex(address);
         addHex(loadYWithConst);
@@ -279,6 +299,7 @@ function cPrint(pos, depth) {
         addHex(loadXWithConst);
         addHex(PrintStr);
         addHex(systemCall);
+    //booleans and Ints
     } else {
     }
     //Finished
