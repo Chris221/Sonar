@@ -75,7 +75,7 @@ function toHex(val) {
  }
  
   function numtoHex(val) {
-    return pad(toHexidecimal(parseInt(value)), 2, '0').toUpperCase();
+    return pad(toHexidecimal(parseInt(val)), 2, '0').toUpperCase();
  }
  /* --------------------------------------- End Hex Related Functions --------------------------------------- */
 
@@ -241,21 +241,8 @@ function cDigit(pos, depth) {
     //Generating
     codeLog("Generating [ Digit ] on line " + pos.line + "..");
 
-    //Finished
-    codeLog("Finished [ Digit ] on line " + pos.line + "..");
-}
-
-function cEquality() {
-    //Generating
-    codeLog("Generating [ Equality ] on line " + pos.line + "..");
-
-    //Finished
-    codeLog("Finished [ Equality ] on line " + pos.line + "..");
-}
-
-function cInequality() {
-    //Generating
-    codeLog("Generating [ Inequality ] on line " + pos.line + "..");
+    addHex(loadAccWithConst);
+    addHex(numtoHex(pos.value));
 
     //Finished
     codeLog("Finished [ Inequality ] on line " + pos.line + "..");
