@@ -34,6 +34,11 @@ StaticData.prototype.getKey = function(node, scope) {
     return key;
 };
 
+// Generates the number of variables
+StaticData.prototype.length = function() {
+    return this.currentAddress;
+};
+
 /** 
  * A class that contains data associated with an identifier
  */

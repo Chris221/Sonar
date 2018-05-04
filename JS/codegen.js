@@ -55,6 +55,8 @@ function generate() {
     addHex(breakOp);
 
     $('#Lexer_log').text($('#Lexer_log').val() + "\n");
+    //calls backpatching
+    backpatch();
 
     codeLog("Getting the Code...");
     codeLog("Taking the Heap...");
@@ -67,6 +69,61 @@ function generate() {
     }
 
     codeString = code.join(' ');
+}
+
+//Backpatching!
+function backpatch() {
+    //Begin
+    codeLog("Beginning Backpatching...");
+
+    //gets new address
+    var addressOne = numtoHex(code.length + staticData.length());
+    //if outputting
+    if (verbose) {
+        //Outputs the change to the new address
+        codeLog("Replacing [ " + TEMP_ADDRESS_ONE + " ] with [ " + addressOne + " ]...");
+    }
+    //checks for the first temp value
+    if (code.includes(TEMP_ADDRESS_ONE)) {
+        for (var i = 0; i < code.length; i++) {
+            //if this element is temp 1
+            if (code[i] == TEMP_ADDRESS_ONE) {
+                //debug
+                if (debug) {
+                    //output found
+                    console.log("Found a "+TEMP_ADDRESS_ONE)
+                }
+                //replace the first temp
+                code[i] = addressOne;
+            }
+        }
+    }
+
+    //gets new address
+    var addressTwo = numtoHex(code.length + staticData.length() + 1);
+    //if outputting
+    if (verbose) {
+        //Outputs the change to the new address
+        codeLog("Replacing [ " + TEMP_ADDRESS_TWO + " ] with [ " + addressTwo + " ]...");
+    }
+    //checks for the second temp value
+    if (code.includes(TEMP_ADDRESS_TWO)) {
+        //Loops for it
+        for (var i = 0; i < code.length; i++) {
+            //if this element is temp 2
+            if (code[i] == TEMP_ADDRESS_TWO) {
+                //debug
+                if (debug) {
+                    //output found
+                    console.log("Found a "+TEMP_ADDRESS_TWO)
+                }
+                //replace the second temp
+                code[i] = addressTwo;
+            }
+        }
+    }
+    //end
+    codeLog("Backpatching Done...");
 }
 
 /* ----------------------------------------- Hex Related Functions ----------------------------------------- */
