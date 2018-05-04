@@ -164,10 +164,10 @@ function cAssign(pos, depth) {
 
 function cPrint(pos, depth) {
     //Generating
-    codeLog("Generating [ cPrint ] on line " + pos.line + "..");
+    codeLog("Generating [ Print ] on line " + pos.line + "..");
 
     //Finished
-    codeLog("Finished [ cPrint ] on line " + pos.line + "..");
+    codeLog("Finished [ Print ] on line " + pos.line + "..");
 }
 
 function cWhile(pos, depth) {
@@ -205,9 +205,14 @@ function cEquality(pos, depth) {
     //Finished
     codeLog("Finished [ Equality ] on line " + pos.line + "..");
 }
+
 function cID(pos, depth) {
     //Generating
     codeLog("Generating [ ID ] on line " + pos.line + "..");
+
+    var address = staticData.get(pos, depth);
+    addHex(loadAccFromMemo);
+    addHex(address);
 
     //Finished
     codeLog("Finished [ ID ] on line " + pos.line + "..");
