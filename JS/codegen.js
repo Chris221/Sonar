@@ -88,7 +88,7 @@ function traverseTree(pos, depth) {
         else if (pos.name.includes("Program"))
             cProgram(pos.children, depth);
         else if (pos.name == "Block")
-            cBlock(pos.children, depth);
+            cBlock(pos, depth);
         else if (pos.name == "VarDecl")
             cVarDecl(pos, depth);
         else if (pos.name == "AssignmentStatement")
@@ -147,9 +147,9 @@ function cBlock(pos, depth) {
         codeLog("Found [ " + pos.name + " ] on line " + pos.line + " in scope " + pos.scope + "...");
     }
     //loops through the level
-    for (var i = 0; i < pos.length; i++) {
+    for (var i = 0; i < pos.children.length; i++) {
         //moves deeper on each one
-        traverseTree(pos[i], depth + 1);
+        traverseTree(pos.children[i], depth + 1);
     }
     //Out of scope
     codeLog("Leaving Scope [ "+pos.scope+" ]..");
