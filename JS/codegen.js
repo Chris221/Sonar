@@ -507,6 +507,64 @@ function cEquality(pos, depth) {
     //Generating
     codeLog("Generating [ Equality ] on line " + pos.line + "..");
 
+    if (pos.children[0].type == "CHARLIST" && pos.children[1].type == "CHARLIST") {
+        if (pos.children[0].name == pos.children[1].name) {
+            //loads true
+            addHex(loadAccWithConst);
+            addHex("01");
+            addHex("XX");
+            addHex(loadXWithConst);
+            addHex("01");
+            addHex("XX");
+        } else {
+            //loads false
+            addHex(loadAccWithConst);
+            addHex("01");
+            addHex("XX");
+            addHex(loadXWithConst);
+            addHex("00");
+            addHex("XX");
+        }
+
+        //stores in memory
+        addHex(storeAccInMemo);
+        addHex(TEMP_ADDRESS_ONE);
+        addHex("XX");
+        //compares to memory
+        addHex(compareMemoToX);
+        addHex(TEMP_ADDRESS_ONE);
+    } else {
+        //gets first loaded
+        traverseTree(pos.children[0], depth);
+
+        //stores in memory
+        addHex(storeAccInMemo);
+        addHex(TEMP_ADDRESS_TWO);
+        //gets second loaded
+        traverseTree(pos.children[1], depth);
+
+        //stores in memory
+        addHex(storeAccInMemo);
+        addHex(TEMP_ADDRESS_ONE);
+        //loads from memory
+        addHex(loadXFromMemo);
+        addHex(TEMP_ADDRESS_TWO);
+        //compare to memory
+        addHex(compareMemoToX);
+        addHex(TEMP_ADDRESS_ONE);
+
+        //loads false
+        addHex(loadAccWithConst);
+        addHex("00");
+        addHex("XX");
+        //jump 2 if true
+        addHex(BRANCH_IF_Z_FLAG_EQUALS_ZERO);
+        addHex("02");
+        //true
+        addHex(loadAccWithConst);
+        addHex("01");
+        addHex("XX");
+    }
 
     //Finished
     codeLog("Finished [ Equality ] on line " + pos.line + "..");
