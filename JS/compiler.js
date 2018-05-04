@@ -271,7 +271,7 @@ function compileParser() {
 			   "\n"+
 			   "==============================";
 	}
-	//Outputs the Lexer output
+	//Outputs the parser output
 	$('#Lexer_log').text($('#Lexer_log').val()+"\n\n"+text+"\n\n");
 
 	//if parsed output the cst
@@ -315,7 +315,7 @@ function compileAnalysis() {
 			   "\n"+
 			   "==============================";
 	}
-	//Outputs the Lexer output
+	//Outputs the analysis output
 	$('#Lexer_log').text($('#Lexer_log').val()+"\n\n"+text+"\n\n");
 
 	//if analyzer output the ast
