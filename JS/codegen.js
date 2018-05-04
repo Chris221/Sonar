@@ -49,22 +49,39 @@ function codeLog(text, override = false) {
 }
 
 function generate() {
+    //adds true to heap, gets location
     trueAddress = numtoHex(addToHeap('true'));
+    //adds false to heap, gets location
     falseAddress = numtoHex(addToHeap('false'));
+    //starts the tree movement
     traverseTree(ast.root, 0);
+    //adds a break to the very end for clean eanding
     addHex(breakOp);
 
-    $('#Lexer_log').text($('#Lexer_log').val() + "\n");
     //calls backpatching
     backpatch();
 
-    codeLog("Getting the Code...");
-    codeLog("Taking the Heap...");
-    codeLog("Putting them together with 00s...");
+    //if outputting
+    if (verbose) {
+        //break lines in the log
+        $('#Lexer_log').text($('#Lexer_log').val() + "\n");
+
+        //random banter for outputing code and heap being combined
+        codeLog("Getting the Code...");
+        codeLog("Taking the Heap...");
+        codeLog("Putting them together with 00s...");
+        //outs the memory 
+        codeLog("Memory  "+(code.length+heap.length)+"/"+MAX+"...");
+    }
+    
+    //if the heap and code arent a full 256
     for (var i = code.length; i < MAX - heap.length; i++) {
+        //adds empty space
         code.push("00");
     }
+    //loops through heap
     for (var i = 0; i < heap.length; i++) {
+        //adds the heap to the code
         code.push(heap[i])
     }
 
@@ -142,17 +159,22 @@ function toHexidecimal(str) {
 }
 
 function addHex(val) {
+    //adds the hex to the Array
     code.push(val);
+    //if outputing
     if (verbose) {
+        //output to log
         codeLog("Pushing [ " + val + " ] byte to memory...");
     }
 }
 
 function toHex(val) {
+    //turns chars into HEX
     return pad(toHexidecimal(val.charCodeAt(0)), 2, '0').toUpperCase();
  }
  
   function numtoHex(val) {
+    //turns ints into HEX
     return pad(toHexidecimal(parseInt(val)), 2, '0').toUpperCase();
  }
  /* --------------------------------------- End Hex Related Functions --------------------------------------- */
