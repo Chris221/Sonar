@@ -52,25 +52,11 @@ function addHex(val) {
 }
 
 function toHex(val) {
-    var hex = "";
-    for(var i = 0; i < val.length; i++) {
-        hex += "" + val.charCodeAt(i).toString(16).toUpperCase();
-    }
-    hex = chunk(hex, 2);
-    return hex;
- }
- 
- function chunk(str, n) {
-    var r = [];
-    for(i = 0; i < str.length; i += n) {
-        r.push(str.substr(i, n));
-    }
-    return r;
+    return pad(toHexidecimal(val.charCodeAt(0)), 2, '0');
  }
  
   function numtoHex(val) {
-     var val = val.toString(16).toUpperCase();
-     return val;
+    return pad(toHexidecimal(parseInt(value)), 2, '0').toUpperCase();
  }
  /* --------------------------------------- End Hex Related Functions --------------------------------------- */
 
