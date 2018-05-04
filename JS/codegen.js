@@ -6,12 +6,12 @@ var staticData = new StaticData();
 var codeString = "";
 var heap = [];
 var heapAddress = 256;
+var trueAddress;
+var falseAddress;
 
 var MAX = 256;
-var TEMPORARY_ADDRESS = "X1";
-var SECONDARY_TEMPORARY_ADDRESS = "X2";
-var trueAddress = "FB";
-var falseAddress = "F5";
+var TEMP_ADDRESS_ONE = "X1";
+var TEMP_ADDRESS_TWO = "X2";
 
 function gen(ast) {
     tree = ast;
@@ -100,6 +100,27 @@ function toHex(val) {
  }
  /* --------------------------------------- End Hex Related Functions --------------------------------------- */
 
+ function getTypeFromST(id, scope, start = st.cur) {
+    //if the current level has symbols
+    for (var i = 0; i < start.symbols.length; i++) {
+        //when the correct ID is found
+        if (id == start.symbols[i].getKey() && scope == start.symbols[i].scope) {
+            //returns the type
+            return start.symbols[i].type;
+        } else if (id == start.symbols[i].getKey() && scope >= start.symbols[i].scope) {
+            //returns the type
+            return start.symbols[i].type;
+        }
+    }
+    //If lower level, search there
+    if (start.children != undefined || start.children != null) {
+        //calls a search in the lower levels
+        for (var i = 0; i < start.children.length; i++) {
+            return getTypeFromST(id, scope, start.children[i]);
+        }
+    }
+}
+
 function traverseTree(pos, depth) {
     if (pos.name == "Root")
             cRoot(pos.children, depth);
@@ -180,12 +201,12 @@ function cAddition(pos, depth) {
 
     traverseTree(pos.children[0], depth);
     addHex(storeAccInMemo);
-    addHex(TEMPORARY_ADDRESS);
+    addHex(TEMP_ADDRESS_ONE);
     addHex('XX');
     addHex(loadAccWithConst);
     addHex(numtoHex(pos.children[0].name));
     addHex(addWithCarry);
-    addHex(TEMPORARY_ADDRESS);
+    addHex(TEMP_ADDRESS_ONE);
     addHex('XX');
 
     //Finished
@@ -226,6 +247,17 @@ function cPrint(pos, depth) {
     codeLog("Generating [ Print ] on line " + pos.line + "..");
 
     if (pos.children[0].type == "ID") {
+        var address = staticData.get(pos.children[0], depth);
+        var varType = getTypeFromST(pos.children[0].name, pos.children[0].scope);
+        console.log(varType)
+
+        if (varType == "int") {
+
+        } else if (varType == "string") {
+
+        } else if (varType == "boolean") {
+
+        }
 
     } else if (pos.children[0].type == "CHARLIST") {
         var address = numtoHex(addToHeap(pos.children[0].name));
@@ -235,7 +267,7 @@ function cPrint(pos, depth) {
         addHex(loadYWithConst);
         addHex(address);
         addHex(storeAccInMemo);
-        addHex(TEMPORARY_ADDRESS);
+        addHex(TEMP_ADDRESS_ONE);
         addHex('XX');
         addHex(loadXWithConst);
         addHex(PrintStr);
@@ -317,12 +349,12 @@ function cBool(pos, depth) {
         addHex(toHex("0"));
     }
     addHex(storeAccInMemo);
-    addHex(TEMPORARY_ADDRESS);
+    addHex(TEMP_ADDRESS_ONE);
     addHex('XX');
     addHex(loadXWithConst);
     addHex(printInt);
     addHex(compareMemoToX);
-    addHex(TEMPORARY_ADDRESS);
+    addHex(TEMP_ADDRESS_ONE);
     addHex('XX');
 
     //Finished
