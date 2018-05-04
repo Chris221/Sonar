@@ -5,8 +5,8 @@ var cWarnings = 0;
 var staticData = new StaticData();
 var codeString = "";
 
-var TEMPORARY_ADDRESS = "TMP1";
-var SECONDARY_TEMPORARY_ADDRESS = "TMP2";
+var TEMPORARY_ADDRESS = "X1";
+var SECONDARY_TEMPORARY_ADDRESS = "X2";
 
 function gen(ast) {
     tree = ast;
@@ -80,10 +80,7 @@ function toHex(val) {
  /* --------------------------------------- End Hex Related Functions --------------------------------------- */
 
 function traverseTree(pos, depth) {
-    if (!pos.children || pos.children.length === 0) {
-        console.log(pos.name + " at depth " + depth);
-    } else {
-        if (pos.name == "Root")
+    if (pos.name == "Root")
             cRoot(pos.children, depth);
         else if (pos.name.includes("Program"))
             cProgram(pos.children, depth);
@@ -248,9 +245,25 @@ function cDigit(pos, depth) {
     codeLog("Finished [ Digit ] on line " + pos.line + "..");
 }
 
-function cBool() {
+function cBool(pos, depth) {
     //Generating
     codeLog("Generating [ Bool ] on line " + pos.line + "..");
+
+    if (pos.value === 'true') {
+        addHex(loadAccWithConst);
+        addHex(toHex("1"));
+    } else {
+        addHex(loadAccWithConst);
+        addHex(toHex("0"));
+    }
+    addHex(storeAccInMemo);
+    addHex(TEMPORARY_ADDRESS);
+    addHex('XX');
+    addHex(loadXWithConst);
+    addHex(toHex("1"));
+    addHex(compareMemoToX);
+    addHex(TEMPORARY_ADDRESS);
+    addHex('XX');
 
     //Finished
     codeLog("Finished [ Bool ] on line " + pos.line + "..");

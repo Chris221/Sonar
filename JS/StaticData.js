@@ -11,7 +11,7 @@ function StaticData() {
 
 // Adds a variable to the static data table
 StaticData.prototype.add = function(node, scope) {
-    var adjustedAddress = 'T' + pad(this.currentAddress++, 3, '0');
+    var adjustedAddress = 'T' + this.currentAddress++;
     this.variables[this.getKey(node, scope)] = new IdentifierVariable(adjustedAddress, this.offset++);
     return adjustedAddress;
 };
