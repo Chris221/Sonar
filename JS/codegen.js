@@ -35,4 +35,7 @@ function codeLog(text, override = false) {
 }
 
 function generate() {
+    traverseTree(ast.root, 0);
+    addHex(breakOp);
+}
 }
