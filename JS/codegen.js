@@ -116,7 +116,6 @@ function traverseTree(pos, depth) {
                 traverseTree(pos.children[i], depth);
             }
         }
-    }
 }
 
 function cRoot(pos, depth) {
@@ -180,6 +179,12 @@ function cVarDecl(pos, depth) {
 function cAssign(pos, depth) {
     //Generating
     codeLog("Generating [ Assignment ] on line " + pos.line + "..");
+
+    traverseTree(pos.children[1], pos.scope);
+    var address = staticData.get(pos.children[0], depth);
+    addHex(storeAccInMemo);
+    addHex(address);
+    addHex('XX');
 
     //Finished
     codeLog("Finished [ Assignment ] on line " + pos.line + "..");
