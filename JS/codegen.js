@@ -68,4 +68,12 @@ function traverseTree(pos, depth) {
         }
     }
 }
+
+function cRoot(pos, depth) {
+    for (var i = 0; i < pos.length; i++) {
+        traverseTree(pos[i], depth + 1);
+    }
+
+    return code.length;
+}
 }
