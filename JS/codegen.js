@@ -63,6 +63,7 @@ function traverseTree(pos, depth) {
             return cAddition(pos, depth);
         } else {
             for (var i = 0; i < pos.children.length; i++) {
+                //moves deeper on each one
                 traverseTree(pos.children[i], depth + 1);
             }
         }
@@ -70,9 +71,31 @@ function traverseTree(pos, depth) {
 }
 
 function cRoot(pos, depth) {
+    //loops through the level
     for (var i = 0; i < pos.length; i++) {
+        //moves deeper on each one
         traverseTree(pos[i], depth + 1);
     }
+}
+
+function cProgram(pos, depth) {
+    //loops through the level
+    for (var i = 0; i < pos.length; i++) {
+        //moves deeper on each one
+        traverseTree(pos[i], depth + 1);
+    }
+}
+
+function cBlock(pos, depth) {
+    if (verbose) {
+        codeLog("Found [ " + pos.name + " ] on line " + pos.line + " in scope " + pos.scope + "...");
+    }
+    //loops through the level
+    for (var i = 0; i < pos.length; i++) {
+        //moves deeper on each one
+        traverseTree(pos[i], depth + 1);
+    }
+}
 
     return code.length;
 }
