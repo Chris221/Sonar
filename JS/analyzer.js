@@ -276,7 +276,7 @@ function addBranch(name) {
     ast.addNode(name, "branch", aCurrentToken.line, scope, name);
 }
 
-//Sets the parsers log
+//Sets the analysis log
 function analysisLog(text,override = false) {
     //Appends new logging to current log
     var lText = $('#Lexer_log').val()+"ANALYZER -- "+text+"\n";
