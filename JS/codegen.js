@@ -301,6 +301,33 @@ function cPrint(pos, depth) {
         addHex(systemCall);
     //booleans and Ints
     } else {
+        //processes booleans and Ints
+        traverseTree(pos.children[0],depth);
+        //raw boolean print codes
+        if (pos.children[0].type == "Bool" || pos.children[0].type == "Equality" || pos.children[0].type == "Inequality") {
+            //boolean print op codes
+            addHex(loadXWithConst);
+            addHex(printInt);
+            addHex(loadYWithConst);
+            addHex(falseAddress);
+            addHex(branchNBytes);
+            addHex("02");
+            addHex(loadYWithConst);
+            addHex(trueAddress);
+            addHex(loadXWithConst);
+            addHex(PrintStr);
+            addHex(systemCall);
+        //raw int print codes
+        } else {
+            //int print op codes
+            addHex(loadXWithConst);
+            addHex(printInt);
+            addHex(storeAccInMemo);
+            addHex(TEMP_ADDRESS_ONE);
+            addHex(loadYFromMemo);
+            addHex(TEMP_ADDRESS_ONE);
+            addHex(systemCall);
+        }
     }
     //Finished
     codeLog("Finished [ Print ] on line " + pos.line + "..");
