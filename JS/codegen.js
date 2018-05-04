@@ -3,6 +3,8 @@ var code = [];
 var cErrors = 0;
 var cWarnings = 0;
 var staticData = new StaticData();
+var codeString = "";
+
 var TEMPORARY_ADDRESS = "TMP1";
 var SECONDARY_TEMPORARY_ADDRESS = "TMP2";
 
@@ -12,10 +14,11 @@ function gen(ast) {
     cErrors = 0;
     cWarnings = 0;
     staticData = new StaticData();
+    codeString = "";
 
-    code = generate();
+    generate();
 
-    return code;
+    return codeString;
 }
 
 //Sets the code log
@@ -41,6 +44,8 @@ function codeLog(text, override = false) {
 function generate() {
     traverseTree(ast.root, 0);
     addHex(breakOp);
+
+    codeString = code.join(' ');
 }
 
 /* ----------------------------------------- Hex Related Functions ----------------------------------------- */

@@ -351,23 +351,26 @@ function compileCode() {
 	//Sets failed output text
 	var text = "==============================\n" +
 		"\n" +
-		"                      Code Gen Failed         \n" +
+		"                      Code Gen Passed         \n" +
 		"\n" +
 		"==============================";
 	//runs code gen to get the code
-	if (gen(ast) == 0) {
+	if (code = gen(ast)) {
 		//Sets success output text
 		text = "==============================\n" +
 			"\n" +
-			"                      Code Gen Passed         \n" +
+			"                      Code Gen Failed         \n" +
 			"\n" +
 			"==============================";
 	}
+	//Outputs the code
+	$('#Lexer_log').text($('#Lexer_log').val() + code + "\n");
+	$('#codeBox').text($('#codeBox').val() + code + "\n");
 	//Outputs the code gen output
 	$('#Lexer_log').text($('#Lexer_log').val() + "\n\n" + text + "\n\n");
 
 	//if code
-	if (!gErrors) {
+	if (!cErrors) {
 		//Adds hover text if analysis pass
 		codeHover += "Program " + programNumber + ": Passed<br/>";
 	} else {
@@ -379,7 +382,7 @@ function compileCode() {
 	//Scroll to the bottom of the log
 	logScroll();
 	//returns pass/fall
-	return gErrors;
+	return cErrors;
 }
 
 function changeVisualizer() {
