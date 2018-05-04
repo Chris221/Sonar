@@ -139,6 +139,33 @@ function backpatch() {
             }
         }
     }
+
+    //loops through variables and defines there new locations
+    for (var key in staticData.variables) {
+        //gets new address location
+        var newAddress = numtoHex(code.length + staticData.variables[key].offset);
+        //gets the temp address location
+        var tempAddress = staticData.variables[key].address;
+        //if outputting
+        if (verbose) {
+            //Outputs the change to the new address
+            codeLog("Replacing [ " + tempAddress + " ] with [ " + newAddress + " ]...");
+        }
+        //Loops for it
+        for (var i = 0; i < code.length; i++) {
+            //if this element is tempAddress 
+            if (code[i] == tempAddress) {
+                //debug
+                if (debug) {
+                    //output found
+                    console.log("Found a "+tempAddress)
+                }
+                //replace the second temp
+                code[i] = newAddress;
+            }
+        }
+    }
+    
     //if outputting
     if (verbose) {
         //Outputs the change to the new address

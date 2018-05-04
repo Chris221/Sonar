@@ -355,17 +355,23 @@ function compileCode() {
 		"\n" +
 		"==============================";
 	//runs code gen to get the code
-	if (code = gen(ast)) {
+	code = gen(ast);
+	if (!cErrors) {
+
 		//Sets success output text
 		text = "==============================\n" +
 			"\n" +
 			"                      Code Gen Passed         \n" +
 			"\n" +
 			"==============================";
+			//Outputs the code
+			$('#Lexer_log').text($('#Lexer_log').val() + "\n" + code);
+			$('#codeBox').text($('#codeBox').val() + code + "\n");
+	} else {
+		$('#Lexer_log').text($('#Lexer_log').val() + "\nNo code due to Code Generation Error");
+		$('#codeBox').text($('#codeBox').val() + "No code due to Code Generation Error\n");
+
 	}
-	//Outputs the code
-	$('#Lexer_log').text($('#Lexer_log').val() + "\n" + code);
-	$('#codeBox').text($('#codeBox').val() + code + "\n");
 	//Outputs the code gen output
 	$('#Lexer_log').text($('#Lexer_log').val() + "\n\n" + text + "\n\n");
 
