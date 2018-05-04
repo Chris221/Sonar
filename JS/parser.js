@@ -434,7 +434,7 @@ function expr() {
         //go to string expression
         stringExpr();
         //if left parentheses
-    } else if (currentToken.type == "LEFT_PARENTHESES" || currentToken.type == "TRUE" || currentToken.type == "FALSE") {
+    } else if (currentToken.type == "LEFT_PARENTHESES" || currentToken.type == "BOOL") {
         //go to boolean expression
         booleanExpr();
         //if left parentheses
@@ -655,7 +655,7 @@ function whileStatement() {
     //changes the token
     getToken();
     //if LEFT_PARENTHESES, TRUE, or FALSE
-    if (currentToken.type == "LEFT_PARENTHESES" || currentToken.type == "TRUE" || currentToken.type == "FALSE") {
+    if (currentToken.type == "LEFT_PARENTHESES" || currentToken.type == "BOOL") {
         //go to boolean expression
         booleanExpr();
         //changes the token
@@ -686,7 +686,7 @@ function ifStatement() {
     //changes the token
     getToken();
     //if LEFT_PARENTHESES, TRUE, or FALSE
-    if (currentToken.type == "LEFT_PARENTHESES" || currentToken.type == "TRUE" || currentToken.type == "FALSE") {
+    if (currentToken.type == "LEFT_PARENTHESES" || currentToken.type == "BOOL") {
         //go to boolean expression
         booleanExpr();
         //changes the token

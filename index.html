@@ -13,6 +13,9 @@
 	<script type="text/javascript" src="JS/symbol.js"></script>
 	<script type="text/javascript" src="JS/symbolTree.js"></script>
 	<script type="text/javascript" src="JS/analyzer.js"></script>
+	<script type="text/javascript" src="JS/codegen.js"></script>
+	<script type="text/javascript" src="JS/6502a.js"></script>
+	<script type="text/javascript" src="JS/jump-table-val.js"></script>
 	<script type="text/javascript" src="JS/testPrograms.js"></script>
 	<!-- Bootstrap -->
 	<link type="text/css" rel="stylesheet" href="bootstrap-4.0.0/css/bootstrap.min.css">
@@ -90,7 +93,7 @@
 			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="lexer">Lexer</button>&emsp;
 			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="parser">Parser</button>&emsp;
 			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="analysis">Semantic Analysis</button>&emsp;
-			<button class="btn btn-secondary" id="4">Code Generation</button>
+			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="code">Code Generation</button>
 		</span>
 		<span class="page-left">
 			<div class="container">
@@ -213,6 +216,11 @@
 		</span>
 		<span class="page-bottom">
 			<div class="container text-center">
+				<div class="row">
+					<div class="col-sm">
+							<div class="codeBox form-control" id="codeBox" placeholder="No Code Currently" readonly>No Code Currently</div>
+					</div>
+				</div>
 				<hr />
 				Projects:<br />
 				<small>

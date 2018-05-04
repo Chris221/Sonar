@@ -186,19 +186,23 @@ function isThere(id, level) {
     //If higher level, search there
     if (level.parent != undefined || level.parent != null) {
         //calls a search in the higher levels
-        return getVarType(id, level.parent);
+        return isThere(id, level.parent);
     }
     //or doesn't
     return false;
 }
 
-function getVarType(id, level) {
+function getaVarType(id, level) {
+    console.log("getaVarType")
     //if the current level has symbols
     if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
+        console.log("k")
         //Gets the type of ID
         for (var i = 0; i < level.symbols.length; i++) {
+            console.log("Searching..")
             //when the correct ID is found
             if (id == level.symbols[i].getKey()) {
+                console.log("found")
                 //returns the type
                 return level.symbols[i].type;
             }
@@ -206,8 +210,9 @@ function getVarType(id, level) {
     }
     //If higher level, search there
     if (level.parent != undefined || level.parent != null) {
+        console.log("deeper we go")
         //calls a search in the higher levels
-        return getVarType(id, level.parent);
+        return getaVarType(id, level.parent);
     }
 }
 
@@ -452,7 +457,9 @@ function aAssignmentStatement() {
     if (aCurrentToken.type == "ID") {
         //sets the id and type for later
         var id = aCurrentToken.value;
-        var type = getVarType(id, st.cur);
+        console.log(id)
+        var type = getaVarType(id, st.cur);
+        console.log(type)
         if (type == undefined) {
             //increases errors
             aErrors++;
@@ -465,6 +472,7 @@ function aAssignmentStatement() {
             try {
                 tempType = type.toUpperCase();
             } catch (e) {
+                e.printstack
                 tempType = null;
             }
             //turn on adding value bool
@@ -537,7 +545,7 @@ function aAssignmentStatement() {
                 }
                 //an id
             } else if (aCurrentToken.type == "ID") {
-                var cvType = getVarType(aCurrentToken.value, st.cur).toUpperCase();
+                var cvType = getaVarType(aCurrentToken.value, st.cur).toUpperCase();
                 if (tempType != cvType) {
                     //increases errors
                     aErrors++;
@@ -561,17 +569,17 @@ function aAssignmentStatement() {
                 tempType = null;
                 tempValue = null;
                 //a bool value
-            } else if ((aCurrentToken.type == "TRUE") || (aCurrentToken.type == "FALSE")) {
+            } else if (aCurrentToken.type == "BOOL") {
                 //if temp type is a bool
                 if (tempType == "BOOLEAN") {
                     //set val
                     var val;
                     //if type is true
-                    if (aCurrentToken.type == "TRUE") {
+                    if (aCurrentToken.value == "true") {
                         //set bool val
                         val = true;
                         //if type is false
-                    } else if (aCurrentToken.type == "FALSE") {
+                    } else if (aCurrentToken.value == "false") {
                         //set bool val
                         val = false;
                     }
@@ -647,7 +655,7 @@ function aWhileStatement() {
     //changes the token
     aGetToken();
     //if LEFT_PARENTHESES, TRUE, or FALSE
-    if (aCurrentToken.type == "LEFT_PARENTHESES" || aCurrentToken.type == "TRUE" || aCurrentToken.type == "FALSE") {
+    if (aCurrentToken.type == "LEFT_PARENTHESES" || aCurrentToken.type == "BOOL") {
         //go to boolean expression
         aBooleanExpr();
         //changes the token
@@ -670,7 +678,7 @@ function aIfStatement() {
     //changes the token
     aGetToken();
     //if LEFT_PARENTHESES, TRUE, or FALSE
-    if (aCurrentToken.type == "LEFT_PARENTHESES" || aCurrentToken.type == "TRUE" || aCurrentToken.type == "FALSE") {
+    if (aCurrentToken.type == "LEFT_PARENTHESES" || aCurrentToken.type == "BOOL") {
         //go to boolean expression
         aBooleanExpr();
         //changes the token
@@ -698,7 +706,7 @@ function aExpr() {
         //go to string expression
         aStringExpr();
         //if left parentheses
-    } else if (aCurrentToken.type == "LEFT_PARENTHESES" || aCurrentToken.type == "TRUE" || aCurrentToken.type == "FALSE") {
+    } else if (aCurrentToken.type == "LEFT_PARENTHESES" || aCurrentToken.type == "BOOL") {
         //go to boolean expression
         aBooleanExpr();
         //if left parentheses
@@ -788,6 +796,8 @@ function aStringExpr() {
 
     //goes to char list
     var s = aCharList();
+    // Creates a leaf
+    ast.addNode(s, "leaf", aCurrentToken.line, scope, "CHARLIST");
 
     //cheks for second quote
     if (aCurrentToken.type == "QUOTE") {
@@ -873,7 +883,7 @@ function aBooleanExpr() {
     if (debug && verbose) {
         analysisLog("booleanExpr..");
     }
-    if (aCurrentToken.type == "TRUE" || aCurrentToken.type == "FALSE") {
+    if (aCurrentToken.type == "BOOL") {
         //goes to aID
         aID();
     }
@@ -911,11 +921,11 @@ function aBooleanExpr() {
                 //if this and the next are both IDs
                 if (ast.cur.children[i].type == "ID" && ast.cur.children[i + 1].type == "ID") {
                     //if the types don't match
-                    if (getVarType(ast.cur.children[i].name, st.cur) != getVarType(ast.cur.children[i + 1].name, st.cur)) {
+                    if (getaVarType(ast.cur.children[i].name, st.cur) != getaVarType(ast.cur.children[i + 1].name, st.cur)) {
                         //increases errors
                         aErrors++;
                         //outputs error
-                        analysisLog("ERROR! ID [ " + ast.cur.children[i].name + " ] on line " + ast.cur.children[i].line + " type [ " + getVarType(ast.cur.children[i].name, st.cur) + " ] cannot be compared to [ " + getVarType(ast.cur.children[i + 1].name, st.cur) + " ]...");
+                        analysisLog("ERROR! ID [ " + ast.cur.children[i].name + " ] on line " + ast.cur.children[i].line + " type [ " + getaVarType(ast.cur.children[i].name, st.cur) + " ] cannot be compared to [ " + getaVarType(ast.cur.children[i + 1].name, st.cur) + " ]...");
                     }
                 }
             }

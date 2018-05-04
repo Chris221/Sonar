@@ -232,7 +232,7 @@ function lexer(input) {
 				//Checks if its intended to be 'true' or just 't'
 				if (line[column + 1] == 'r' && line[column + 2] == 'u' && line[column + 3] == 'e') {
 					//Adds the 'true' token
-					addToken("TRUE", "true", masterLine + 1, column + 1);
+					addToken("BOOL", "true", masterLine + 1, column + 1);
 					//Moves the pointer
 					column += 3;
 					continue;
@@ -248,7 +248,7 @@ function lexer(input) {
 				//Checks if its intended to be 'false' or just 'f'
 				if (line[column + 1] == 'a' && line[column + 2] == 'l' && line[column + 3] == 's' && line[column + 4] == 'e') {
 					//Adds the 'false' token
-					addToken("FALSE", "false", masterLine + 1, column + 1);
+					addToken("BOOL", "false", masterLine + 1, column + 1);
 					//Moves the pointer
 					column += 4;
 					continue;
