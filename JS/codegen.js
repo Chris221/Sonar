@@ -97,7 +97,7 @@ function traverseTree(pos, depth) {
         } else {
             for (var i = 0; i < pos.children.length; i++) {
                 //moves deeper on each one
-                traverseTree(pos.children[i], depth + 1);
+                traverseTree(pos.children[i], depth);
             }
         }
     }
@@ -107,7 +107,7 @@ function cRoot(pos, depth) {
     //loops through the level
     for (var i = 0; i < pos.length; i++) {
         //moves deeper on each one
-        traverseTree(pos[i], depth + 1);
+        traverseTree(pos[i], depth);
     }
 }
 
@@ -115,7 +115,7 @@ function cProgram(pos, depth) {
     //loops through the level
     for (var i = 0; i < pos.length; i++) {
         //moves deeper on each one
-        traverseTree(pos[i], depth + 1);
+        traverseTree(pos[i], depth);
     }
 }
 
