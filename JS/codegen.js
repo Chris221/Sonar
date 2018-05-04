@@ -49,6 +49,20 @@ function generate() {
 }
 
 /* ----------------------------------------- Hex Related Functions ----------------------------------------- */
+// Adds padding to a word to ensure that it is of the specified size
+function pad(word, size, padder) {
+    var paddedWord = "" + word;
+    while (paddedWord.length < size) {
+        paddedWord = padder + paddedWord;
+    }
+    return paddedWord;
+}
+
+// Converts a string to hexidecimal
+function toHexidecimal(str) {
+    return str.toString(16);
+}
+
 function addHex(val) {
     code.push(val);
     if (verbose) {
