@@ -249,12 +249,19 @@ function cPrint(pos, depth) {
     if (pos.children[0].type == "ID") {
         var address = staticData.get(pos.children[0], depth);
         var varType = getTypeFromST(pos.children[0].name, pos.children[0].scope);
-        console.log(varType)
 
         if (varType == "int") {
-
+            addHex(loadYWithConst);
+            addHex(address);
+            addHex(loadXWithConst);
+            addHex(printInt);
+            addHex(systemCall);
         } else if (varType == "string") {
-
+            addHex(loadYWithConst);
+            addHex(address);
+            addHex(loadXWithConst);
+            addHex(PrintStr);
+            addHex(systemCall);
         } else if (varType == "boolean") {
 
         }
