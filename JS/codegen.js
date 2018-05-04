@@ -10,6 +10,8 @@ var heapAddress = 256;
 var MAX = 256;
 var TEMPORARY_ADDRESS = "X1";
 var SECONDARY_TEMPORARY_ADDRESS = "X2";
+var trueAddress = "FB";
+var falseAddress = "F5";
 
 function gen(ast) {
     tree = ast;
@@ -47,6 +49,8 @@ function codeLog(text, override = false) {
 }
 
 function generate() {
+    trueAddress = numtoHex(addToHeap('true'));
+    falseAddress = numtoHex(addToHeap('false'));
     traverseTree(ast.root, 0);
     addHex(breakOp);
 
