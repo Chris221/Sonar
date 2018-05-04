@@ -390,16 +390,18 @@ function cPrint(pos, depth) {
         //ID ints
         if (varType == "int") {
             //int print op codes
-            addHex(loadYWithConst);
+            addHex(loadYFromMemo);
             addHex(address);
+            addHex("XX");
             addHex(loadXWithConst);
             addHex(printInt);
             addHex(systemCall);
         //ID strings
         } else if (varType == "string") {
             //string print op codes
-            addHex(loadYWithConst);
+            addHex(loadYFromMemo);
             addHex(address);
+            addHex("XX");
             addHex(loadXWithConst);
             addHex(PrintStr);
             addHex(systemCall);
@@ -410,6 +412,7 @@ function cPrint(pos, depth) {
             addHex(printInt);
             addHex(compareMemoToX);
             addHex(address);
+            addHex("XX");
             addHex(loadYWithConst);
             addHex(falseAddress);
             addHex(branchNBytes);
@@ -428,6 +431,7 @@ function cPrint(pos, depth) {
         //string print op codes
         addHex(loadAccFromMemo);
         addHex(address);
+        addHex("XX");
         addHex(loadYWithConst);
         addHex(address);
         addHex(storeAccInMemo);
@@ -461,8 +465,10 @@ function cPrint(pos, depth) {
             addHex(printInt);
             addHex(storeAccInMemo);
             addHex(TEMP_ADDRESS_ONE);
+            addHex('XX');
             addHex(loadYFromMemo);
             addHex(TEMP_ADDRESS_ONE);
+            addHex('XX');
             addHex(systemCall);
         }
     }
@@ -533,7 +539,7 @@ function cBool(pos, depth) {
     //Generating
     codeLog("Generating [ Bool ] on line " + pos.line + "..");
 
-    if (pos.value === 'true') {
+    if (pos.name === 'true') {
         addHex(loadAccWithConst);
         addHex(numtoHex("1"));
     } else {
