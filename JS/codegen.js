@@ -166,6 +166,13 @@ function cVarDecl(pos, depth) {
     //Generating
     codeLog("Generating [ Declaration ] on line " + pos.line + "..");
 
+    addHex(loadAccWithConst);
+    addHex('00');
+    var address = staticData.add(pos.children[0], depth);
+    addHex(storeAccInMemo);
+    addHex(address);
+    addHex('XX');
+
     //Finished
     codeLog("Finished [ Declaration ] on line " + pos.line + "..");
 }
