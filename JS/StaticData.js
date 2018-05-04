@@ -22,7 +22,7 @@ StaticData.prototype.get = function(node, scope) {
     
     if (!identifier) {
         var parentScopeLevel = node.parent.scope;
-        identifier = this.variables[node.value + "@" + parentScopeLevel];
+        identifier = this.variables[node.name + "@" + parentScopeLevel];
     }
     
     return identifier.address;
@@ -30,7 +30,7 @@ StaticData.prototype.get = function(node, scope) {
 
 // Generates the key for a given variable
 StaticData.prototype.getKey = function(node, scope) {
-    var key = node.value + "@" + scope;
+    var key = node.name + "@" + scope;
     return key;
 };
 

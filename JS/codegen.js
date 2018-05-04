@@ -386,7 +386,7 @@ function cDigit(pos, depth) {
     codeLog("Generating [ Digit ] on line " + pos.line + "..");
 
     addHex(loadAccWithConst);
-    addHex(numtoHex(pos.value));
+    addHex(numtoHex(pos.name));
 
     //Finished
     codeLog("Finished [ Digit ] on line " + pos.line + "..");
@@ -398,10 +398,10 @@ function cBool(pos, depth) {
 
     if (pos.value === 'true') {
         addHex(loadAccWithConst);
-        addHex(toHex("1"));
+        addHex(numtoHex("1"));
     } else {
         addHex(loadAccWithConst);
-        addHex(toHex("0"));
+        addHex(numtoHex("0"));
     }
     addHex(storeAccInMemo);
     addHex(TEMP_ADDRESS_ONE);
