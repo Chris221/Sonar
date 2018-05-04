@@ -120,6 +120,10 @@ function cProgram(pos, depth) {
 }
 
 function cBlock(pos, depth) {
+    //Generating
+    codeLog("Generating [ Block ] on line " + pos.line + "..");
+    //enter scope
+    codeLog("Entering Scope [ "+pos.scope+" ]..");
     if (verbose) {
         codeLog("Found [ " + pos.name + " ] on line " + pos.line + " in scope " + pos.scope + "...");
     }
@@ -128,29 +132,91 @@ function cBlock(pos, depth) {
         //moves deeper on each one
         traverseTree(pos[i], depth + 1);
     }
+    //Out of scope
+    codeLog("Leaving Scope [ "+pos.scope+" ]..");
+    //Finished
+    codeLog("Finished [ Block ] on line " + pos.line + "..");
 }
 
 function cAddition(pos, depth) {
+    //Generating
+    codeLog("Generating [ Addition ] on line " + pos.line + "..");
+
+    //Finished
+    codeLog("Finished [ Addition ] on line " + pos.line + "..");
 }
 
 function cVarDecl(pos, depth) {
+    //Generating
+    codeLog("Generating [ Declaration ] on line " + pos.line + "..");
+
+    //Finished
+    codeLog("Finished [ Declaration ] on line " + pos.line + "..");
 }
 
 function cAssign(pos, depth) {
+    //Generating
+    codeLog("Generating [ Assignment ] on line " + pos.line + "..");
+
+    //Finished
+    codeLog("Finished [ Assignment ] on line " + pos.line + "..");
 }
 
 function cPrint(pos, depth) {
+    //Generating
+    codeLog("Generating [ cPrint ] on line " + pos.line + "..");
+
+    //Finished
+    codeLog("Finished [ cPrint ] on line " + pos.line + "..");
 }
 
 function cWhile(pos, depth) {
+    //Generating
+    codeLog("Generating [ While ] on line " + pos.line + "..");
+
+
+    //Finished
+    codeLog("Finished [ While ] on line " + pos.line + "..");
 }
 
 function cIf(pos, depth) {
+    //Generating
+    codeLog("Generating [ If ] on line " + pos.line + "..");
+
+
+    //Finished
+    codeLog("Finished [ If ] on line " + pos.line + "..");
 }
 
 function cInequality(pos, depth) {
+    //Generating
+    codeLog("Generating [ Inequality ] on line " + pos.line + "..");
 
+
+    //Finished
+    codeLog("Finished [ Inequality ] on line " + pos.line + "..");
 }
 
 function cEquality(pos, depth) {
+    //Generating
+    codeLog("Generating [ Equality ] on line " + pos.line + "..");
+
+
+    //Finished
+    codeLog("Finished [ Equality ] on line " + pos.line + "..");
+}
+function cID(pos, depth) {
+    //Generating
+    codeLog("Generating [ ID ] on line " + pos.line + "..");
+
+    //Finished
+    codeLog("Finished [ ID ] on line " + pos.line + "..");
+}
+
+function cDigit(pos, depth) {
+    //Generating
+    codeLog("Generating [ Digit ] on line " + pos.line + "..");
+
+    //Finished
+    codeLog("Finished [ Digit ] on line " + pos.line + "..");
 }
