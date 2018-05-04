@@ -4,6 +4,8 @@ var cErrors = 0;
 var cWarnings = 0;
 var staticData = new StaticData();
 var codeString = "";
+var heap = [];
+var heapAddress = 256;
 
 var TEMPORARY_ADDRESS = "X1";
 var SECONDARY_TEMPORARY_ADDRESS = "X2";
@@ -15,6 +17,8 @@ function gen(ast) {
     cWarnings = 0;
     staticData = new StaticData();
     codeString = "";
+    heap = [];
+    heapAddress = 256;
 
     generate();
 
@@ -291,10 +295,28 @@ function cBool(pos, depth) {
     codeLog("Finished [ Bool ] on line " + pos.line + "..");
 }
 
-function cString() {
+function cString(pos, depth) {
     //Generating
     codeLog("Generating [ String ] on line " + pos.line + "..");
 
+    var string = pos.name.substring(1, pos.name.length - 1);
+    console.log("\""+pos.name+"\"")
+    console.log(string)
+    var value = parseInt(addToHeap(string).substring(0, 2), 16);
+    addHex(loadAccWithConst);
+    addHex(value);
+
     //Finished
     codeLog("Finished [ String ] on line " + pos.line + "..");
+}
+
+function addToHeap(str) {
+    heap.unshift("00");
+    heapAddress--;
+    for (var i = str.length; i > 0; i--) {
+        heap.unshift(toHex(str.charAt(i)));
+        heapAddress--;
+    }
+    codeLog("Added string [ "+str+" ] to heap, address "+heapAddress+"...");
+    return heapAddress;
 }
