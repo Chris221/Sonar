@@ -39,7 +39,7 @@ function generate() {
     addHex(breakOp);
 }
 
-/* -----------------------------------------Hex Related Functions----------------------------------------- */
+/* ----------------------------------------- Hex Related Functions ----------------------------------------- */
 function addHex(val) {
     code.push(val);
     if (verbose) {
@@ -68,7 +68,7 @@ function toHex(val) {
      var val = val.toString(16).toUpperCase();
      return val;
  }
- /* ---------------------------------------End Hex Related Functions--------------------------------------- */
+ /* --------------------------------------- End Hex Related Functions --------------------------------------- */
 
 function traverseTree(pos, depth) {
     if (!pos.children || pos.children.length === 0) {
@@ -83,13 +83,25 @@ function traverseTree(pos, depth) {
         else if (pos.name == "VarDecl")
             cVarDecl(pos, depth);
         else if (pos.name == "AssignmentStatement")
-            cAssignState(pos, depth);
+            cAssign(pos, depth);
         else if (pos.name == "Print")
-            cPrintState(pos, depth);
+            cPrint(pos, depth);
         else if (pos.name == "IfStatement")
-            cIfState(pos, depth);
+            cIf(pos, depth);
         else if (pos.name == "WhileStatement")
-            cWhileState(pos, depth);
+            cWhile(pos, depth);
+        else if (pos.name == "Equality")
+            cEqualy(pos, depth);
+        else if (pos.name == "Inequality")
+            cInequaly(pos, depth);
+        else if (pos.name == "true" || pos.name == "false")
+            cBool(pos, depth);
+        else if (pos.type == "CHARLIST")
+            cString(pos, depth);
+        else if ("abcdefghijklmnopqrstuvwxyz".includes(pos.name))
+            cID(pos, depth);
+        else if ("0123456789".includes(pos.name))
+            cDigit(pos, depth);
         else if (pos.name == "Addition") {
             return cAddition(pos, depth);
         } else {
@@ -128,5 +140,27 @@ function cBlock(pos, depth) {
     }
 }
 
+function cAddition(pos, depth) {
 }
+
+function cVarDecl(pos, depth) {
+}
+
+function cAssign(pos, depth) {
+}
+
+function cPrint(pos, depth) {
+}
+
+function cWhile(pos, depth) {
+}
+
+function cIf(pos, depth) {
+}
+
+function cInequality(pos, depth) {
+
+}
+
+function cEquality(pos, depth) {
 }
