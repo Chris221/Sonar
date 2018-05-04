@@ -310,10 +310,7 @@ function cString(pos, depth) {
     //Generating
     codeLog("Generating [ String ] on line " + pos.line + "..");
 
-    var string = pos.name.substring(1, pos.name.length - 1);
-    console.log("\""+pos.name+"\"")
-    console.log(string)
-    var value = parseInt(addToHeap(string).substring(0, 2), 16);
+    var value = numtoHex(addToHeap(pos.name));
     addHex(loadAccWithConst);
     addHex(value);
 
@@ -324,7 +321,7 @@ function cString(pos, depth) {
 function addToHeap(str) {
     heap.unshift("00");
     heapAddress--;
-    for (var i = str.length; i > 0; i--) {
+    for (var i = str.length-1; i >= 0; i--) {
         heap.unshift(toHex(str.charAt(i)));
         heapAddress--;
     }
