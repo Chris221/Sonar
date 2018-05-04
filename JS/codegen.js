@@ -245,7 +245,7 @@ function cDigit(pos, depth) {
     addHex(numtoHex(pos.value));
 
     //Finished
-    codeLog("Finished [ Inequality ] on line " + pos.line + "..");
+    codeLog("Finished [ Digit ] on line " + pos.line + "..");
 }
 
 function cBool() {
