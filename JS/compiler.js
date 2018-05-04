@@ -351,7 +351,7 @@ function compileCode() {
 	//Sets failed output text
 	var text = "==============================\n" +
 		"\n" +
-		"                      Code Gen Passed         \n" +
+		"                      Code Gen Failed         \n" +
 		"\n" +
 		"==============================";
 	//runs code gen to get the code
@@ -359,12 +359,12 @@ function compileCode() {
 		//Sets success output text
 		text = "==============================\n" +
 			"\n" +
-			"                      Code Gen Failed         \n" +
+			"                      Code Gen Passed         \n" +
 			"\n" +
 			"==============================";
 	}
 	//Outputs the code
-	$('#Lexer_log').text($('#Lexer_log').val() + code + "\n");
+	$('#Lexer_log').text($('#Lexer_log').val() + "\n" + code);
 	$('#codeBox').text($('#codeBox').val() + code + "\n");
 	//Outputs the code gen output
 	$('#Lexer_log').text($('#Lexer_log').val() + "\n\n" + text + "\n\n");
