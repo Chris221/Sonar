@@ -81,9 +81,9 @@ function traverseTree(pos, depth) {
         else if (pos.name == "WhileStatement")
             cWhile(pos, depth);
         else if (pos.name == "Equality")
-            cEqualy(pos, depth);
+            cEquality(pos, depth);
         else if (pos.name == "Inequality")
-            cInequaly(pos, depth);
+            cInequality(pos, depth);
         else if (pos.name == "true" || pos.name == "false")
             cBool(pos, depth);
         else if (pos.type == "CHARLIST")
@@ -219,4 +219,36 @@ function cDigit(pos, depth) {
 
     //Finished
     codeLog("Finished [ Digit ] on line " + pos.line + "..");
+}
+
+function cEquality() {
+    //Generating
+    codeLog("Generating [ Equality ] on line " + pos.line + "..");
+
+    //Finished
+    codeLog("Finished [ Equality ] on line " + pos.line + "..");
+}
+
+function cInequality() {
+    //Generating
+    codeLog("Generating [ Inequality ] on line " + pos.line + "..");
+
+    //Finished
+    codeLog("Finished [ Inequality ] on line " + pos.line + "..");
+}
+
+function cBool() {
+    //Generating
+    codeLog("Generating [ Bool ] on line " + pos.line + "..");
+
+    //Finished
+    codeLog("Finished [ Bool ] on line " + pos.line + "..");
+}
+
+function cString() {
+    //Generating
+    codeLog("Generating [ String ] on line " + pos.line + "..");
+
+    //Finished
+    codeLog("Finished [ String ] on line " + pos.line + "..");
 }
