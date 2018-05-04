@@ -7,6 +7,7 @@ var codeString = "";
 var heap = [];
 var heapAddress = 256;
 
+var MAX = 256;
 var TEMPORARY_ADDRESS = "X1";
 var SECONDARY_TEMPORARY_ADDRESS = "X2";
 
@@ -48,6 +49,16 @@ function codeLog(text, override = false) {
 function generate() {
     traverseTree(ast.root, 0);
     addHex(breakOp);
+
+    codeLog("Getting the Code...");
+    codeLog("Taking the Heap...");
+    codeLog("Putting them together with 00s...");
+    for (var i = code.length; i < MAX - heap.length; i++) {
+        code.push("00");
+    }
+    for (var i = 0; i < heap.length; i++) {
+        code.push(heap[i])
+    }
 
     codeString = code.join(' ');
 }
