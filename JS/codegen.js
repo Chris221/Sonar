@@ -39,6 +39,37 @@ function generate() {
     addHex(breakOp);
 }
 
+/* -----------------------------------------Hex Related Functions----------------------------------------- */
+function addHex(val) {
+    code.push(val);
+    if (verbose) {
+        codeLog("Pushing [ " + val + " ] byte to memory...");
+    }
+}
+
+function toHex(val) {
+    var hex = "";
+    for(var i = 0; i < val.length; i++) {
+        hex += "" + val.charCodeAt(i).toString(16).toUpperCase();
+    }
+    hex = chunk(hex, 2);
+    return hex;
+ }
+ 
+ function chunk(str, n) {
+    var r = [];
+    for(i = 0; i < str.length; i += n) {
+        r.push(str.substr(i, n));
+    }
+    return r;
+ }
+ 
+  function numtoHex(val) {
+     var val = val.toString(16).toUpperCase();
+     return val;
+ }
+ /* ---------------------------------------End Hex Related Functions--------------------------------------- */
+
 function traverseTree(pos, depth) {
     if (!pos.children || pos.children.length === 0) {
         console.log(pos.name + " at depth " + depth);
