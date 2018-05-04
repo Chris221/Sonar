@@ -157,6 +157,16 @@ function cAddition(pos, depth) {
     //Generating
     codeLog("Generating [ Addition ] on line " + pos.line + "..");
 
+    traverseTree(pos.children[0], depth);
+    addHex(storeAccInMemo);
+    addHex(TEMPORARY_ADDRESS);
+    addHex('XX');
+    addHex(loadAccWithConst);
+    addHex(numtoHex(pos.children[0].name));
+    addHex(addWithCarry);
+    addHex(TEMPORARY_ADDRESS);
+    addHex('XX');
+
     //Finished
     codeLog("Finished [ Addition ] on line " + pos.line + "..");
 }
