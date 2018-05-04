@@ -54,6 +54,8 @@ function generate() {
     traverseTree(ast.root, 0);
     addHex(breakOp);
 
+    $('#Lexer_log').text($('#Lexer_log').val() + "\n");
+
     codeLog("Getting the Code...");
     codeLog("Taking the Heap...");
     codeLog("Putting them together with 00s...");
