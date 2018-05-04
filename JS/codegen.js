@@ -45,15 +45,15 @@ function traverseTree(pos, depth) {
     } else {
         if (pos.name == "Root")
             cRoot(pos.children, depth);
-        else if (pos.name == "Program")
+        else if (pos.name.includes("Program"))
             cProgram(pos.children, depth);
         else if (pos.name == "Block")
             cBlock(pos.children, depth);
-        else if (pos.name == "VariableDeclaration")
+        else if (pos.name == "VarDecl")
             cVarDecl(pos, depth);
         else if (pos.name == "AssignmentStatement")
             cAssignState(pos, depth);
-        else if (pos.name == "PrintStatement")
+        else if (pos.name == "Print")
             cPrintState(pos, depth);
         else if (pos.name == "IfStatement")
             cIfState(pos, depth);
@@ -97,6 +97,5 @@ function cBlock(pos, depth) {
     }
 }
 
-    return code.length;
 }
 }
