@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Compiler</title>
 	<link type="text/css" rel="stylesheet" href="CSS/myCSS.css" />
+	<link type="text/css" rel="stylesheet" href="CSS/animate.css" />
 	<script type="text/javascript" src="JS/tree.js"></script>
 	<script type="text/javascript" src="JS/jQuery/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="JS/compiler.js"></script>
@@ -13,6 +14,10 @@
 	<script type="text/javascript" src="JS/symbol.js"></script>
 	<script type="text/javascript" src="JS/symbolTree.js"></script>
 	<script type="text/javascript" src="JS/analyzer.js"></script>
+	<script type="text/javascript" src="JS/staticData.js"></script>
+	<script type="text/javascript" src="JS/jumpTable.js"></script>
+	<script type="text/javascript" src="JS/6502a.js"></script>
+	<script type="text/javascript" src="JS/codegen.js"></script>
 	<script type="text/javascript" src="JS/testPrograms.js"></script>
 	<!-- Bootstrap -->
 	<link type="text/css" rel="stylesheet" href="bootstrap-4.0.0/css/bootstrap.min.css">
@@ -21,6 +26,7 @@
 	<script type="text/javascript" src="bootstrap-4.0.0/js/bootstrap.min.js"></script>
 	<link type="text/css" rel="stylesheet" href="bootstrap-4.0.0/css/bootstrap-4-navbar.css">
 	<script type="text/javascript" src="bootstrap-4.0.0/js/bootstrap-4-navbar.js"></script>
+	<script type="text/javascript" src="bootstrap-4.0.0/bootstrap-notify.min.js"></script>
 </head>
 <body onLoad="//testProgram('good_case_1');">
 	<nav class="topbar navbar navbar-expand-lg navbar-light bg-primary sticky-top">
@@ -90,7 +96,7 @@
 			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="lexer">Lexer</button>&emsp;
 			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="parser">Parser</button>&emsp;
 			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="analysis">Semantic Analysis</button>&emsp;
-			<button class="btn btn-secondary" id="4">Code Generation</button>
+			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="code">Code Generation</button>
 		</span>
 		<span class="page-left">
 			<div class="container">
@@ -213,6 +219,19 @@
 		</span>
 		<span class="page-bottom">
 			<div class="container text-center">
+				<div class="row">
+					<div class="col-sm">
+						<b>Code</b>&thinsp;
+						<a id="copyButton" onclick="copyToClipboard('#codeBox');" data-toggle="tooltip" data-placement="right" title="" data-original-title="Copy to Clipboard">
+							<img src="open-iconic/svg/clipboard.svg" width="18px" height="auto">
+						</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm">
+						<div class="codeBox form-control" id="codeBox" onclick="copyToClipboard('#codeBox');" placeholder="No Code Currently" readonly>No Code Currently</div>
+					</div>
+				</div>
 				<hr />
 				Projects:<br />
 				<small>

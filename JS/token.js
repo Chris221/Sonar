@@ -9,6 +9,6 @@ function Token(token, value, line, col) {
 }
 
 //Check token function
-Token.is = function(check) {
+Token.is = function (check) {
 	return this.type === check;
 };

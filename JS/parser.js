@@ -61,21 +61,21 @@ function parser(input) {
 
     //Defines the completion text
     var completedText = "\nThe parser successfully passed";
-    
+
     //if any errors
     if (pErrors) {
-		//Sets failed for the completed parser output
-		completedText = "\nThe parser FAILED with errors ("+pErrors+")";
-		//Makes the visual parser red
-		//$('#parser').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success");
-	} else {
-		//Makes the visual parser green
+        //Sets failed for the completed parser output
+        completedText = "\nThe parser FAILED with errors (" + pErrors + ")";
+        //Makes the visual parser red
+        //$('#parser').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success");
+    } else {
+        //Makes the visual parser green
         //$('#parser').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-danger");
-        $('#cst').val($('#cst').val()+cst.toString());
+        $('#cst').val($('#cst').val() + cst.toString());
     }
-	//Outputs the completed Text
-	$('#Lexer_log').text($('#Lexer_log').val()+completedText);
-    
+    //Outputs the completed Text
+    $('#Lexer_log').text($('#Lexer_log').val() + completedText);
+
     //returns error number
     return pErrors;
 }
@@ -135,11 +135,11 @@ function statementList() {
         cst.kick();
         //go to block
         block();
-    //if any other statement keyword
-    } else if (currentToken.type == "PRINT" || currentToken.type == "ID" 
-    || currentToken.type == "INT" || currentToken.type == "STRING"
-    || currentToken.type == "BOOLEAN" || currentToken.type == "WHILE" 
-    || currentToken.type == "IF" || currentToken.type == "LEFT_BRACE") {
+        //if any other statement keyword
+    } else if (currentToken.type == "PRINT" || currentToken.type == "ID"
+        || currentToken.type == "INT" || currentToken.type == "STRING"
+        || currentToken.type == "BOOLEAN" || currentToken.type == "WHILE"
+        || currentToken.type == "IF" || currentToken.type == "LEFT_BRACE") {
         //goes to statement
         statement();
         //if the current token is EOP then  loop here
@@ -177,8 +177,8 @@ function block() {
         getToken();
         //Goes to statementList
         statementList();
-    //if current token is a Right brace
-    } else if (currentToken.type == "RIGHT_BRACE" ) {
+        //if current token is a Right brace
+    } else if (currentToken.type == "RIGHT_BRACE") {
         //goes to right brace
         rightBrace();
         //changes the token
@@ -229,15 +229,15 @@ function program() {
     }
     if (programLevel != programLevelCounter) {
         //Outputs program number
-        parserLog("Parsing Program #"+programNumber);
+        parserLog("Parsing Program #" + programNumber);
         //increases the counter
         programLevelCounter++;
     }
-    
+
     //if current token is a lerft brace
     if (currentToken.type == "LEFT_BRACE") {
         //starts cst branch
-        cst.addNode("Program "+programNumber, "branch");
+        cst.addNode("Program " + programNumber, "branch");
         //Goes to the block
         block();
     } else {
@@ -264,23 +264,23 @@ function statement() {
     if (currentToken.type == "PRINT") {
         //goes to print statements
         printStatement();
-    //if ID
+        //if ID
     } else if (currentToken.type == "ID") {
         //goes to assignment statements
         assignmentStatement();
-    //if INT, STRING, or BOOLEAN
+        //if INT, STRING, or BOOLEAN
     } else if (currentToken.type == "INT" || currentToken.type == "STRING" || currentToken.type == "BOOLEAN") {
         //goes to variable declarations
         varDecl();
-    //if WHILE
+        //if WHILE
     } else if (currentToken.type == "WHILE") {
         //goes to while statements
         whileStatement();
-    //if IF
+        //if IF
     } else if (currentToken.type == "IF") {
         //goes to if statements
         ifStatement();
-    //if LEFT_BRACE or RIGHT_BRACE
+        //if LEFT_BRACE or RIGHT_BRACE
     } else if (currentToken.type == "LEFT_BRACE" || currentToken.type == "RIGHT_BRACE") {
         //cst backs out a branch
         cst.kick();
@@ -365,7 +365,7 @@ function leftParentheses() {
             //Outputs failed
             handle("DOUBLE_EQUALS, NOT_EQUALS");
         }
-    //if in print
+        //if in print
     } else if (inPrint) {
         //debugging
         if (debug && verbose) {
@@ -384,7 +384,7 @@ function leftParentheses() {
         //backs out
         return;
     }
-    
+
     //debugging
     if (debug && verbose) {
         parserLog("Parentheses end..");
@@ -406,7 +406,7 @@ function leftParentheses() {
         }
         //backs out
         return;
-   } else {
+    } else {
         //increases errors
         pErrors++;
         //Outputs failed
@@ -429,15 +429,15 @@ function expr() {
     if (currentToken.type == "DIGIT") {
         //go to int expression
         intExpr();
-    //if Quote
+        //if Quote
     } else if (currentToken.type == "QUOTE") {
         //go to string expression
         stringExpr();
-    //if left parentheses
-    } else if (currentToken.type == "LEFT_PARENTHESES" || currentToken.type == "TRUE" || currentToken.type == "FALSE") {
+        //if left parentheses
+    } else if (currentToken.type == "LEFT_PARENTHESES" || currentToken.type == "BOOL") {
         //go to boolean expression
         booleanExpr();
-    //if left parentheses
+        //if left parentheses
     } else if (currentToken.type == "ID") {
         //go to ID
         iD();
@@ -537,7 +537,7 @@ function charList() {
         getToken();
         //Calls self
         charList();
-    //if QUOTE
+        //if QUOTE
     } else if (currentToken.type == "QUOTE") {
         //backs out
         return;
@@ -655,7 +655,7 @@ function whileStatement() {
     //changes the token
     getToken();
     //if LEFT_PARENTHESES, TRUE, or FALSE
-    if (currentToken.type == "LEFT_PARENTHESES" || currentToken.type == "TRUE" || currentToken.type == "FALSE") {
+    if (currentToken.type == "LEFT_PARENTHESES" || currentToken.type == "BOOL") {
         //go to boolean expression
         booleanExpr();
         //changes the token
@@ -686,7 +686,7 @@ function ifStatement() {
     //changes the token
     getToken();
     //if LEFT_PARENTHESES, TRUE, or FALSE
-    if (currentToken.type == "LEFT_PARENTHESES" || currentToken.type == "TRUE" || currentToken.type == "FALSE") {
+    if (currentToken.type == "LEFT_PARENTHESES" || currentToken.type == "BOOL") {
         //go to boolean expression
         booleanExpr();
         //changes the token
@@ -712,7 +712,7 @@ function handle(unexpected = '') {
     //sets the value of the token
     var value = currentToken.value;
     //sets the line of the token
-	var line = currentToken.line;
+    var line = currentToken.line;
     //sets the col of the token
     var column = currentToken.column;
 
@@ -721,19 +721,19 @@ function handle(unexpected = '') {
 
     //Figures out if it is a successful or unexpected token output
     if (!unexpected) {
-        text = "Passed! Expected token found [ "+type+" ] with a value of [ "+value+" ] on line "+line+", "+column+"..."; 
+        text = "Passed! Expected token found [ " + type + " ] with a value of [ " + value + " ] on line " + line + ", " + column + "...";
         cst.addNode(currentToken.value, "leaf", currentToken.line);
-        
+
         //if verbose mode
-	    if (!verbose) {
+        if (!verbose) {
             //stops from ouputing
             text = "DO NOT OUTPUT";
         }
     } else {
-        text = "Failed! Unexpected token found [ "+type+" ] on line "+line+", "+column;
+        text = "Failed! Unexpected token found [ " + type + " ] on line " + line + ", " + column;
         //processes the the first text
         parserLog(text);
-        text =  "------  Expected token(s) [ "+unexpected+" ] on line "+line+", "+column+"...";
+        text = "------  Expected token(s) [ " + unexpected + " ] on line " + line + ", " + column + "...";
     }
     //processes the text
     parserLog(text);
@@ -742,7 +742,7 @@ function handle(unexpected = '') {
 //Sets the parsers log
 function parserLog(text) {
     //Appends new logging to current log
-    var lText = $('#Lexer_log').val()+"PARSER -- "+text+"\n";
+    var lText = $('#Lexer_log').val() + "PARSER -- " + text + "\n";
     //if not supposed to be output
     if (text == "DO NOT OUTPUT") {
         //No need to change

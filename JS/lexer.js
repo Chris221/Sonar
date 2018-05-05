@@ -9,7 +9,7 @@ function lexer(input) {
 	//Intializes warnings and errors
 	var warnings = 0;
 	var errors = 0;
-	
+
 	//Resets the token list
 	tokens = [];
 	//if the input is empty
@@ -28,7 +28,7 @@ function lexer(input) {
 		//Increases warnings
 		warnings++;
 	}
-	
+
 	//Takes the input and splits on carrage returns
 	var lines = input.split("\n");
 	//Defines the line variable for individual line checking, along with character for column checking, isString and isComment for tracking if current in one
@@ -41,11 +41,11 @@ function lexer(input) {
 	for (var cLine = 0; cLine < lines.length; cLine++) {
 		//Sets the line
 		line = lines[cLine];
-		
+
 		//When in a string
 		if (isString) {
 			//Throws error for unterminated strings
-			LexLog("ERROR! Unterminated string on "+masterLine+"...");
+			LexLog("ERROR! Unterminated string on " + masterLine + "...");
 			//Adds to errors
 			errors++;
 			//Sets isString false
@@ -56,24 +56,24 @@ function lexer(input) {
 			//Checks to confirm a new program
 			if (program != programOutCounter) {
 				//Outputs program number
-				LexLog("Lexing program "+programNumber);
+				LexLog("Lexing program " + programNumber);
 				//Updates outpur counter
 				programOutCounter++;
 			}
-			
+
 			//Which column we're at wile debugging
 			if (debug && verbose) {
-				LexLog("*DEBUGGER* Line number "+(masterLine+1)+", column location "+(column+1));
+				LexLog("*DEBUGGER* Line number " + (masterLine + 1) + ", column location " + (column + 1));
 			}
 			//Sets current character;
 			character = line[column];
-			
+
 			//Checks if the variable is the id '/*'
-			if (character == '/' && line[column+1] == '*' && !isString) {
+			if (character == '/' && line[column + 1] == '*' && !isString) {
 				//moves the pointer
 				column++;
 				//Checks if current comment
-				if (isComment){
+				if (isComment) {
 					//If so end it
 					isComment = false;
 				} else {
@@ -86,13 +86,13 @@ function lexer(input) {
 				}
 				continue;
 			}
-			
+
 			//Checks if the variable is the id '/*'
-			if (character == '*' && line[column+1] == '/' && !isString) {
+			if (character == '*' && line[column + 1] == '/' && !isString) {
 				//moves the pointer
 				column++;
 				//Checks if current comment
-				if (isComment){
+				if (isComment) {
 					//If so end it
 					isComment = false;
 				} else {
@@ -105,19 +105,19 @@ function lexer(input) {
 				}
 				continue;
 			}
-			
+
 			//Checks if in string mode
 			if (isComment) {
 				//ignore everything
 				continue;
 			}
-			
+
 			//Checks if the variable is the id '"'
 			if (character == '"') {
 				//Adds the '"' token
-				addToken("QUOTE",'"',masterLine+1,column+1);
+				addToken("QUOTE", '"', masterLine + 1, column + 1);
 				//Checks if current string
-				if (isString){
+				if (isString) {
 					//If so end it
 					isString = false;
 				} else {
@@ -126,247 +126,247 @@ function lexer(input) {
 				}
 				continue;
 			}
-			
+
 			//Checks if in string mode
 			if (isString) {
 				if ("abcdefghijklmnopqrstuvwxyz ".indexOf(character) != -1) {
 					//Adds Character token
-					addToken("CHAR",character,masterLine+1,column+1);
+					addToken("CHAR", character, masterLine + 1, column + 1);
 					continue;
 				}
 				//Enexpected char found
-				LexLog("ERROR! Unexpected char [ "+character+" ] string on "+(masterLine+1)+", "+(column+1)+"...");
+				LexLog("ERROR! Unexpected char [ " + character + " ] string on " + (masterLine + 1) + ", " + (column + 1) + "...");
 				//Adds to errors
 				errors++;
 				continue;
 			}
-			
+
 			//Checks if the variable is the id 'i'
 			if (character == 'i') {
 				//Checks if its intended to be 'if', 'int', or just 'i'
-				if (line[column+1] == 'f') {
+				if (line[column + 1] == 'f') {
 					//Adds the 'if' token
-					addToken("IF","if",masterLine+1,column+1);
+					addToken("IF", "if", masterLine + 1, column + 1);
 					//Moves the pointer
 					column++;
 					continue;
-				} else if (line[column+1] == 'n' && line[column+2] == 't') {
+				} else if (line[column + 1] == 'n' && line[column + 2] == 't') {
 					//Adds the 'int' token
-					addToken("INT","int",masterLine+1,column+1);
+					addToken("INT", "int", masterLine + 1, column + 1);
 					//Moves the pointer
-					column+=2;
+					column += 2;
 					continue;
 				} else {
 					//Adds the 'i' token
-					addToken("ID","i",masterLine+1,column+1);
+					addToken("ID", "i", masterLine + 1, column + 1);
 					continue;
 				}
 			}
-			
+
 			//Checks if the variable is the id 'p'
 			if (character == 'p') {
 				//Checks if its intended to be 'print' or just 'p'
-				if (line[column+1] == 'r' && line[column+2] == 'i' && line[column+3] == 'n' && line[column+4] == 't') {
+				if (line[column + 1] == 'r' && line[column + 2] == 'i' && line[column + 3] == 'n' && line[column + 4] == 't') {
 					//Adds the 'print' token
-					addToken("PRINT","print",masterLine+1,column+1);
+					addToken("PRINT", "print", masterLine + 1, column + 1);
 					//Moves the pointer
-					column+=4;
+					column += 4;
 					continue;
 				} else {
 					//Adds the 'p' token
-					addToken("ID","p",masterLine+1,column+1);
+					addToken("ID", "p", masterLine + 1, column + 1);
 					continue;
 				}
 			}
-			
+
 			//Checks if the variable is the id 'w'
 			if (character == 'w') {
 				//Checks if its intended to be 'while' or just 'w'
-				if (line[column+1] == 'h' && line[column+2] == 'i' && line[column+3] == 'l' && line[column+4] == 'e') {
+				if (line[column + 1] == 'h' && line[column + 2] == 'i' && line[column + 3] == 'l' && line[column + 4] == 'e') {
 					//Adds the 'while' token
-					addToken("WHILE","while",masterLine+1,column+1);
+					addToken("WHILE", "while", masterLine + 1, column + 1);
 					//Moves the pointer
-					column+=4;
+					column += 4;
 					continue;
 				} else {
 					//Adds the 'w' token
-					addToken("ID","w",masterLine+1,column+1);
+					addToken("ID", "w", masterLine + 1, column + 1);
 					continue;
 				}
 			}
-			
+
 			//Checks if the variable is the id 's'
 			if (character == 's') {
 				//Checks if its intended to be 'string' or just 's'
-				if (line[column+1] == 't' && line[column+2] == 'r' && line[column+3] == 'i' && line[column+4] == 'n' && line[column+5] == 'g') {
+				if (line[column + 1] == 't' && line[column + 2] == 'r' && line[column + 3] == 'i' && line[column + 4] == 'n' && line[column + 5] == 'g') {
 					//Adds the 'string' token
-					addToken("STRING","string",masterLine+1,column+1);
+					addToken("STRING", "string", masterLine + 1, column + 1);
 					//Moves the pointer
-					column+=5;
+					column += 5;
 					continue;
 				} else {
 					//Adds the 's' token
-					addToken("ID","s",masterLine+1,column+1);
+					addToken("ID", "s", masterLine + 1, column + 1);
 					continue;
 				}
 			}
-			
+
 			//Checks if the variable is the id 'b'
 			if (character == 'b') {
 				//Checks if its intended to be 'boolean' or just 'b'
-				if (line[column+1] == 'o' && line[column+2] == 'o' && line[column+3] == 'l' && line[column+4] == 'e' && line[column+5] == 'a' && line[column+6] == 'n') {
+				if (line[column + 1] == 'o' && line[column + 2] == 'o' && line[column + 3] == 'l' && line[column + 4] == 'e' && line[column + 5] == 'a' && line[column + 6] == 'n') {
 					//Adds the 'boolean' token
-					addToken("BOOLEAN","boolean",masterLine+1,column+1);
+					addToken("BOOLEAN", "boolean", masterLine + 1, column + 1);
 					//Moves the pointer
-					column+=6;
+					column += 6;
 					continue;
 				} else {
 					//Adds the 'b' token
-					addToken("ID","b",masterLine+1,column+1);
+					addToken("ID", "b", masterLine + 1, column + 1);
 					continue;
 				}
 			}
-			
+
 			//Checks if the variable is the id 't'
 			if (character == 't') {
 				//Checks if its intended to be 'true' or just 't'
-				if (line[column+1] == 'r' && line[column+2] == 'u' && line[column+3] == 'e') {
+				if (line[column + 1] == 'r' && line[column + 2] == 'u' && line[column + 3] == 'e') {
 					//Adds the 'true' token
-					addToken("TRUE","true",masterLine+1,column+1);
+					addToken("BOOL", "true", masterLine + 1, column + 1);
 					//Moves the pointer
-					column+=3;
+					column += 3;
 					continue;
 				} else {
 					//Adds the 't' token
-					addToken("ID","t",masterLine+1,column+1);
+					addToken("ID", "t", masterLine + 1, column + 1);
 					continue;
 				}
 			}
-			
+
 			//Checks if the variable is the id 'f'
 			if (character == 'f') {
 				//Checks if its intended to be 'false' or just 'f'
-				if (line[column+1] == 'a' && line[column+2] == 'l' && line[column+3] == 's' && line[column+4] == 'e') {
+				if (line[column + 1] == 'a' && line[column + 2] == 'l' && line[column + 3] == 's' && line[column + 4] == 'e') {
 					//Adds the 'false' token
-					addToken("FALSE","false",masterLine+1,column+1);
+					addToken("BOOL", "false", masterLine + 1, column + 1);
 					//Moves the pointer
-					column+=4;
+					column += 4;
 					continue;
 				} else {
 					//Adds the 'f' token
-					addToken("ID","f",masterLine+1,column+1);
+					addToken("ID", "f", masterLine + 1, column + 1);
 					continue;
 				}
 			}
-			
+
 			//Checks if the variable is the '='
 			if (character == '=') {
 				//Checks if its intended to be '==' or just '='
-				if (line[column+1] == '=') {
+				if (line[column + 1] == '=') {
 					//Adds the '==' token
-					addToken("DOUBLE_EQUALS","==",masterLine+1,column+1);
+					addToken("DOUBLE_EQUALS", "==", masterLine + 1, column + 1);
 					//Moves the pointer
-					column+=1;
+					column += 1;
 					continue;
 				} else {
 					//Adds the '=' token
-					addToken("ASSIGNMENT_OPERATOR","=",masterLine+1,column+1);
+					addToken("ASSIGNMENT_OPERATOR", "=", masterLine + 1, column + 1);
 					continue;
 				}
 			}
-			
+
 			//Checks if the variable is the '!='
-			if (character == '!' && line[column+1] == '=') {
+			if (character == '!' && line[column + 1] == '=') {
 				//Adds the '==' token
-				addToken("NOT_EQUALS","!=",masterLine+1,column+1);
+				addToken("NOT_EQUALS", "!=", masterLine + 1, column + 1);
 				//Moves the pointer
-				column+=1;
+				column += 1;
 				continue;
 			}
-			
+
 			//Checks if the variable is the '+'
 			if (character == '+') {
 				//Adds the '+' token
-				addToken("PLUS","+",masterLine+1,column+1);
+				addToken("PLUS", "+", masterLine + 1, column + 1);
 				continue;
 			}
-			
+
 			//Checks if the variable is the '{'
 			if (character == '{') {
 				//Adds the '{' token
-				addToken("LEFT_BRACE","{",masterLine+1,column+1);
+				addToken("LEFT_BRACE", "{", masterLine + 1, column + 1);
 				continue;
 			}
-			
+
 			//Checks if the variable is the '}'
 			if (character == '}') {
 				//Adds the '}' token
-				addToken("RIGHT_BRACE","}",masterLine+1,column+1);
+				addToken("RIGHT_BRACE", "}", masterLine + 1, column + 1);
 				continue;
 			}
-			
+
 			//Checks if the variable is the '('
 			if (character == '(') {
 				//Adds the '(' token
-				addToken("LEFT_PARENTHESES","(",masterLine+1,column+1);
+				addToken("LEFT_PARENTHESES", "(", masterLine + 1, column + 1);
 				continue;
 			}
-			
+
 			//Checks if the variable is the ')'
 			if (character == ')') {
 				//Adds the ')' token
-				addToken("RIGHT_PARENTHESES",")",masterLine+1,column+1);
+				addToken("RIGHT_PARENTHESES", ")", masterLine + 1, column + 1);
 				continue;
 			}
-			
+
 			//Checks if the variable is the '$'
 			if (character == '$') {
 				//Adds the '$' token
-				addToken("EOP","$",masterLine+1,column+1);
+				addToken("EOP", "$", masterLine + 1, column + 1);
 				program++;
 				continue;
 			}
-			
+
 			//Checks if the variable is a digit
 			if (character >= '0' && character <= '9') {
 				//Adds the digit token
-				addToken("DIGIT",character,masterLine+1,column+1);
+				addToken("DIGIT", character, masterLine + 1, column + 1);
 				continue;
 			}
-			
+
 			//Checks if the variable is one of the remaining ids
 			if ("acdeghjklmnoqruvxyz".indexOf(character) != -1) {
 				//Adds the id token
-				addToken("ID",character,masterLine+1,column+1);
+				addToken("ID", character, masterLine + 1, column + 1);
 				continue;
 			}
-			
+
 			//Checks for space or tab and ignores it
 			if (character.indexOf(' ') >= 0 || character.indexOf('	') >= 0) {
 				//If bebugging this will output when white space is found
 				if (debug && verbose) {
-					LexLog("*DEBUGGER* Found whitespace at: "+(masterLine+1)+", "+(column+1));
+					LexLog("*DEBUGGER* Found whitespace at: " + (masterLine + 1) + ", " + (column + 1));
 				}
 				continue;
 			}
-			
+
 			//If no token was handed out there must not be one, ERROR
-			LexLog("ERROR! Unrecognized, could not define token [ "+character+" ] found on line "+(masterLine+1)+", "+(column+1)+"...");
+			LexLog("ERROR! Unrecognized, could not define token [ " + character + " ] found on line " + (masterLine + 1) + ", " + (column + 1) + "...");
 			//Adds to errors
 			errors++;
 		}
 		masterLine++;
 	}
-	
+
 	//Checks one last time to make sure no Unterminated strings
 	//would fail either way but now it tells you :)
 	if (isString) {
 		//Throws error for Unterminated strings
-		LexLog("ERROR! Unterminated string on "+masterLine+"...");
+		LexLog("ERROR! Unterminated string on " + masterLine + "...");
 		//Adds to errors
 		errors++;
 	}
-	
+
 	//Defines part of the completion text
 	var cText = "passed";
 	//If any errors
@@ -385,21 +385,21 @@ function lexer(input) {
 		//$('#lexer').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-warning").removeClass("btn-danger");
 	}
 	//Defines the full output of the completed text
-	var completedText = "\nLexer "+cText+" with "+warnings+" warnings and "+errors+" errors!";
+	var completedText = "\nLexer " + cText + " with " + warnings + " warnings and " + errors + " errors!";
 	//Outputs the completed Text
-	$('#Lexer_log').text($('#Lexer_log').val()+completedText);
-	
+	$('#Lexer_log').text($('#Lexer_log').val() + completedText);
+
 	//Returns the tokens
 	return tokens;
 }
 
-function addToken(type,val,line,col) {
+function addToken(type, val, line, col) {
 	//Sets temp token
-	var temp = new Token(type,val,line,col);
+	var temp = new Token(type, val, line, col);
 	//Addes to the token list
 	tokens.push(temp);
 	//sets the text
-	var text = type+" [ "+val+" ] found on line "+line+", "+col+"...";
+	var text = type + " [ " + val + " ] found on line " + line + ", " + col + "...";
 	//if verbose mode
 	if (!verbose) {
 		//stops from ouputing
@@ -411,12 +411,12 @@ function addToken(type,val,line,col) {
 
 function LexLog(text) {
 	//Appends new logging to current log
-	var lText = $('#Lexer_log').val()+"LEXER -- "+text+"\n";
-    //if not supposed to be output
-    if (text == "DO NOT OUTPUT") {
-        //No need to change
-        lText = $('#Lexer_log').val();
-    }
+	var lText = $('#Lexer_log').val() + "LEXER -- " + text + "\n";
+	//if not supposed to be output
+	if (text == "DO NOT OUTPUT") {
+		//No need to change
+		lText = $('#Lexer_log').val();
+	}
 	//Sets the Log
 	$('#Lexer_log').text(lText);
 }
