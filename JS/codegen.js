@@ -635,6 +635,36 @@ function cWhile(pos, depth) {
     //Generating
     codeLog("Generating [ While ] on line " + pos.line + "..");
 
+    //gets the starting address
+    var start = code.length;
+    //handles the conitional
+    traverseTree(pos.children[0], depth);
+    //defines a jump variable
+    var tempAddress = jumpTable.add(code.length);
+    codeLog("Generating [ "+tempAddress+" ] on line " + pos.line + "..");
+    //jump to jump variable
+    addHex(branchNBytes);
+    addHex(tempAddress);
+
+    //handles the block
+    traverseTree(pos.children[1], depth);
+
+    addHex(loadAccWithConst);
+    addHex("00");
+    addHex(storeAccInMemo);
+    addHex(TEMP_ADDRESS_ONE);
+    addHex("XX");
+    addHex(loadXWithConst);
+    addHex("01");
+    addHex(compareMemoToX);
+    addHex(TEMP_ADDRESS_ONE);
+    addHex("XX");
+
+    var jump = numtoHex(256 - code.length + start - 2);
+    addHex(branchNBytes);
+    addHex(jump);
+
+    jumpTable.get(tempAddress).endingAddress = code.length;
 
     //Finished
     codeLog("Finished [ While ] on line " + pos.line + "..");
