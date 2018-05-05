@@ -241,26 +241,6 @@ function backpatch() {
             }
         }
     }
-    
-    //Replaces FF with EA
-    //if outputting
-    if (verbose) {
-        //Outputs the change to the noOperation
-        codeLog("Replacing [ " + systemCall + " ] with [ " + noOperation + " ]...");
-    }
-    //Loops for it
-    for (var i = 0; i < code.length; i++) {
-        //if this element is systemCall
-        if (code[i] == systemCall) {
-            //debug
-            if (debug) {
-                //output found
-                console.log("Found a " + systemCall)
-            }
-            //replace the systemCall
-            code[i] = noOperation;
-        }
-    }
 
     //end
     codeLog("Backpatching Done...");

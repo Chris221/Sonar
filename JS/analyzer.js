@@ -889,12 +889,12 @@ function aBooleanExpr() {
         //declairs a close out bool
         var closeOut = false;
         //if DOUBLE_EQUALS or NOT_EQUALS
-        if (aCheckNext().type == "DOUBLE_EQUALS") {
+        if (aCheckNext().type == "DOUBLE_EQUALS" || aTokens[2].type == "DOUBLE_EQUALS") {
             //Creates a Branch
             addBranch("Equality");
             //sets close out bool for the branch
             closeOut = true;
-        } else if (aCheckNext().type == "NOT_EQUALS") {
+        } else if (aCheckNext().type == "NOT_EQUALS" || aTokens[2].type == "NOT_EQUALS") {
             //Creates a Branch
             addBranch("Inequality");
             //sets close out bool for the branch
