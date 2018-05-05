@@ -6,8 +6,10 @@ var code = [];
 var cErrors = 0;
 //warnings
 var cWarnings = 0;
-//new reference table for ID
+//new reference table for ID codes
 var staticData = new StaticData();
+//new reference table jump codes
+var jumpTable = new JumpTable();
 //string for code
 var codeString = "";
 //defines heap array
@@ -112,6 +114,8 @@ function generate() {
 
 //Backpatching!
 function backpatch() {
+    //break lines in the log
+    $('#Lexer_log').text($('#Lexer_log').val() + "\n");
     //Begin
     codeLog("Beginning Backpatching...");
 
@@ -184,6 +188,34 @@ function backpatch() {
                 }
                 //replace the second temp
                 code[i] = newAddress;
+            }
+        }
+    }
+
+    //loops through Jumps and defines there correct locations
+    for (var key in jumpTable.variables) {
+        //start of the block
+        var start = jumpTable.variables[key].startingAddress;
+        //end of the block
+        var end = jumpTable.variables[key].endingAddress;
+        //gets the distance to move
+        var move = numtoHex(end - start - 2);
+        //if outputting
+        if (verbose) {
+            //Outputs the change to the new address
+            codeLog("Replacing [ " + key + " ] with [ " + move + " ]...");
+        }
+        //Loops for it
+        for (var i = 0; i < code.length; i++) {
+            //if this element is the jump key 
+            if (code[i] == key) {
+                //debug
+                if (debug) {
+                    //output found
+                    console.log("Found a "+key)
+                }
+                //replace the jump
+                code[i] = move;
             }
         }
     }
@@ -611,7 +643,17 @@ function cWhile(pos, depth) {
 function cIf(pos, depth) {
     //Generating
     codeLog("Generating [ If ] on line " + pos.line + "..");
-
+    //processes the conditional
+    traverseTree(pos.children[0], depth);
+    //makes a new jump element
+    var address = jumpTable.add(code.length);
+    //jumps to temp
+    addHex(branchNBytes);
+    addHex(address);
+    //processes the block statement
+    traverseTree(pos.children[1], depth);
+    //sets the end of the up for later use
+    jumpTable.get(address).endingAddress = code.length;
 
     //Finished
     codeLog("Finished [ If ] on line " + pos.line + "..");
