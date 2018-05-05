@@ -28,7 +28,7 @@
 	<script type="text/javascript" src="bootstrap-4.0.0/js/bootstrap-4-navbar.js"></script>
 	<script type="text/javascript" src="bootstrap-4.0.0/bootstrap-notify.min.js"></script>
 </head>
-<body onLoad="//testProgram('good_case_1');">
+<body onLoad="testProgram('booleanLogic');">
 	<nav class="topbar navbar navbar-expand-lg navbar-light bg-primary sticky-top">
 	<!--<div class="holder">
 		<span class="topbar">-->
@@ -49,6 +49,9 @@
 						<ul class="dropdown-menu">
 							<a class="dropdown-item" onclick="testProgram('good_case_1');">Simple</a>
 							<a class="dropdown-item" onclick="testProgram('good_case_2');">Print String</a>
+							<a class="dropdown-item" onclick="testProgram('good_case_3');">Boolean Expr Printing</a>
+							<a class="dropdown-item" onclick="testProgram('booleanLogic');">Boolean Logic</a>
+							<a class="dropdown-item" onclick="testProgram('whilePrint');">Print a while != 5</a>
 						</ul>
 						<a class="nav-link dropdown-toggle">Project</a>
 						<ul class="dropdown-menu">
@@ -85,6 +88,18 @@
 							<a class="dropdown-item" onclick="testProgram('invalid_expression');">Invalid Expression</a>
 							<a class="dropdown-item" onclick="testProgram('print_EOP');">Print $</a>
 							<a class="dropdown-item" onclick="testProgram('missing_expression');">Missing Expression</a>
+						</ul>
+						<a class="nav-link dropdown-toggle">Analysis Errors</a>
+						<ul class="dropdown-menu">
+							<a class="dropdown-item" onclick="testProgram('undeclaredB');">Undeclared b</a>
+							<a class="dropdown-item" onclick="testProgram('StringBool');">String Assigned Bool</a>
+							<a class="dropdown-item" onclick="testProgram('stringint');">string == int</a>
+							<a class="dropdown-item" onclick="testProgram('varRedclare');">Variable Redeclare</a>
+							<a class="dropdown-item" onclick="testProgram('Boolhell');">Boolean Hell</a>
+						</ul>
+						<a class="nav-link dropdown-toggle">Code Gen Errors</a>
+						<ul class="dropdown-menu">
+							<a class="dropdown-item" onclick="testProgram('NoMem');">Out of Memory</a>
 						</ul>
 					</li>
 				</div>

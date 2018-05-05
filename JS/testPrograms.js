@@ -69,6 +69,43 @@ var goodcase2 = "/* Print a string */\n" +
 	"	a = \"this is a string\"\n" +
 	"	print(a)\n" +
 	"}$";
+/*
+* These Good test cases came from Tien's test cases
+*/
+var goodcase3 = "{\n" +
+    "	boolean a\n" +
+    "	a = false\n" +
+    "	print((a == true))\n" +
+    "	print((true == a))\n" +
+    "	print((a == false))\n" +
+    "	print(a)\n" +
+    "	if (a == false) {\n" +
+    "	    a = true\n" +
+    "	}\n" +
+    "	print(a)\n" +
+	"}$";
+
+var goodcase4 = "/* Boolean Logic */\n" +
+	"{\n" +
+	"	if (true == (true == (true == (true == (true == (true == (true == (true == (true != (false == true)))))))))) {\n" +
+	"		print(\"success\")\n" +
+	"	}\n" +
+	"}$";
+
+var goodcase5 = "{\n" +
+    "	string s\n" +
+    "	int a\n" +
+    "	a = 1\n" +
+    "	{\n" +
+    "	    while (a != 5) {\n" +
+	"	       a = 1 + a\n" +
+    "	        print(a)\n" +
+    "	    }\n" +
+    "	    print(3 + a)\n" +
+    "	    print(s)\n" +
+    "	}\n" +
+	"}$";
+
 
 /*
  * These Parse Failure test cases came from Tien's test cases
@@ -124,6 +161,106 @@ var parseFail4 = "/* There is a missing Expr on line 19\n" +
 /*
  * These Analysis Failure test cases came from Tien's test cases
  */
+var analysisFail1 = "{\n" +
+    "	int a\n" +
+    "	a = 0\n" +
+	"	string z\n" +
+    "	z = \"bond\"\n" +
+    "	while (a != 9) {\n" +
+    "		if (a != 5) {\n" +
+    "			print(\"bond\")\n" +
+    "		}\n" +
+    "		{\n" +
+    " 			a = 1 + a\n" +
+    "			string b\n" +
+    "			b = \"james bond\"\n" +
+    "			print(b)\n" +
+    "		}\n" +
+    "	}\n" +
+    "	{/*Holy Hell This is Disgusting*/}\n" +
+    "	boolean c\n" +
+    "	c = true\n" +
+    "	boolean d\n" +
+    "	d = (true == (true == false))\n" +
+    "	d = (a == b)\n" +
+    "	d = (1 == a)\n" +
+    "	d = (1 != 1)\n" +
+    "	d = (\"string\" == 1)\n" +
+    "	d = (a != \"string\")\n" +
+    "	d = (\"string\" != \"string\")\n" +
+    "	if (d == true) {\n" +
+    "		int c\n" +
+    "		c = 1 + d\n" +
+    "		if (c == 1) {\n" +
+    " 			print(\"ugh\")\n" +
+    "		}\n" +
+    "	}\n" +
+    "	while (\"string\" == a) {\n" +
+    "		while (1 == true) {\n" +
+    "			a = 1 + \"string\"\n" +
+    "		}\n" +
+    "	}\n" +
+	"}$";
+
+	var analysisFail2 = "{\n" +
+		"	string a\n" +
+		"	a = true\n" +
+		"}$";
+
+	var analysisFail3 = "{\n" +
+		"	int a\n" +
+		"	a = 1\n" +
+		"	if(\"a\" == 3) {\n" +
+		"		a = 2\n" +
+		"	}\n" +
+		"	if(a != 1) {\n" +
+		"		a = 3\n" +
+		"	}\n" +
+		"	if(a == 1) {\n" +
+		"		a = 3\n" +
+		"	}\n" +
+		"}$";
+	
+	var analysisFail4 = "{\n" +
+		"	int a\n" +
+		"	a = 9\n" +
+		"	boolean a\n" +
+		"}$";
+		  
+	var analysisFail5 = "{\n" +
+		"	int a\n" +
+		"	a = 4\n" +
+		"	boolean b\n" +
+		"	b = true\n" +
+		"	boolean c\n" +
+		"	string d\n" +
+		"	d = \"there is no spoon\"\n" +
+		"	c = (d != \"there is a spoon\")\n" +
+		"	if(c == (false != (b == (true == (a == 3+1))))) {\n" +
+		"		print((b != d))\n" +
+		"	}\n" +
+		"}$";
+	/*
+	* These CodeGen Failure test cases came from Tien's test cases
+	*/
+	var codeFail1 = "{\n" +
+		"	print(\"alan\")\n" +
+		"	print(\"alan\")\n" +
+		"	print(\"alan\")\n" +
+		"	print(\"alan\")\n" +
+		"	print(\"alan\")\n" +
+		"	print(\"alan\")\n" +
+		"	print(\"alan\")\n" +
+		"	print(\"alan\")\n" +
+		"	print(\"alan\")\n" +
+		"	print(\"alan\")\n" +
+		"	print(\"alan\")\n" +
+		"	print(\"alan\")\n" +
+		"	print(\"alan\")\n" +
+		"	print(\"alan\")\n" +
+		"	print(\"alan\")\n" +
+		"	print(\"alan\")\n" +
+		"}$"
 
 //Output the testprogram
 function testProgram(name) {
@@ -175,6 +312,33 @@ function testProgram(name) {
 			break;
 		case "missing_expression":
 			rText = parseFail4;
+			break;
+		case "undeclaredB":
+			rText = analysisFail1;
+			break;
+		case "StringBool":
+			rText = analysisFail2;
+			break;
+		case "stringint":
+			rText = analysisFail3;
+			break;
+		case "varRedclare":
+			rText = analysisFail4;
+			break;
+		case "Boolhell":
+			rText = analysisFail5;
+			break;
+		case "NoMem":
+			rText = codeFail1;
+			break;
+		case "good_case_3":
+			rText = goodcase3;
+			break;
+		case "booleanLogic":
+			rText = goodcase4;
+			break;
+		case "whilePrint":
+			rText = goodcase5;
 			break;
 		default:
 			rText = "";
