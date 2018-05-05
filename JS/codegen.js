@@ -602,7 +602,24 @@ function cIf(pos, depth) {
 function cInequality(pos, depth) {
     //Generating
     codeLog("Generating [ Inequality ] on line " + pos.line + "..");
+    //runs equality to handle most of the work
     cEquality(pos, depth);
+    //negate the equals..
+    addHex(loadAccWithConst);
+    addHex("00");
+    addHex(branchNBytes);
+    addHex("02");
+    addHex(loadAccWithConst);
+    addHex("01");
+    addHex(loadXWithConst);
+    addHex("00");
+    addHex(storeAccInMemo);
+    addHex(TEMP_ADDRESS_ONE);
+    addHex("XX");
+
+    addHex(compareMemoToX);
+    addHex(TEMP_ADDRESS_ONE);
+    addHex("XX");
 
     //Finished
     codeLog("Finished [ Inequality ] on line " + pos.line + "..");
