@@ -271,6 +271,58 @@ function backpatch() {
     }
 }
 
+//Boolean Logic
+function booleanLogic(pos) {
+    //temp values
+    var e1, e2;
+    //children elements
+    var elementOne = pos.children[0];
+    var elementTwo = pos.children[1];
+
+    //if Bool
+    if (elementOne.type == "BOOL") {
+        //get which
+        e1 = elementOne.name;
+    //if not
+    } else {
+        //continue down
+        e1 = ""+booleanLogic(elementOne);
+    }
+
+    //if Bool
+    if (elementTwo.type == "BOOL") {
+        //get which
+        e2 = elementTwo.name;
+        //if not
+    } else {
+        //continue down
+        e2 = ""+booleanLogic(elementTwo);
+    }
+    //If this one is an equals
+    if (pos.type == "Equality") {
+        //then this must be
+        if (e1 == e2) {
+            //so true
+            return true;
+        //otherwise
+        } else {
+            //false
+            return false;
+        }
+    //if not an equal statement
+    } else {
+        //then this must be
+        if (e1 != e2) {
+            //true
+            return true;
+        //otherwise
+        } else {
+            //false
+            return false;
+        }
+    }
+}
+
 function traverseTree(pos, depth) {
     //moves through the tree looking at the level
     if (pos.name == "Root")
@@ -550,7 +602,7 @@ function cIf(pos, depth) {
 function cInequality(pos, depth) {
     //Generating
     codeLog("Generating [ Inequality ] on line " + pos.line + "..");
-
+    cEquality(pos, depth);
 
     //Finished
     codeLog("Finished [ Inequality ] on line " + pos.line + "..");
@@ -559,9 +611,28 @@ function cInequality(pos, depth) {
 function cEquality(pos, depth) {
     //Generating
     codeLog("Generating [ Equality ] on line " + pos.line + "..");
-
+    //if theres a nested bool types
+    if (pos.children[0].name == "Equality" || pos.children[0].name == "Inequality" || pos.children[1].name == "Equality" || pos.children[1].name == "Inequality") {
+        //Let Boolean Logic handle that one little 6502 assembler
+        if (booleanLogic(pos)) {
+            //loads true
+            addHex(loadAccWithConst);
+            addHex("01");
+            addHex("XX");
+            addHex(loadXWithConst);
+            addHex("01");
+            addHex("XX");
+        } else {
+            //loads false
+            addHex(loadAccWithConst);
+            addHex("01");
+            addHex("XX");
+            addHex(loadXWithConst);
+            addHex("00");
+            addHex("XX");
+        }
     //if comparing strings
-    if (pos.children[0].type == "CHARLIST" && pos.children[1].type == "CHARLIST") {
+    } else if (pos.children[0].type == "CHARLIST" && pos.children[1].type == "CHARLIST") {
         //compares strings
         if (pos.children[0].name == pos.children[1].name) {
             //loads true
