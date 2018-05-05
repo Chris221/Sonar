@@ -19,10 +19,9 @@ StaticData.prototype.add = function(node, scope) {
 // Gets a variable from the static data table
 StaticData.prototype.get = function(node, scope) {
     var identifier = this.variables[this.getKey(node, scope)];
-    
-    if (!identifier) {
-        var parentScopeLevel = node.parent.scope;
-        identifier = this.variables[node.name + "@" + parentScopeLevel];
+    for (;!identifier;) {
+        scope = this.pScope(node.parent, scope);
+        identifier = this.variables[node.name + "@" + scope];
     }
     
     return identifier.address;
@@ -37,6 +36,28 @@ StaticData.prototype.getKey = function(node, scope) {
 // Generates the number of variables
 StaticData.prototype.length = function() {
     return this.currentAddress;
+};
+
+// gets the parent scope
+StaticData.prototype.pScope = function(node, scope) {
+    //if they are equal
+    if (node.scope == scope) {
+        //goes further
+        return this.pScope(node.parent, scope);
+    //otherwise
+    } else {
+        //if no scope
+        if (node.scope == "undefined") {
+            //erors
+            cErrors++;
+            codeLog("ERROR! went to far up in scope for staticData, This should never happen");
+            return node.scope;
+        //otherwise
+        } else {
+            //return scope
+            return node.scope;
+        }
+    }
 };
 
 /** 
