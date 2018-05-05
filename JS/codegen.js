@@ -325,37 +325,53 @@ function booleanLogic(pos) {
 
 function traverseTree(pos, depth) {
     //moves through the tree looking at the level
+    //root
     if (pos.name == "Root")
         cRoot(pos.children, depth);
+    //program
     else if (pos.name.includes("Program"))
         cProgram(pos.children, depth);
+    //block
     else if (pos.name == "Block")
         cBlock(pos, depth);
+    //Variable Declairation
     else if (pos.name == "VarDecl")
         cVarDecl(pos, depth);
+    //Assignment Statments
     else if (pos.name == "AssignmentStatement")
         cAssign(pos, depth);
+    //Print Statements
     else if (pos.name == "Print")
         cPrint(pos, depth);
+    //If Statements
     else if (pos.name == "IfStatement")
         cIf(pos, depth);
+    //While Statements
     else if (pos.name == "WhileStatement")
         cWhile(pos, depth);
+    //Equality
     else if (pos.name == "Equality")
         cEquality(pos, depth);
+    //Inequality
     else if (pos.name == "Inequality")
         cInequality(pos, depth);
+    //True or False variables
     else if (pos.name == "true" || pos.name == "false")
         cBool(pos, depth);
+    //String variables
     else if (pos.type == "CHARLIST")
         cString(pos, depth);
+    //ID variables
     else if ("abcdefghijklmnopqrstuvwxyz".includes(pos.name))
         cID(pos, depth);
+    //Integer variables
     else if ("0123456789".includes(pos.name))
         cDigit(pos, depth);
+    //Addition
     else if (pos.name == "Addition") {
         return cAddition(pos, depth);
     } else {
+        //loops through trees kids and moves down incase one is missed
         for (var i = 0; i < pos.children.length; i++) {
             //moves deeper on each one
             traverseTree(pos.children[i], depth);
@@ -384,7 +400,9 @@ function cBlock(pos, depth) {
     codeLog("Generating [ Block ] on line " + pos.line + "..");
     //enter scope
     codeLog("Entering Scope [ "+pos.scope+" ]..");
+    //if verbose
     if (verbose) {
+        //output
         codeLog("Found [ " + pos.name + " ] on line " + pos.line + " in scope " + pos.scope + "...");
     }
     //loops through the level
@@ -605,17 +623,23 @@ function cInequality(pos, depth) {
     //runs equality to handle most of the work
     cEquality(pos, depth);
     //negate the equals..
+    //loads 0
     addHex(loadAccWithConst);
     addHex("00");
+    //jumps 2
     addHex(branchNBytes);
     addHex("02");
+    //loads 1
     addHex(loadAccWithConst);
     addHex("01");
+    //loads 0 into x
     addHex(loadXWithConst);
     addHex("00");
+    //stores in memory
     addHex(storeAccInMemo);
     addHex(TEMP_ADDRESS_ONE);
     addHex("XX");
+    //compares
     addHex(compareMemoToX);
     addHex(TEMP_ADDRESS_ONE);
     addHex("XX");
@@ -632,14 +656,18 @@ function cEquality(pos, depth) {
         //Let Boolean Logic handle that one little 6502 assembler
         if (booleanLogic(pos)) {
             //loads true
+            //loads 1
             addHex(loadAccWithConst);
             addHex("01");
+            //loads 1 into x
             addHex(loadXWithConst);
             addHex("01");
         } else {
             //loads false
+            //loads 1
             addHex(loadAccWithConst);
             addHex("01");
+            //loads 0 into x
             addHex(loadXWithConst);
             addHex("00");
         }
@@ -648,14 +676,18 @@ function cEquality(pos, depth) {
         //compares strings
         if (pos.children[0].name == pos.children[1].name) {
             //loads true
+            //loads 1
             addHex(loadAccWithConst);
             addHex("01");
+            //loads 1 into x
             addHex(loadXWithConst);
             addHex("01");
         } else {
             //loads false
+            //loads 1
             addHex(loadAccWithConst);
             addHex("01");
+            //loads 0 into x
             addHex(loadXWithConst);
             addHex("00");
         }
