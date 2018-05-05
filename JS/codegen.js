@@ -718,6 +718,15 @@ function cEquality(pos, depth) {
             addHex(loadXWithConst);
             addHex("00");
         }
+
+        //stores in memory
+        addHex(storeAccInMemo);
+        addHex(TEMP_ADDRESS_ONE);
+        addHex("XX");
+        //compares to memory
+        addHex(compareMemoToX);
+        addHex(TEMP_ADDRESS_ONE);
+        addHex("XX");
     //if comparing strings
     } else if (pos.children[0].type == "CHARLIST" && pos.children[1].type == "CHARLIST") {
         //compares strings
