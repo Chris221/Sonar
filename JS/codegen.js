@@ -131,11 +131,6 @@ function backpatch() {
         for (var i = 0; i < code.length; i++) {
             //if this element is temp 1
             if (code[i] == TEMP_ADDRESS_ONE) {
-                //debug
-                if (debug) {
-                    //output found
-                    console.log("Found a "+TEMP_ADDRESS_ONE)
-                }
                 //replace the first temp
                 code[i] = addressOne;
             }
@@ -155,11 +150,6 @@ function backpatch() {
         for (var i = 0; i < code.length; i++) {
             //if this element is temp 2
             if (code[i] == TEMP_ADDRESS_TWO) {
-                //debug
-                if (debug) {
-                    //output found
-                    console.log("Found a "+TEMP_ADDRESS_TWO)
-                }
                 //replace the second temp
                 code[i] = addressTwo;
             }
@@ -181,11 +171,6 @@ function backpatch() {
         for (var i = 0; i < code.length; i++) {
             //if this element is tempAddress 
             if (code[i] == tempAddress) {
-                //debug
-                if (debug) {
-                    //output found
-                    console.log("Found a "+tempAddress)
-                }
                 //replace the second temp
                 code[i] = newAddress;
             }
@@ -209,11 +194,6 @@ function backpatch() {
         for (var i = 0; i < code.length; i++) {
             //if this element is the jump key 
             if (code[i] == key) {
-                //debug
-                if (debug) {
-                    //output found
-                    console.log("Found a "+key)
-                }
                 //replace the jump
                 code[i] = move;
             }
@@ -231,11 +211,6 @@ function backpatch() {
         for (var i = 0; i < code.length; i++) {
             //if this element is temp 2
             if (code[i] == "XX") {
-                //debug
-                if (debug) {
-                    //output found
-                    console.log("Found a XX")
-                }
                 //replace the second temp
                 code[i] = "00";
             }

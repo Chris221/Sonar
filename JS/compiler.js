@@ -1,7 +1,7 @@
 // JavaScript Document
 
 //Debugger
-var debug = true;
+var debug = false;
 
 //verbose mode
 var verbose = true;
