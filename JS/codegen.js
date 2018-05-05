@@ -453,7 +453,7 @@ function cAddition(pos, depth) {
     codeLog("Generating [ Addition ] on line " + pos.line + "..");
 
     //move through the tree
-    traverseTree(pos.children[0], depth);
+    traverseTree(pos.children[1], depth);
     //stores into memory
     addHex(storeAccInMemo);
     addHex(TEMP_ADDRESS_ONE);
