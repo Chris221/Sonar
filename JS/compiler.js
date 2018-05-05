@@ -463,3 +463,27 @@ function changeVisualizer() {
 		$('#lexer').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-warning").removeClass("btn-danger");
 	}
 }
+
+//copy to clipboard function
+function copyToClipboard(element) {
+	var $temp = $("<input>");
+	$("body").append($temp);
+	$temp.val($(element).text()).select();
+	document.execCommand("copy");
+	$temp.remove();
+	$.notify({
+		// options
+		message: 'Copied!' 
+	},{
+		// settings
+		type: 'info',
+		delay: 500,
+		timer: 1000,
+		url_target: '_blank',
+		mouse_over: null,
+		animate: {
+			enter: 'animated fadeInDown',
+			exit: 'animated fadeOutUp'
+		},
+	});
+  }
