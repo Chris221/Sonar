@@ -616,7 +616,6 @@ function cInequality(pos, depth) {
     addHex(storeAccInMemo);
     addHex(TEMP_ADDRESS_ONE);
     addHex("XX");
-
     addHex(compareMemoToX);
     addHex(TEMP_ADDRESS_ONE);
     addHex("XX");
@@ -635,18 +634,14 @@ function cEquality(pos, depth) {
             //loads true
             addHex(loadAccWithConst);
             addHex("01");
-            addHex("XX");
             addHex(loadXWithConst);
             addHex("01");
-            addHex("XX");
         } else {
             //loads false
             addHex(loadAccWithConst);
             addHex("01");
-            addHex("XX");
             addHex(loadXWithConst);
             addHex("00");
-            addHex("XX");
         }
     //if comparing strings
     } else if (pos.children[0].type == "CHARLIST" && pos.children[1].type == "CHARLIST") {
@@ -655,18 +650,14 @@ function cEquality(pos, depth) {
             //loads true
             addHex(loadAccWithConst);
             addHex("01");
-            addHex("XX");
             addHex(loadXWithConst);
             addHex("01");
-            addHex("XX");
         } else {
             //loads false
             addHex(loadAccWithConst);
             addHex("01");
-            addHex("XX");
             addHex(loadXWithConst);
             addHex("00");
-            addHex("XX");
         }
 
         //stores in memory
@@ -676,6 +667,7 @@ function cEquality(pos, depth) {
         //compares to memory
         addHex(compareMemoToX);
         addHex(TEMP_ADDRESS_ONE);
+        addHex("XX");
     //compares the rest
     } else {
         //gets first loaded
@@ -684,30 +676,32 @@ function cEquality(pos, depth) {
         //stores in memory
         addHex(storeAccInMemo);
         addHex(TEMP_ADDRESS_TWO);
+        addHex("XX");
         //gets second loaded
         traverseTree(pos.children[1], depth);
 
         //stores in memory
         addHex(storeAccInMemo);
         addHex(TEMP_ADDRESS_ONE);
+        addHex("XX");
         //loads from memory
         addHex(loadXFromMemo);
         addHex(TEMP_ADDRESS_TWO);
+        addHex("XX");
         //compare to memory
         addHex(compareMemoToX);
         addHex(TEMP_ADDRESS_ONE);
+        addHex("XX");
 
         //loads false
         addHex(loadAccWithConst);
         addHex("00");
-        addHex("XX");
         //jump 2 if true
-        addHex(BRANCH_IF_Z_FLAG_EQUALS_ZERO);
+        addHex(branchNBytes);
         addHex("02");
         //true
         addHex(loadAccWithConst);
         addHex("01");
-        addHex("XX");
     }
 
     //Finished
@@ -781,7 +775,6 @@ function cString(pos, depth) {
     //loads the location of the string
     addHex(loadAccWithConst);
     addHex(value);
-    addHex("XX");
 
     //Finished
     codeLog("Finished [ String ] on line " + pos.line + "..");
