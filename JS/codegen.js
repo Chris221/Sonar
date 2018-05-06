@@ -290,6 +290,23 @@ function booleanLogic(pos) {
     if (elementOne.type == "BOOL") {
         //get which
         e1 = elementOne.name;
+    //if string then true
+    } else if (elementOne.type == "CHARLIST") { 
+        //sets true
+        e1 =  true;
+    //if ID
+    } else if (elementOne.type == "ID") { 
+        //gets the type
+        var varType = getTypeFromST(elementOne.name, elementOne.scope);
+        //if string
+        if (varType = "string") {
+            //sets true
+            e1 =  true;
+        //if not
+        } else {
+            //sets the name
+            e1 = elementOne.name;
+        }
     //if not
     } else {
         //continue down
@@ -300,7 +317,24 @@ function booleanLogic(pos) {
     if (elementTwo.type == "BOOL") {
         //get which
         e2 = elementTwo.name;
+    //if string
+    } else if (elementTwo.type == "CHARLIST") {
+        //sets true
+        e2 = true;
+    //if ID
+    } else if (elementTwo.type == "ID") { 
+        //gets the type        
+        var varType = getTypeFromST(elementTwo.name, elementTwo.scope);
+        //if string
+        if (varType = "string") {
+            //sets true
+            e2 = true;
         //if not
+        } else {
+            //sets the name
+            e1 = elementTwo.name;
+        }
+    //if not
     } else {
         //continue down
         e2 = ""+booleanLogic(elementTwo);
