@@ -385,7 +385,7 @@ function lexer(input) {
 		//$('#lexer').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-warning").removeClass("btn-danger");
 	}
 	//Defines the full output of the completed text
-	var completedText = "\nLexer " + cText + " with " + warnings + " warnings and " + errors + " errors!";
+	var completedText = "\nLexer " + cText + " with " + warnings + " warnings and " + errors + " errors";
 	//Outputs the completed Text
 	$('#Lexer_log').text($('#Lexer_log').val() + completedText);
 

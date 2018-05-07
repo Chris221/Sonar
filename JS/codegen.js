@@ -4,8 +4,6 @@ var tree;
 var code = [];
 //errors
 var cErrors = 0;
-//warnings
-var cWarnings = 0;
 //new reference table for ID codes
 var staticData = new StaticData();
 //new reference table jump codes
@@ -30,7 +28,6 @@ function gen(ast) {
     tree = ast;
     code = [];
     cErrors = 0;
-    cWarnings = 0;
     staticData = new StaticData();
     codeString = "";
     heap = [];
@@ -39,6 +36,15 @@ function gen(ast) {
     //calls code gen
     generate();
 
+    //If no errors then
+    if (!cErrors) {
+        //Passed Code Gen
+        $('#Lexer_log').text($('#Lexer_log').val() + "\nCode Generation passed with 0 warnings and "+cErrors+" Errors\n");
+    //otherwise
+    } else {
+        //Failed Code Gen
+        $('#Lexer_log').text($('#Lexer_log').val() + "\nCode Generation FAILED with 0 warnings and "+cErrors+" Errors\n");
+    }
     //returns codestring
     return codeString;
 }
@@ -64,6 +70,8 @@ function codeLog(text, override = false) {
 }
 
 function generate() {
+    //
+    codeLog("Code Generating Program "+programNumber+"...",true);
     //adds true to heap, gets location
     trueAddress = numtoHex(addToHeap('true'));
     //adds false to heap, gets location
@@ -75,19 +83,15 @@ function generate() {
 
     //calls backpatching
     backpatch();
+     //break lines in the log
+    $('#Lexer_log').text($('#Lexer_log').val() + "\n");
 
-    //if outputting
-    if (verbose) {
-        //break lines in the log
-        $('#Lexer_log').text($('#Lexer_log').val() + "\n");
-
-        //random banter for outputing code and heap being combined
-        codeLog("Getting the Code...");
-        codeLog("Taking the Heap...");
-        codeLog("Putting them together with 00s...");
-        //outs the memory 
-        codeLog("Memory  "+(code.length+heap.length)+"/"+MAX+"...");
-    }
+    //random banter for outputing code and heap being combined
+    codeLog("Getting the Code...");
+    codeLog("Taking the Heap...");
+    codeLog("Putting them together with 00s...");
+    //outs the memory 
+    codeLog("Memory  "+(code.length+heap.length)+"/"+MAX+"...");
     
     //if the heap and code arent a full 256
     for (var i = code.length; i < MAX - heap.length; i++) {
@@ -105,7 +109,7 @@ function generate() {
         //increases errors
         cErrors++;
         //outputs error
-        codeLog("ERROR! Not enough memory "+code.length+"/"+MAX+"...");
+        codeLog("ERROR! Not enough memory "+code.length+"/"+MAX+"...",true);
     }
 
     //joins the code in a nice readable string
@@ -121,11 +125,8 @@ function backpatch() {
 
     //gets new address
     var addressOne = numtoHex(code.length + staticData.length());
-    //if outputting
-    if (verbose) {
-        //Outputs the change to the new address
-        codeLog("Replacing [ " + TEMP_ADDRESS_ONE + " ] with [ " + addressOne + " ]...");
-    }
+    //Outputs the change to the new address
+    codeLog("Replacing [ " + TEMP_ADDRESS_ONE + " ] with [ " + addressOne + " ]...");
     //checks for the first temp value
     if (code.includes(TEMP_ADDRESS_ONE)) {
         for (var i = 0; i < code.length; i++) {
@@ -139,11 +140,8 @@ function backpatch() {
 
     //gets new address
     var addressTwo = numtoHex(code.length + staticData.length() + 1);
-    //if outputting
-    if (verbose) {
-        //Outputs the change to the new address
-        codeLog("Replacing [ " + TEMP_ADDRESS_TWO + " ] with [ " + addressTwo + " ]...");
-    }
+    //Outputs the change to the new address
+    codeLog("Replacing [ " + TEMP_ADDRESS_TWO + " ] with [ " + addressTwo + " ]...");
     //checks for the second temp value
     if (code.includes(TEMP_ADDRESS_TWO)) {
         //Loops for it
@@ -162,11 +160,8 @@ function backpatch() {
         var newAddress = numtoHex(code.length + staticData.variables[key].offset);
         //gets the temp address location
         var tempAddress = staticData.variables[key].address;
-        //if outputting
-        if (verbose) {
-            //Outputs the change to the new address
-            codeLog("Replacing [ " + tempAddress + " ] with [ " + newAddress + " ]...");
-        }
+        //Outputs the change to the new address
+        codeLog("Replacing [ " + tempAddress + " ] with [ " + newAddress + " ]...");
         //Loops for it
         for (var i = 0; i < code.length; i++) {
             //if this element is tempAddress 
@@ -185,11 +180,8 @@ function backpatch() {
         var end = jumpTable.variables[key].endingAddress;
         //gets the distance to move
         var move = numtoHex(end - start - 2);
-        //if outputting
-        if (verbose) {
-            //Outputs the change to the new address
-            codeLog("Replacing [ " + key + " ] with [ " + move + " ]...");
-        }
+        //Outputs the change to the new address
+        codeLog("Replacing [ " + key + " ] with [ " + move + " ]...");
         //Loops for it
         for (var i = 0; i < code.length; i++) {
             //if this element is the jump key 
@@ -200,11 +192,8 @@ function backpatch() {
         }
     }
     
-    //if outputting
-    if (verbose) {
-        //Outputs the change to the new address
-        codeLog("Replacing [ XX ] with [ 00 ]...");
-    }
+    //Outputs the change to the new address
+    codeLog("Replacing [ XX ] with [ 00 ]...");
     //checks for the XX
     if (code.includes("XX")) {
         //Loops for it
@@ -239,11 +228,8 @@ function backpatch() {
     function addHex(val) {
         //adds the hex to the Array
         code.push(val);
-        //if outputing
-        if (verbose) {
-            //output to log
-            codeLog("Pushing [ " + val + " ] byte to memory...");
-        }
+        //output to log
+        codeLog("Pushing [ " + val + " ] byte to memory...");
     }
 
     function toHex(val) {
@@ -441,11 +427,7 @@ function cBlock(pos, depth) {
     codeLog("Generating [ Block ] on line " + pos.line + "..");
     //enter scope
     codeLog("Entering Scope [ "+pos.scope+" ]..");
-    //if verbose
-    if (verbose) {
-        //output
-        codeLog("Found [ " + pos.name + " ] on line " + pos.line + " in scope " + pos.scope + "...");
-    }
+    //output
     //loops through the level
     for (var i = 0; i < pos.children.length; i++) {
         //moves deeper on each one
@@ -914,10 +896,8 @@ function addToHeap(str) {
         //removes one from the heap
         heapAddress--;
     }
-    if (verbose) {
-        //outputs info about the add
-        codeLog("Added string [ "+str+" ] to heap, address "+heapAddress+" [ "+numtoHex(heapAddress)+" ]...");
-    }
+    //outputs info about the add
+    codeLog("Added string [ "+str+" ] to heap, address "+heapAddress+" [ "+numtoHex(heapAddress)+" ]...");
     //returns heap address
     return heapAddress;
 }

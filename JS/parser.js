@@ -60,12 +60,12 @@ function parser(input) {
     program();
 
     //Defines the completion text
-    var completedText = "\nThe parser successfully passed";
+    var completedText = "\nParser passed with 0 warnings and " + pErrors + " errors";
 
     //if any errors
     if (pErrors) {
         //Sets failed for the completed parser output
-        completedText = "\nThe parser FAILED with errors (" + pErrors + ")";
+        completedText = "\nParser FAILED with 0 warnings and " + pErrors + " errors";;
         //Makes the visual parser red
         //$('#parser').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success");
     } else {

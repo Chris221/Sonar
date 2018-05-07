@@ -251,12 +251,12 @@ function analyzer(input) {
     checkIfAllVarsUsed(st.cur);
 
     //Defines the completion text
-    var completedText = "\nThe semantic analysis successfully passed with " + aWarnings + " warnings";
+    var completedText = "\nSemantic Analysis passed with " + aWarnings + " warnings and " + aErrors + " errors";
 
     //if any errors
     if (aErrors) {
         //Sets failed for the completed semantic analysis output
-        completedText = "\nThe semantic analysis FAILED with " + aErrors + " errors and " + aWarnings + " warnings";
+        completedText = "\nSemantic Analysis FAILED with " + aWarnings + " warnings and " + aErrors + " errors";
     } else {
         //outputs AST and Scope Tree to there locations on the page
         $('#ast').val($('#ast').val() + ast.toString());
