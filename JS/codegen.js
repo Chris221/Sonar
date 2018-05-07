@@ -599,7 +599,7 @@ function cPrint(pos, depth) {
         //processes booleans and Ints
         traverseTree(pos.children[0],depth);
         //raw boolean print codes
-        if (pos.children[0].type == "Bool" || pos.children[0].type == "Equality" || pos.children[0].type == "Inequality") {
+        if (pos.children[0].type == "BOOL" || pos.children[0].type == "Equality" || pos.children[0].type == "Inequality") {
             //boolean print op codes
             //loads 1 into x
             addHex(loadXWithConst);
