@@ -43,11 +43,11 @@ function gen(ast) {
     //If no errors then
     if (!cErrors) {
         //Passed Code Gen
-        $('#Lexer_log').text($('#Lexer_log').val() + "\nCode Generation passed with 0 warnings and "+cErrors+" Errors\n");
-    //otherwise
+        $('#Lexer_log').text($('#Lexer_log').val() + "\nCode Generation passed with 0 warnings and " + cErrors + " Errors\n");
+        //otherwise
     } else {
         //Failed Code Gen
-        $('#Lexer_log').text($('#Lexer_log').val() + "\nCode Generation FAILED with 0 warnings and "+cErrors+" Errors\n");
+        $('#Lexer_log').text($('#Lexer_log').val() + "\nCode Generation FAILED with 0 warnings and " + cErrors + " Errors\n");
     }
     //returns codestring
     return codeString;
@@ -75,7 +75,7 @@ function codeLog(text, override = false) {
 
 function generate() {
     //Code gen starting 
-    codeLog("Code Generating Program "+programNumber+"...",true);
+    codeLog("Code Generating Program " + programNumber + "...", true);
     //adds true to heap, gets location
     trueAddress = addToHeap('true');
     //adds false to heap, gets location
@@ -87,7 +87,7 @@ function generate() {
 
     //calls backpatching
     backpatch();
-     //break lines in the log
+    //break lines in the log
     $('#Lexer_log').text($('#Lexer_log').val() + "\n");
 
     //random banter for outputing code and heap being combined
@@ -95,8 +95,8 @@ function generate() {
     codeLog("Taking the Heap...");
     codeLog("Putting them together with 00s...");
     //outs the memory 
-    codeLog("Memory  "+(code.length+heap.length)+"/"+MAX+"...");
-    
+    codeLog("Memory  " + (code.length + heap.length) + "/" + MAX + "...");
+
     //if the heap and code arent a full 256
     for (var i = code.length; i < MAX - heap.length; i++) {
         //adds empty space
@@ -113,7 +113,7 @@ function generate() {
         //increases errors
         cErrors++;
         //outputs error
-        codeLog("ERROR! Not enough memory "+code.length+"/"+MAX+"...",true);
+        codeLog("ERROR! Not enough memory " + code.length + "/" + MAX + "...", true);
     }
 
     //joins the code in a nice readable string
@@ -195,7 +195,7 @@ function backpatch() {
             }
         }
     }
-    
+
     //Outputs the change to the new address
     codeLog("Replacing [ XX ] with [ 00 ]...");
     //checks for the XX
@@ -215,39 +215,39 @@ function backpatch() {
 }
 
 /* ----------------------------------------- Hex Related Functions ----------------------------------------- */
-    // Adds padding
-    function pad(word, size, padder) {
-        var paddedWord = "" + word;
-        while (paddedWord.length < size) {
-            paddedWord = padder + paddedWord;
-        }
-        return paddedWord;
+// Adds padding
+function pad(word, size, padder) {
+    var paddedWord = "" + word;
+    while (paddedWord.length < size) {
+        paddedWord = padder + paddedWord;
     }
+    return paddedWord;
+}
 
-    function toHexidecimal(str) {
-        //Converts a string to hex
-        return str.toString(16);
-    }
+function toHexidecimal(str) {
+    //Converts a string to hex
+    return str.toString(16);
+}
 
-    function addHex(val) {
-        //adds the hex to the Array
-        code.push(val);
-        //output to log
-        codeLog("Pushing [ " + val + " ] byte to memory...");
-    }
+function addHex(val) {
+    //adds the hex to the Array
+    code.push(val);
+    //output to log
+    codeLog("Pushing [ " + val + " ] byte to memory...");
+}
 
-    function toHex(val) {
-        //turns chars into HEX
-        return pad(toHexidecimal(val.charCodeAt(0)), 2, '0').toUpperCase();
-    }
-    
-    function numtoHex(val) {
-        //turns ints into HEX
-        return pad(toHexidecimal(parseInt(val)), 2, '0').toUpperCase();
-    }
- /* --------------------------------------- End Hex Related Functions --------------------------------------- */
+function toHex(val) {
+    //turns chars into HEX
+    return pad(toHexidecimal(val.charCodeAt(0)), 2, '0').toUpperCase();
+}
 
- function getTypeFromST(id, scope, start = st.cur) {
+function numtoHex(val) {
+    //turns ints into HEX
+    return pad(toHexidecimal(parseInt(val)), 2, '0').toUpperCase();
+}
+/* --------------------------------------- End Hex Related Functions --------------------------------------- */
+
+function getTypeFromST(id, scope, start = st.cur) {
     //if the current level has symbols
     for (var i = 0; i < start.symbols.length; i++) {
         //when the correct ID is found
@@ -280,68 +280,68 @@ function booleanLogic(pos) {
     if (elementOne.type == "BOOL") {
         //get which
         e1 = elementOne.name;
-    //if string then true
+        //if string then true
     } else if (elementOne.type == "CHARLIST") {
         //if the string has value
         if (elementOne.name.length > 0) {
             //sets true
             e1 = true;
-        //otherwise
+            //otherwise
         } else {
             //sets false
             e1 = false;
         }
-    //if ID
-    } else if (elementOne.type == "ID") { 
+        //if ID
+    } else if (elementOne.type == "ID") {
         //gets the type
         var varType = getTypeFromST(elementOne.name, elementOne.scope);
         //if string
         if (varType = "string") {
             //sets true
-            e1 =  true;
-        //if not
+            e1 = true;
+            //if not
         } else {
             //sets the name
             e1 = elementOne.name;
         }
-    //if not
+        //if not
     } else {
         //continue down
-        e1 = ""+booleanLogic(elementOne);
+        e1 = "" + booleanLogic(elementOne);
     }
 
     //if Bool
     if (elementTwo.type == "BOOL") {
         //get which
         e2 = elementTwo.name;
-    //if string
+        //if string
     } else if (elementTwo.type == "CHARLIST") {
         //if the string has value
         if (elementTwo.name.length > 0) {
             //sets true
             e2 = true;
-        //otherwise
+            //otherwise
         } else {
             //sets false
             e2 = false;
         }
-    //if ID
-    } else if (elementTwo.type == "ID") { 
+        //if ID
+    } else if (elementTwo.type == "ID") {
         //gets the type        
         var varType = getTypeFromST(elementTwo.name, elementTwo.scope);
         //if string
         if (varType = "string") {
             //sets true
             e2 = true;
-        //if not
+            //if not
         } else {
             //sets the name
             e1 = elementTwo.name;
         }
-    //if not
+        //if not
     } else {
         //continue down
-        e2 = ""+booleanLogic(elementTwo);
+        e2 = "" + booleanLogic(elementTwo);
     }
     //If this one is an equals
     if (pos.type == "Equality") {
@@ -349,18 +349,18 @@ function booleanLogic(pos) {
         if (e1 == e2) {
             //so true
             return true;
-        //otherwise
+            //otherwise
         } else {
             //false
             return false;
         }
-    //if not an equal statement
+        //if not an equal statement
     } else {
         //then this must be
         if (e1 != e2) {
             //true
             return true;
-        //otherwise
+            //otherwise
         } else {
             //false
             return false;
@@ -444,7 +444,7 @@ function cBlock(pos, depth) {
     //Generating
     codeLog("Generating [ Block ] on line " + pos.line + "..");
     //enter scope
-    codeLog("Entering Scope [ "+pos.scope+" ]..");
+    codeLog("Entering Scope [ " + pos.scope + " ]..");
     //output
     //loops through the level
     for (var i = 0; i < pos.children.length; i++) {
@@ -452,7 +452,7 @@ function cBlock(pos, depth) {
         traverseTree(pos.children[i], depth + 1);
     }
     //Out of scope
-    codeLog("Leaving Scope [ "+pos.scope+" ]..");
+    codeLog("Leaving Scope [ " + pos.scope + " ]..");
     //Finished
     codeLog("Finished [ Block ] on line " + pos.line + "..");
 }
@@ -535,7 +535,7 @@ function cPrint(pos, depth) {
             addHex(printInt);
             //break
             addHex(systemCall);
-        //ID strings
+            //ID strings
         } else if (varType == "string") {
             //string print op codes
             //loads from memory
@@ -547,7 +547,7 @@ function cPrint(pos, depth) {
             addHex(PrintStr);
             //break
             addHex(systemCall);
-        //ID booleans
+            //ID booleans
         } else if (varType == "boolean") {
             //bool print op codes
             //loads x with 1
@@ -573,7 +573,7 @@ function cPrint(pos, depth) {
             addHex(systemCall);
 
         }
-    //raw strings
+        //raw strings
     } else if (pos.children[0].type == "CHARLIST") {
         //adds the string to heap
         var address = addToHeap(pos.children[0].name);
@@ -594,10 +594,10 @@ function cPrint(pos, depth) {
         addHex(PrintStr);
         //break
         addHex(systemCall);
-    //booleans and Ints
+        //booleans and Ints
     } else {
         //processes booleans and Ints
-        traverseTree(pos.children[0],depth);
+        traverseTree(pos.children[0], depth);
         //raw boolean print codes
         if (pos.children[0].type == "BOOL" || pos.children[0].type == "Equality" || pos.children[0].type == "Inequality") {
             //boolean print op codes
@@ -618,7 +618,7 @@ function cPrint(pos, depth) {
             addHex(PrintStr);
             //Break
             addHex(systemCall);
-        //raw int print codes
+            //raw int print codes
         } else {
             //int print op codes
             //loads print int code
@@ -650,7 +650,7 @@ function cWhile(pos, depth) {
     traverseTree(pos.children[0], depth);
     //defines a jump variable
     var tempAddress = jumpTable.add(code.length);
-    codeLog("Generating [ "+tempAddress+" ] on line " + pos.line + "..");
+    codeLog("Generating [ " + tempAddress + " ] on line " + pos.line + "..");
     //jump to jump variable
     addHex(branchNBytes);
     addHex(tempAddress);
@@ -761,7 +761,7 @@ function cEquality(pos, depth) {
         addHex(compareMemoToX);
         addHex(TEMP_ADDRESS_ONE);
         addHex("XX");
-    //if comparing strings
+        //if comparing strings
     } else if (pos.children[0].type == "CHARLIST" && pos.children[1].type == "CHARLIST") {
         //compares strings
         if (pos.children[0].name == pos.children[1].name) {
@@ -790,7 +790,7 @@ function cEquality(pos, depth) {
         addHex(compareMemoToX);
         addHex(TEMP_ADDRESS_ONE);
         addHex("XX");
-    //compares the rest
+        //compares the rest
     } else {
         //gets first loaded
         traverseTree(pos.children[0], depth);
@@ -866,7 +866,7 @@ function cBool(pos, depth) {
         //load true
         addHex(loadAccWithConst);
         addHex(numtoHex("1"));
-    //otherwise
+        //otherwise
     } else {
         //load false
         addHex(loadAccWithConst);
@@ -906,14 +906,14 @@ function addToHeap(str, line = 0) {
     //checks the table for already used strings
     if (returningHeap = stringTable.get(str)) {
         //outputs it was found
-        codeLog("Found string [ "+str+" ] in the heap at address "+returningHeap+"...");
+        codeLog("Found string [ " + str + " ] in the heap at address " + returningHeap + "...");
         //returns the address
         return returningHeap;
     }
     //if no string..
     if (str.length == 0) {
         //outputs it was found
-        codeLog("Found an empty string on line "+line+" pointing it to FF...");
+        codeLog("Found an empty string on line " + line + " pointing it to FF...");
         //points to 00
         return 'FF';
     }
@@ -922,16 +922,16 @@ function addToHeap(str, line = 0) {
     //removes one from the heap
     heapAddress--;
     //loops through the string
-    for (var i = str.length-1; i >= 0; i--) {
+    for (var i = str.length - 1; i >= 0; i--) {
         //adds the hex value to the string
         heap.unshift(toHex(str.charAt(i)));
         //removes one from the heap
         heapAddress--;
     }
     //adds to the string table
-    stringTable.add(numtoHex(heapAddress),str);
+    stringTable.add(numtoHex(heapAddress), str);
     //outputs info about the add
-    codeLog("Added string [ "+str+" ] to heap, address "+heapAddress+" [ "+numtoHex(heapAddress)+" ]...");
+    codeLog("Added string [ " + str + " ] to heap, address " + heapAddress + " [ " + numtoHex(heapAddress) + " ]...");
     //returns heap address
     return numtoHex(heapAddress);
 }

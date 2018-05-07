@@ -9,14 +9,14 @@ function JumpTable() {
 };
 
 // Adds a jump location to the jump table
-JumpTable.prototype.add = function(startingAddress) {
+JumpTable.prototype.add = function (startingAddress) {
     var address = 'J' + this.address++;
     this.variables[address] = new JumpVariable(startingAddress);
     return address;
 };
 
 // Gets a jump location from the jump table
-JumpTable.prototype.get = function(address) {
+JumpTable.prototype.get = function (address) {
     return this.variables[address];
 };
 

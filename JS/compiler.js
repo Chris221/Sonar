@@ -364,9 +364,9 @@ function compileCode() {
 			"                      Code Gen Passed         \n" +
 			"\n" +
 			"==============================";
-			//Outputs the code
-			$('#Lexer_log').text($('#Lexer_log').val() + "\n" + code);
-			$('#codeBox').text($('#codeBox').val() + code + "\n");
+		//Outputs the code
+		$('#Lexer_log').text($('#Lexer_log').val() + "\n" + code);
+		$('#codeBox').text($('#codeBox').val() + code + "\n");
 	} else {
 		$('#Lexer_log').text($('#Lexer_log').val() + "\nNo code due to Code Generation Error");
 		$('#codeBox').text($('#codeBox').val() + "No code due to Code Generation Error\n");
@@ -473,17 +473,17 @@ function copyToClipboard(element) {
 	$temp.remove();
 	$.notify({
 		// options
-		message: 'Copied!' 
-	},{
-		// settings
-		type: 'info',
-		delay: 500,
-		timer: 1000,
-		url_target: '_blank',
-		mouse_over: null,
-		animate: {
-			enter: 'animated fadeInDown',
-			exit: 'animated fadeOutUp'
-		},
-	});
-  }
+		message: 'Copied!'
+	}, {
+			// settings
+			type: 'info',
+			delay: 500,
+			timer: 1000,
+			url_target: '_blank',
+			mouse_over: null,
+			animate: {
+				enter: 'animated fadeInDown',
+				exit: 'animated fadeOutUp'
+			},
+		});
+}

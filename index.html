@@ -1,5 +1,6 @@
 <!doctype html>
 <html>
+
 <head>
 	<meta charset="UTF-8">
 	<title>Compiler</title>
@@ -31,9 +32,10 @@
 	<script type="text/javascript" src="bootstrap-4.0.0/js/bootstrap-4-navbar.js"></script>
 	<script type="text/javascript" src="bootstrap-4.0.0/bootstrap-notify.min.js"></script>
 </head>
+
 <body onLoad="$('.lined').linedtextarea();testProgram('booleanLogic');">
 	<nav class="topbar navbar navbar-expand-lg navbar-light bg-primary sticky-top">
-	<!--<div class="holder">
+		<!--<div class="holder">
 		<span class="topbar">-->
 		<a class="navbar-brand sonar" href="#">Sonar</a>
 		<!--</span>
@@ -46,7 +48,7 @@
 			<!-- Example Code button -->
 			<div class="btn-group">
 				<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Example Code</button>
-				<div class="dropdown-menu"  aria-labelledby="navbarDropdownMenuLink">
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle">Will pass</a>
 						<ul class="dropdown-menu">
@@ -60,19 +62,22 @@
 						</ul>
 						<a class="nav-link dropdown-toggle">Project</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item dropdown-toggle">Project 1</a>
+							<li>
+								<a class="dropdown-item dropdown-toggle">Project 1</a>
 								<ul class="dropdown-menu">
 									<a class="dropdown-item" onclick="testProgram('project1');">Both</a>
 									<a class="dropdown-item" onclick="testProgram('project1_clean');">Clean</a>
 									<a class="dropdown-item" onclick="testProgram('project1_ugly');">Ugly</a>
 								</ul>
 							</li>
-							<li><a class="dropdown-item dropdown-toggle">Project 2</a>
+							<li>
+								<a class="dropdown-item dropdown-toggle">Project 2</a>
 								<ul class="dropdown-menu">
 									<a class="dropdown-item" onclick="testProgram('project1_clean');">Clean</a>
 								</ul>
 							</li>
-							<li><a class="dropdown-item dropdown-toggle">Project 3</a>
+							<li>
+								<a class="dropdown-item dropdown-toggle">Project 3</a>
 								<ul class="dropdown-menu">
 									<a class="dropdown-item" onclick="testProgram('project3');">Both</a>
 									<a class="dropdown-item" onclick="testProgram('project3_pass');">First One</a>
@@ -96,7 +101,10 @@
 						</ul>
 						<a class="nav-link dropdown-toggle">Analysis Errors</a>
 						<ul class="dropdown-menu">
-							<a class="dropdown-item" onclick="testProgram('a1=b2');">a<sub>1</sub> = b<sub>2</sub></a>
+							<a class="dropdown-item" onclick="testProgram('a1=b2');">a
+								<sub>1</sub> = b
+								<sub>2</sub>
+							</a>
 							<a class="dropdown-item" onclick="testProgram('undeclaredB');">Undeclared b</a>
 							<a class="dropdown-item" onclick="testProgram('StringBool');">String Assigned Bool</a>
 							<a class="dropdown-item" onclick="testProgram('stringint');">string == int</a>
@@ -110,8 +118,8 @@
 						</ul>
 					</li>
 				</div>
-			  </div>&emsp;
-			  <button onclick="verboseChange();" class="btn btn-secondary" id= "verbose">Verbose</button>
+			</div>&emsp;
+			<button onclick="verboseChange();" class="btn btn-secondary" id="verbose">Verbose</button>
 		</span>
 		<!-- Visually see the output of the compiler's parts -->
 		<span class="compilerVis">
@@ -155,7 +163,7 @@
 							<div class="tab-pane fade active show" id="logBox" role="tabpanel" aria-labelledby="log-tab" aria-expanded="true">
 								<div class="panel panel-default">
 									<small>
-											<textarea class="log form-control" id="Lexer_log" placeholder="Log is currently empty" readonly></textarea>
+										<textarea class="log form-control" id="Lexer_log" placeholder="Log is currently empty" readonly></textarea>
 									</small>
 								</div>
 							</div>
@@ -187,9 +195,9 @@
 						<div class="tab-content">
 							<div class="tab-pane fade active show" id="cstBox" role="tabpanel" aria-labelledby="cst-tab" aria-expanded="true">
 								<div class="panel panel-default">
-								<small>
-									<textarea class="cst form-control" id="cst" placeholder="No CST currently" readonly></textarea>
-								</small>
+									<small>
+										<textarea class="cst form-control" id="cst" placeholder="No CST currently" readonly></textarea>
+									</small>
 								</div>
 							</div>
 							<div class="tab-pane fade" id="astBox" role="tabpanel" aria-labelledby="ast-tab" aria-expanded="true">
@@ -211,10 +219,12 @@
 						<!-- Scope tree output -->
 						<ul class="nav nav-tabs">
 							<li class="nav-item">
-								<a class="nav-link active" id="scopetree-tab" data-toggle="tab" href="#scopetreeBox" role="tab" aria-controls="scopetreeBox" aria-expanded="true">Scope Tree</a>
+								<a class="nav-link active" id="scopetree-tab" data-toggle="tab" href="#scopetreeBox" role="tab" aria-controls="scopetreeBox"
+								 aria-expanded="true">Scope Tree</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" id="symboltable-tab" data-toggle="tab" href="#symboltableBox" role="tab" aria-controls="symboltableBox" aria-expanded="true">Symbol Table</a>
+								<a class="nav-link" id="symboltable-tab" data-toggle="tab" href="#symboltableBox" role="tab" aria-controls="symboltableBox"
+								 aria-expanded="true">Symbol Table</a>
 							</li>
 						</ul>
 						<div class="tab-content">
@@ -252,8 +262,8 @@
 						<div class="codeBox form-control" id="codeBox" onclick="copyToClipboard('#codeBox');" placeholder="No Code Currently" readonly>No Code Currently</div>
 					</div>
 				</div>
-				<hr />
-				Projects:<br />
+				<hr /> Projects:
+				<br />
 				<small>
 					<a href="grammar.pdf" target="_blank">Grammar</a>&emsp;
 					<a href="projects/Project 1.pdf" target="_blank">Project 1</a>&emsp;
@@ -264,11 +274,13 @@
 				</small>
 				<hr width="50%" />
 				<small>
-					By: Chris Siena<br />
+					By: Chris Siena
+					<br />
 					<a href="http://ChrisSiena.com/" target="_blank">ChrisSiena.com</a>
 				</small>
 			</div>
 		</span>
 	</span>
 </body>
+
 </html>

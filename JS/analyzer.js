@@ -340,7 +340,7 @@ function aBlock() {
     }
 
     //Creates Scope Node in Symbol Tree
-    st.addNode("ScopeLevel: " + (scopeLevel+1), "branch", scope);
+    st.addNode("ScopeLevel: " + (scopeLevel + 1), "branch", scope);
 
     //Creates a Branch
     addBranch("Block");
@@ -871,7 +871,7 @@ function aCharList() {
     if (aCurrentToken.type == "QUOTE") {
         //changes the token
         return "";
-    } 
+    }
 
     //sets string val
     var r = aCurrentToken.value;
