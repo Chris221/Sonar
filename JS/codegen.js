@@ -277,9 +277,16 @@ function booleanLogic(pos) {
         //get which
         e1 = elementOne.name;
     //if string then true
-    } else if (elementOne.type == "CHARLIST") { 
-        //sets true
-        e1 =  true;
+    } else if (elementOne.type == "CHARLIST") {
+        //if the string has value
+        if (elementOne.name.length > 0) {
+            //sets true
+            e1 = true;
+        //otherwise
+        } else {
+            //sets false
+            e1 = false;
+        }
     //if ID
     } else if (elementOne.type == "ID") { 
         //gets the type
@@ -305,8 +312,15 @@ function booleanLogic(pos) {
         e2 = elementTwo.name;
     //if string
     } else if (elementTwo.type == "CHARLIST") {
-        //sets true
-        e2 = true;
+        //if the string has value
+        if (elementTwo.name.length > 0) {
+            //sets true
+            e2 = true;
+        //otherwise
+        } else {
+            //sets false
+            e2 = false;
+        }
     //if ID
     } else if (elementTwo.type == "ID") { 
         //gets the type        
