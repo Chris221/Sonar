@@ -106,6 +106,34 @@ var goodcase5 = "{\n" +
     "	}\n" +
 	"}$";
 
+var goodcase6 = "/* 45 */\n" +
+	"{\n" +
+	"	int a\n" +
+	"	a = 1\n" +
+	"	a = 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + a\n" +
+	"	print(a)\n" +
+	"}$";
+
+	var goodcase7 = "/*\n" +
+	"Strings with value are true\n" +
+	"Strings without value are false\n" +
+	"Prints: truefalse truefalse\n" +
+	"{\n" +
+	"	if (true == true) {\n" +
+	"		print(true)\n" +
+	"		print(false)\n" +
+	"	}\n" +
+	"	print(\" \")\n" +
+	"	if (true == \"true\") {\n" +
+	"		print(\"true\")\n" +
+	"		print(\"false\")\n" +
+	"	}\n" +
+	"	print(\" \")\n" +
+	"	if (true == \"\") {\n" +
+	"		print(\"true\")\n" +
+	"		print(\"false\")\n" +
+	"	}\n" +
+	"}$";
 
 /*
  * These Parse Failure test cases came from Tien's test cases
@@ -240,6 +268,16 @@ var analysisFail1 = "{\n" +
 		"		print((b != d))\n" +
 		"	}\n" +
 		"}$";
+
+	var analysisFail6 = "{\n" +
+		"	int a\n" +
+		"	{\n" +
+		"	  int b\n" +
+		"	  b = 2\n" +
+		"	}\n" +
+		"	a = b\n" +
+		"}$";
+
 	/*
 	* These CodeGen Failure test cases came from Tien's test cases
 	*/
@@ -260,7 +298,50 @@ var analysisFail1 = "{\n" +
 		"	print(\"alan\")\n" +
 		"	print(\"alan\")\n" +
 		"	print(\"alan\")\n" +
-		"}$"
+		"}$";
+
+	var codeFail2 = "{\n" +
+		"	int a\n" +
+		"	a = 0\n" +
+		"	string z\n" +
+		"	z = \"bond\"\n" +
+		"	while (a != 9) {\n" +
+		"	   if (a != 5) {\n" +
+		"		   print(\"bond\")\n" +
+		"	   }\n" +
+		"	  {\n" +
+		"		   a = 1 + a\n" +
+		"		   string b\n" +
+		"		   b = \"james bond\"\n" +
+		"		   print(b)\n" +
+		"	   }\n" +
+		"	}\n" +
+		"	{}\n" +
+		"	boolean c\n" +
+		"	c = true\n" +  
+		"	boolean d\n" +
+		"	int b\n" +
+		"	b = 7\n" +
+		"	d = (true == (true == false))\n" +
+		"	d = (a == b)\n" +
+		"	d = (1 == a)\n" +
+		"	d = (1 != 1)\n" +
+		"	d = (\"string\" == z)\n" +
+		"	d = (z != \"string\")\n" +
+		"	d = (\"string\" != \"string\")\n" +
+		"	if (d == true) {\n" +
+		"		int c\n" +
+		"		c = 1 + b\n" +
+		"		if (c == 1) {\n" +
+		"			print(\"ugh\")\n" +
+		"		}\n" +
+		"	}\n" +
+		"	while (\"string\" == z) {\n" +
+		"		while (d == true) {\n" +
+		"			a = 1 + b\n" +
+		"		}\n" +
+		"	}\n" +
+		"}$";
 
 //Output the testprogram
 function testProgram(name) {
@@ -328,8 +409,14 @@ function testProgram(name) {
 		case "Boolhell":
 			rText = analysisFail5;
 			break;
+		case "a1=b2":
+			rText = analysisFail6;
+			break;
 		case "NoMem":
 			rText = codeFail1;
+			break;
+		case "Alan_NoMem":
+			rText = codeFail2;
 			break;
 		case "good_case_3":
 			rText = goodcase3;
@@ -339,6 +426,12 @@ function testProgram(name) {
 			break;
 		case "whilePrint":
 			rText = goodcase5;
+			break;
+		case "add_a_then_print":
+			rText = goodcase6;
+			break;
+		case "true/false":
+			rText = goodcase7;
 			break;
 		default:
 			rText = "";

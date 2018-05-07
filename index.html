@@ -16,6 +16,7 @@
 	<script type="text/javascript" src="JS/analyzer.js"></script>
 	<script type="text/javascript" src="JS/staticData.js"></script>
 	<script type="text/javascript" src="JS/jumpTable.js"></script>
+	<script type="text/javascript" src="JS/stringTable.js"></script>
 	<script type="text/javascript" src="JS/6502a.js"></script>
 	<script type="text/javascript" src="JS/codegen.js"></script>
 	<script type="text/javascript" src="JS/testPrograms.js"></script>
@@ -52,6 +53,8 @@
 							<a class="dropdown-item" onclick="testProgram('good_case_3');">Boolean Expr Printing</a>
 							<a class="dropdown-item" onclick="testProgram('booleanLogic');">Boolean Logic</a>
 							<a class="dropdown-item" onclick="testProgram('whilePrint');">Print a while != 5</a>
+							<a class="dropdown-item" onclick="testProgram('add_a_then_print');">Adds to A then Prints</a>
+							<a class="dropdown-item" onclick="testProgram('true/false');">Prints True/False</a>
 						</ul>
 						<a class="nav-link dropdown-toggle">Project</a>
 						<ul class="dropdown-menu">
@@ -91,6 +94,7 @@
 						</ul>
 						<a class="nav-link dropdown-toggle">Analysis Errors</a>
 						<ul class="dropdown-menu">
+							<a class="dropdown-item" onclick="testProgram('a1=b2');">a<sub>1</sub> = b<sub>2</sub></a>
 							<a class="dropdown-item" onclick="testProgram('undeclaredB');">Undeclared b</a>
 							<a class="dropdown-item" onclick="testProgram('StringBool');">String Assigned Bool</a>
 							<a class="dropdown-item" onclick="testProgram('stringint');">string == int</a>
@@ -100,6 +104,7 @@
 						<a class="nav-link dropdown-toggle">Code Gen Errors</a>
 						<ul class="dropdown-menu">
 							<a class="dropdown-item" onclick="testProgram('NoMem');">Out of Memory</a>
+							<a class="dropdown-item" onclick="testProgram('Alan_NoMem');">Alan's Out of Memory</a>
 						</ul>
 					</li>
 				</div>
