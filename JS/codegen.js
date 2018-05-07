@@ -486,7 +486,7 @@ function cVarDecl(pos, depth) {
     addHex(loadAccWithConst);
     addHex('00');
     //gets temp address
-    var address = staticData.add(pos.children[0], depth);
+    var address = staticData.add(pos.children[0], pos.scope);
     //stores to memory
     addHex(storeAccInMemo);
     addHex(address);
@@ -501,9 +501,9 @@ function cAssign(pos, depth) {
     codeLog("Generating [ Assignment ] on line " + pos.line + "..");
 
     //move through the tree
-    traverseTree(pos.children[1], pos.scope);
+    traverseTree(pos.children[1], depth);
     //gets temp address
-    var address = staticData.get(pos.children[0], depth);
+    var address = staticData.get(pos.children[0], pos.scope);
     //stores to memory
     addHex(storeAccInMemo);
     addHex(address);

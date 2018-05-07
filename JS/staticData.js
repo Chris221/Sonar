@@ -41,7 +41,7 @@ StaticData.prototype.length = function() {
 // gets the parent scope
 StaticData.prototype.pScope = function(node, scope) {
     //if they are equal
-    if (node.scope == scope) {
+    if (node.scope >= scope) {
         //goes further
         return this.pScope(node.parent, scope);
     //otherwise
