@@ -5,8 +5,10 @@
 	<title>Compiler</title>
 	<link type="text/css" rel="stylesheet" href="CSS/myCSS.css" />
 	<link type="text/css" rel="stylesheet" href="CSS/animate.css" />
+	<link type="text/css" rel="stylesheet" href="JS/jQuery/jquery-linedtextarea/jquery-linedtextarea.css" />
 	<script type="text/javascript" src="JS/tree.js"></script>
 	<script type="text/javascript" src="JS/jQuery/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="JS/jQuery/jquery-linedtextarea/jquery-linedtextarea.js"></script>
 	<script type="text/javascript" src="JS/compiler.js"></script>
 	<script type="text/javascript" src="JS/lexer.js"></script>
 	<script type="text/javascript" src="JS/parser.js"></script>
@@ -29,7 +31,7 @@
 	<script type="text/javascript" src="bootstrap-4.0.0/js/bootstrap-4-navbar.js"></script>
 	<script type="text/javascript" src="bootstrap-4.0.0/bootstrap-notify.min.js"></script>
 </head>
-<body onLoad="testProgram('booleanLogic');">
+<body onLoad="$('.lined').linedtextarea();testProgram('booleanLogic');">
 	<nav class="topbar navbar navbar-expand-lg navbar-light bg-primary sticky-top">
 	<!--<div class="holder">
 		<span class="topbar">-->
@@ -131,9 +133,7 @@
 						<div class="tab-content">
 							<div class="tab-pane fade active show" id="inputBox" role="tabpanel" aria-labelledby="input-tab" aria-expanded="true">
 								<div class="panel panel-default">
-									<small>
-										<textarea class="input form-control" id="input" placeholder="Example:&#10;{}$"></textarea>
-									</small>
+									<textarea class="input form-control lined" id="input" placeholder="Example:&#10;{}$"></textarea>
 								</div>
 							</div>
 						</div>

@@ -92,14 +92,11 @@ td {
 .symboltable {
 	overflow-y: auto;
 }
+.linedtextarea {
+	margin-left: 60px !important;
+}
 .input {
-	padding: 0 0 !important;
-	background: url(http://i.imgur.com/2cOaJ.png);
-	background-attachment: local;
-	background-repeat: no-repeat;
-	padding-left: 35px !important;
-	padding-top: 10px !important;
-	border-color:#ccc;
+	width: calc(100% - 0px) !important;
 }
 .controls, .compilerVis {
 	text-align: center;
