@@ -12,6 +12,8 @@ var jumpTable = new JumpTable();
 var codeString = "";
 //defines heap array
 var heap = [];
+//defines string table
+var stringTable = new StringTable();
 //starting heap address
 var heapAddress = 256;
 //defines the placeholders for true/false
@@ -29,8 +31,10 @@ function gen(ast) {
     code = [];
     cErrors = 0;
     staticData = new StaticData();
+    jumpTable = new JumpTable();
     codeString = "";
     heap = [];
+    stringTable = new StringTable();
     heapAddress = 256;
 
     //calls code gen
@@ -70,12 +74,12 @@ function codeLog(text, override = false) {
 }
 
 function generate() {
-    //
+    //Code gen starting 
     codeLog("Code Generating Program "+programNumber+"...",true);
     //adds true to heap, gets location
-    trueAddress = addToHeap('true',true);
+    trueAddress = addToHeap('true');
     //adds false to heap, gets location
-    falseAddress = addToHeap('false',true);
+    falseAddress = addToHeap('false');
     //starts the tree movement
     traverseTree(ast.root, 0);
     //adds a break to the very end for clean eanding
@@ -889,7 +893,7 @@ function cString(pos, depth) {
     codeLog("Generating [ String ] on line " + pos.line + "..");
 
     //adds the string to the heap
-    var value = addToHeap(pos.name);
+    var value = addToHeap(pos.name, pos.line);
     //loads the location of the string
     addHex(loadAccWithConst);
     addHex(value);
@@ -898,16 +902,20 @@ function cString(pos, depth) {
     codeLog("Finished [ String ] on line " + pos.line + "..");
 }
 
-function addToHeap(str, override = false) {
-    //skips heap if a true/false string and returns its correct value
-    //if true
-    if (str == "true" && !override) {
-        //return true address
-        return trueAddress;
-    //if false
-    } else if (str == "false" && !override) {
-        //return false address
-        return falseAddress;
+function addToHeap(str, line = 0) {
+    //checks the table for already used strings
+    if (returningHeap = stringTable.get(str)) {
+        //outputs it was found
+        codeLog("Found string [ "+str+" ] in the heap at address "+returningHeap+"...");
+        //returns the address
+        return returningHeap;
+    }
+    //if no string..
+    if (str.length == 0) {
+        //outputs it was found
+        codeLog("Found an empty string on line "+line+" pointing it to FF...");
+        //points to 00
+        return 'FF';
     }
     //adds the terminate value
     heap.unshift("00");
@@ -920,6 +928,8 @@ function addToHeap(str, override = false) {
         //removes one from the heap
         heapAddress--;
     }
+    //adds to the string table
+    stringTable.add(numtoHex(heapAddress),str);
     //outputs info about the add
     codeLog("Added string [ "+str+" ] to heap, address "+heapAddress+" [ "+numtoHex(heapAddress)+" ]...");
     //returns heap address
