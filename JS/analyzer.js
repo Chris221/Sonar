@@ -867,6 +867,11 @@ function aCharList() {
     if (debug && verbose) {
         analysisLog("charList..");
     }
+    //cheks for first quote
+    if (aCurrentToken.type == "QUOTE") {
+        //changes the token
+        return "";
+    } 
 
     //sets string val
     var r = aCurrentToken.value;
