@@ -14,6 +14,10 @@ var aWarnings = 0;
 var scope = -1;
 //defines the scope level
 var scopeLevel = -1;
+//defines the scope list
+var aScopeArray = [];
+//defines the scope counter
+var scopeCounter = 0;
 //defines the temp ID
 var tempID = null;
 //defines the temp value
@@ -44,6 +48,8 @@ function aResetGlobals() {
     tempType = null;
     scope = -1;
     scopeLevel = -1;
+    aScopeArray = [];
+    scopeCounter = 0;
 
     ast = new Tree();
     ast.addNode("Root", "branch");
@@ -194,7 +200,7 @@ function isThere(id, level) {
 
 function getaVarType(id, level) {
     //if the current level has symbols
-    if ((level.parent != undefined || level.parent != null) && level.symbols.length > 0) {
+    if ((level.symbols != undefined || level.symbols != null) && level.symbols.length > 0) {
         //Gets the type of ID
         for (var i = 0; i < level.symbols.length; i++) {
             //when the correct ID is found
@@ -322,9 +328,11 @@ function aProgram() {
 }
 
 function aBlock() {
-    //increases the scope levels
+    //increases the scope levels, add to the scope array
     scopeLevel++;
-    scope++;
+    scopeCounter++;
+    aScopeArray.push(scope);
+    scope = scopeCounter;
 
     //debugging
     if (debug && verbose) {
@@ -332,7 +340,7 @@ function aBlock() {
     }
 
     //Creates Scope Node in Symbol Tree
-    st.addNode("ScopeLevel: " + scope, "branch", scope);
+    st.addNode("ScopeLevel: " + (scopeLevel+1), "branch", scope);
 
     //Creates a Branch
     addBranch("Block");
@@ -352,7 +360,10 @@ function aBlock() {
         aGetToken();
     }
 
+    //backsout scope level
     scopeLevel--;
+    //returns scope and removes from the array
+    scope = aScopeArray.pop();
     // Kicks you one Scope up the Symbol Tree
     st.kick();
     //backs out a branch
@@ -540,8 +551,9 @@ function aAssignmentStatement() {
                 }
                 //an id
             } else if (aCurrentToken.type == "ID") {
-                var cvType = getaVarType(aCurrentToken.value, st.cur).toUpperCase();
-                if (tempType != cvType) {
+                var cvType = getaVarType(aCurrentToken.value, st.cur);
+                console.log(cvType)
+                if (tempType.toLowerCase() != cvType) {
                     //increases errors
                     aErrors++;
                     //outputs error
