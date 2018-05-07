@@ -247,7 +247,7 @@ function compileLexer(input) {
 			"==============================";
 	}
 	//Outputs the Lexer output
-	$('#Lexer_log').text($('#Lexer_log').val() + "\n\n" + text + "\n\n");
+	$('#Lexer_log').text($('#Lexer_log').val() + "\n" + text + "\n");
 	//Scroll to the bottom of the log
 	logScroll();
 	//rerurns token list
@@ -272,7 +272,7 @@ function compileParser() {
 			"==============================";
 	}
 	//Outputs the parser output
-	$('#Lexer_log').text($('#Lexer_log').val() + "\n\n" + text + "\n\n");
+	$('#Lexer_log').text($('#Lexer_log').val() + "\n" + text + "\n");
 
 	//if parsed output the cst
 	if (!pErrors) {
@@ -316,7 +316,7 @@ function compileAnalysis() {
 			"==============================";
 	}
 	//Outputs the analysis output
-	$('#Lexer_log').text($('#Lexer_log').val() + "\n\n" + text + "\n\n");
+	$('#Lexer_log').text($('#Lexer_log').val() + "\n" + text + "\n");
 
 	//if analyzer output the ast
 	if (!aErrors) {
@@ -371,7 +371,7 @@ function compileCode() {
 
 	}
 	//Outputs the code gen output
-	$('#Lexer_log').text($('#Lexer_log').val() + "\n\n" + text + "\n");
+	$('#Lexer_log').text($('#Lexer_log').val() + "\n" + text + "\n");
 
 	//if code
 	if (!cErrors) {
