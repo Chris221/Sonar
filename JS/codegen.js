@@ -73,9 +73,9 @@ function generate() {
     //
     codeLog("Code Generating Program "+programNumber+"...",true);
     //adds true to heap, gets location
-    trueAddress = numtoHex(addToHeap('true'));
+    trueAddress = addToHeap('true',true);
     //adds false to heap, gets location
-    falseAddress = numtoHex(addToHeap('false'));
+    falseAddress = addToHeap('false',true);
     //starts the tree movement
     traverseTree(ast.root, 0);
     //adds a break to the very end for clean eanding
@@ -558,7 +558,7 @@ function cPrint(pos, depth) {
     //raw strings
     } else if (pos.children[0].type == "CHARLIST") {
         //adds the string to heap
-        var address = numtoHex(addToHeap(pos.children[0].name));
+        var address = addToHeap(pos.children[0].name);
         //string print op codes
         //loads memory
         addHex(loadAccFromMemo);
@@ -875,7 +875,7 @@ function cString(pos, depth) {
     codeLog("Generating [ String ] on line " + pos.line + "..");
 
     //adds the string to the heap
-    var value = numtoHex(addToHeap(pos.name));
+    var value = addToHeap(pos.name);
     //loads the location of the string
     addHex(loadAccWithConst);
     addHex(value);
@@ -884,7 +884,17 @@ function cString(pos, depth) {
     codeLog("Finished [ String ] on line " + pos.line + "..");
 }
 
-function addToHeap(str) {
+function addToHeap(str, override = false) {
+    //skips heap if a true/false string and returns its correct value
+    //if true
+    if (str == "true" && !override) {
+        //return true address
+        return trueAddress;
+    //if false
+    } else if (str == "false" && !override) {
+        //return false address
+        return falseAddress;
+    }
     //adds the terminate value
     heap.unshift("00");
     //removes one from the heap
@@ -899,5 +909,5 @@ function addToHeap(str) {
     //outputs info about the add
     codeLog("Added string [ "+str+" ] to heap, address "+heapAddress+" [ "+numtoHex(heapAddress)+" ]...");
     //returns heap address
-    return heapAddress;
+    return numtoHex(heapAddress);
 }
