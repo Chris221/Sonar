@@ -118,6 +118,7 @@ var goodcase6 = "/* 45 */\n" +
 	"Strings with value are true\n" +
 	"Strings without value are false\n" +
 	"Prints: truefalse truefalse\n" +
+	"*/\n" +
 	"{\n" +
 	"	if (true == true) {\n" +
 	"		print(true)\n" +
