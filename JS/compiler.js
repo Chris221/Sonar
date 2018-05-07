@@ -365,23 +365,25 @@ function compileCode() {
 			"\n" +
 			"==============================";
 		//Outputs the code
-		$('#Lexer_log').text($('#Lexer_log').val() + "\n" + code);
 		$('#codeBox').text($('#codeBox').val() + code + "\n");
 	} else {
-		$('#Lexer_log').text($('#Lexer_log').val() + "\nNo code due to Code Generation Error");
 		$('#codeBox').text($('#codeBox').val() + "No code due to Code Generation Error\n");
 
 	}
 	//Outputs the code gen output
-	$('#Lexer_log').text($('#Lexer_log').val() + "\n\n" + text + "\n\n");
+	$('#Lexer_log').text($('#Lexer_log').val() + "\n\n" + text + "\n");
 
 	//if code
 	if (!cErrors) {
 		//Adds hover text if analysis pass
 		codeHover += "Program " + programNumber + ": Passed<br/>";
+		//outputs code to log
+		$('#Lexer_log').text($('#Lexer_log').val() + "\n" + code);
 	} else {
 		//Adds hover text if code fails
 		codeHover += "Program " + programNumber + ": Error<br/>";
+		//outputs no code
+		$('#Lexer_log').text($('#Lexer_log').val() + "\nNo code due to Code Generation Error");
 		//increas analysisfail count
 		codefail++;
 	}
