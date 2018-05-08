@@ -47,7 +47,7 @@ StaticData.prototype.pScope = function (node, scope) {
         //otherwise
     } else {
         //if no scope
-        if (node.scope == "undefined") {
+        if (node.scope == undefined) {
             //erors
             cErrors++;
             codeLog("ERROR! went to far up in scope for staticData, This should never happen");

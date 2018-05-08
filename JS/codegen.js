@@ -919,7 +919,8 @@ function cID(pos, depth) {
     codeLog("Generating [ ID ] on line " + pos.line + "..");
 
     //gets address of ID
-    var address = staticData.get(pos, depth);
+    var address = staticData.get(pos, pos.scope);
+
     //loads address
     addHex(loadAccFromMemo);
     addHex(address);
