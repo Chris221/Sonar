@@ -283,7 +283,24 @@ function numtoHex(val) {
 }
 /* --------------------------------------- End Hex Related Functions --------------------------------------- */
 
-function getTypeFromST(id, scope, start = st.cur) {
+function getTypeFromSThelper(id, scope, start = st.cur) {
+    //if the scopes mataches return 
+    if (scope == start.scope) {
+        return start;
+    }
+    //If lower level, search there
+    if (start.children.length != 0) {
+        //calls a search in the higher levels
+        for (var i = 0; i < start.children.length; i++) {
+            var t = getTypeFromSThelper(id, scope, start.children[i]);
+            if (t != undefined) {
+                return t;
+            }
+        }
+    }
+}
+
+function getTypeFromST(id, scope, start = getTypeFromSThelper(id, scope)) {
     //if the current level has symbols
     for (var i = 0; i < start.symbols.length; i++) {
         //when the correct ID is found
@@ -295,12 +312,9 @@ function getTypeFromST(id, scope, start = st.cur) {
             return start.symbols[i].type;
         }
     }
-    //If lower level, search there
-    if (start.children != undefined || start.children != null) {
-        //calls a search in the lower levels
-        for (var i = 0; i < start.children.length; i++) {
-            return getTypeFromST(id, scope, start.children[i]);
-        }
+    //If higher level, search there
+    if (start.parent != undefined || start.parent != null) {
+        return getTypeFromST(id, scope, start.parent);
     }
 }
 
