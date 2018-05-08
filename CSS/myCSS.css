@@ -74,15 +74,21 @@ td {
 	width: 80%;
 	margin-left: auto;
 	margin-right: auto;
+	margin-top: 10px;
 }
 .title {
 	padding-left: 10%;
 	display: block;
 	margin-bottom: 10px;
 }
+.input {
+	height: 252px;
+}
+.log, .cst, .ast, .scopetree, .symboltable {
+	height: 260px;
+}
 .input, .log, .cst, .ast, .scopetree, .symboltable {
     resize: none;
-	height: 252px;
 	margin-left: auto;
 	margin-right: auto;
 	width: 100%;
