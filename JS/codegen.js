@@ -14,7 +14,7 @@ var codeString2 = "";
 //defines heap array
 var heap = [];
 //defines string table
-var stringTable = new StringTable();
+var stringTable = new stringTable();
 //starting heap address
 var heapAddress = 256;
 //defines the placeholders for true/false
@@ -36,7 +36,7 @@ function gen(ast) {
     codeString = "";
     codeString2 = "";
     heap = [];
-    stringTable = new StringTable();
+    stringTable = new stringTable();
     heapAddress = 256;
 
     //calls code gen
