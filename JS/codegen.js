@@ -446,6 +446,12 @@ function booleanLogic(pos) {
             //false
             return false;
         }
+    } else {
+        //not supported
+        comErrors++;
+        //text about issue
+        comErrorsStr += "Addition in Equality and Inequality statements is not supported in this Compiler.\n";
+        comErrorsStr += "The issue was found on line " + pos.line + "...\n\n";
     }
 }
 
@@ -874,6 +880,13 @@ function cEquality(pos, depth) {
         addHex(compareMemoToX);
         addHex(TEMP_ADDRESS_ONE);
         addHex("XX");
+         //if addition below compiler wont support it
+    } else if (pos.children[0].type == "Addition" || pos.children[1].type == "Addition") {
+        //not supported
+        comErrors++;
+        //text about issue
+        comErrorsStr += "Addition in Equality and Inequality statements is not supported in this Compiler.\n";
+        comErrorsStr += "The issue was found on line " + pos.line + "...\n\n";
         //compares the rest
     } else {
         //gets first loaded
