@@ -2,17 +2,17 @@
  * A class that contains data associated with strings
  */
 
-function stringTable() {
+function StringTable() {
     this.variables = {};
 };
 
 // Adds a variable to the static data table
-stringTable.prototype.add = function (address, string) {
+StringTable.prototype.add = function (address, string) {
     this.variables["'" + string + "'"] = new IdentifierString(address, string);
 };
 
 // Gets a variable from the static data table
-stringTable.prototype.get = function (string) {
+StringTable.prototype.get = function (string) {
     //tries if there is an element otherwise
     try {
         //returns the address
