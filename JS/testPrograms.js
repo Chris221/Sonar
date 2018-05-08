@@ -312,7 +312,7 @@ var analysisFail6 = "{\n" +
 /*
 * These CodeGen Failure test cases came from Tien's test cases
 */
-var codePass1 = "/* This shows the string table at work */" +
+var codePass1 = "/* This shows the string table at work */\n" +
 	"{\n" +
 	"	print(\"alan\")\n" +
 	"	print(\"alan\")\n" +
@@ -332,7 +332,8 @@ var codePass1 = "/* This shows the string table at work */" +
 	"	print(\"alan\")\n" +
 	"}$";
 
-var codeFail2 = "{\n" +
+var codeFail2 = "/* This will cause a memory error */\n" +
+	"{\n" +
 	"	int a\n" +
 	"	a = 0\n" +
 	"	string z\n" +
