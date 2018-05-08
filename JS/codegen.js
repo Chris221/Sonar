@@ -228,7 +228,12 @@ function codeToString() {
     var heap = false;
     for (var i = 0; i < code.length; i++) {
         var current = code[i];
-        if (current == "A9" || current == "AD" || current == "A2" || current == "A0" || current == "D0") {
+        if (current == "00" && (code[i+1] == "00" || heap)) {
+            heap = true;
+            codeString += "<b class=\"text-muted\">"+current+"</b>";
+        } else if (heap) {
+            codeString += "<b class=\"text-success\">"+current+"</b>";
+        } else if (current == "A9" || current == "AD" || current == "A2" || current == "A0" || current == "D0") {
             codeString += "<b class=\"text-danger\">"+current+"</b>";
         } else if (current == "8D" || current == "6D" || current == "AE" || current == "AC" || current == "EC" || current == "EE") {
             codeString += "<b class=\"text-warning\">"+current+"</b>";
@@ -236,11 +241,6 @@ function codeToString() {
             codeString += "<b class=\"lime\">"+current+"</b>";
         } else if (current == "FF") {
             codeString += "<b class=\"text-dark\">"+current+"</b>";
-        } else if (current == "00" && (code[i+1] == "00" || heap)) {
-            heap = true;
-            codeString += "<b class=\"text-muted\">"+current+"</b>";
-        } else if (heap) {
-            codeString += "<b class=\"text-success\">"+current+"</b>";
         } else {
             codeString += "<b class=\"text-info\">"+current+"</b>";
         }
