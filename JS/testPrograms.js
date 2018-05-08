@@ -64,6 +64,7 @@ var goodcase1 = "/* Simple good text case */\n" +
 
 //Good case with string
 var goodcase2 = "/* Print a string */\n" +
+	"/* Prints this is a string */\n" +
 	"{\n" +
 	"	string a\n" +
 	"	a = \"this is a string\"\n" +
@@ -72,7 +73,9 @@ var goodcase2 = "/* Print a string */\n" +
 /*
 * These Good test cases came from Tien's test cases
 */
-var goodcase3 = "{\n" +
+var goodcase3 = "/* Boolean Expression Printing */\n" +
+	"/* Prints falsefalsetruefalsetrue */\n" +
+	"{\n" +
 	"	boolean a\n" +
 	"	a = false\n" +
 	"	print((a == true))\n" +
@@ -86,13 +89,16 @@ var goodcase3 = "{\n" +
 	"}$";
 
 var goodcase4 = "/* Boolean Logic */\n" +
+	"/* Prints success */\n" +
 	"{\n" +
 	"	if (true == (true == (true == (true == (true == (true == (true == (true == (true != (false == true)))))))))) {\n" +
 	"		print(\"success\")\n" +
 	"	}\n" +
 	"}$";
 
-var goodcase5 = "{\n" +
+var goodcase5 = "/* Prints a while a != 5 */\n" +
+	"/* Prints 23458 */\n" +
+	"{\n" +
 	"	string s\n" +
 	"	int a\n" +
 	"	a = 1\n" +
@@ -106,7 +112,8 @@ var goodcase5 = "{\n" +
 	"	}\n" +
 	"}$";
 
-var goodcase6 = "/* 45 */\n" +
+var goodcase6 = "/* Addition of digits and a and Prints a*/\n" +
+	"/* Prints 45 */\n" +
 	"{\n" +
 	"	int a\n" +
 	"	a = 1\n" +
@@ -114,25 +121,50 @@ var goodcase6 = "/* 45 */\n" +
 	"	print(a)\n" +
 	"}$";
 
-var goodcase7 = "/*\n" +
+var goodcase7 = "/* String Logic\n" +
 	"Strings with value are true\n" +
 	"Strings without value are false\n" +
-	"Prints: truefalse truefalse\n" +
+	"Prints: stringcheck onestring nostring noequal\n" +
 	"*/\n" +
 	"{\n" +
-	"	if (true == true) {\n" +
-	"		print(true)\n" +
-	"		print(false)\n" +
+	"	if (\"true\" == \"true\") {\n" +
+	"		print(\"stringcheck\")\n" +
 	"	}\n" +
 	"	print(\" \")\n" +
 	"	if (true == \"true\") {\n" +
-	"		print(\"true\")\n" +
-	"		print(\"false\")\n" +
+	"		print(\"onestring\")\n" +
 	"	}\n" +
 	"	print(\" \")\n" +
-	"	if (true == \"\") {\n" +
-	"		print(\"true\")\n" +
-	"		print(\"false\")\n" +
+	"	if (true != \"\") {\n" +
+	"		print(\"nostring\")\n" +
+	"	}\n" +
+	"	print(\" \")\n" +
+	"	if (\"true\" != \"false\") {\n" +
+	"		print(\"noequal\")\n" +
+	"	}\n" +
+	"}$";
+
+var goodcase8 = "/* ID Logic\n" +
+	"IDs compare\n" +
+	"Nested IDs check the ID not the value (they return true/false)\n" +
+	"Prints: equal not equal a is a is true but a is not true\n" +
+	"*/\n" +
+	"{\n" +
+	"	int a\n" +
+	"	int b\n" +
+	"	int c\n" +
+	"	a = 7\n" +
+	"	b = a\n" +
+	"	if (a == b) {\n" +
+	"		print(\"equal\")\n" +
+	"	}\n" +
+	"	print(\" \")\n" +
+	"	if (b != c) {\n" +
+	"		print(\"not equal\")\n" +
+	"	}\n" +
+	"	print(\" \")\n" +
+	"	if (a != (a == a)) {\n" +
+	"		print(\"a is a is true but a is not true\")\n" +
 	"	}\n" +
 	"}$";
 
@@ -431,8 +463,11 @@ function testProgram(name) {
 		case "add_a_then_print":
 			rText = goodcase6;
 			break;
-		case "true/false":
+		case "stringlogic":
 			rText = goodcase7;
+			break;
+		case "idlogic":
+			rText = goodcase8;
 			break;
 		default:
 			rText = "";
