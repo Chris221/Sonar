@@ -780,102 +780,34 @@ function cIf(pos, depth) {
 }
 
 function cInequality(pos, depth) {
+    //rewrites for modification later
+    pos.type = "Equality";
     //Generating
     codeLog("Generating [ Inequality ] on line " + pos.line + "..");
 
-    //if theres a nested bool types
-    if (pos.children[0].name == "Equality" || pos.children[0].name == "Inequality" || pos.children[1].name == "Equality" || pos.children[1].name == "Inequality") {
-        //Let Boolean Logic handle that one little 6502 assembler
-        if (booleanLogic(pos)) {
-            //loads false
-            //loads 1
-            addHex(loadAccWithConst);
-            addHex("01");
-            //loads 0 into x
-            addHex(loadXWithConst);
-            addHex("00");
-        } else {
-            //loads true
-            //loads 1
-            addHex(loadAccWithConst);
-            addHex("01");
-            //loads 1 into x
-            addHex(loadXWithConst);
-            addHex("01");
-        }
-
-        //stores in memory
-        addHex(storeAccInMemo);
-        addHex(TEMP_ADDRESS_ONE);
-        addHex("XX");
-        //compares to memory
-        addHex(compareMemoToX);
-        addHex(TEMP_ADDRESS_ONE);
-        addHex("XX");
-        //if comparing strings
-    } else if (pos.children[0].type == "CHARLIST" && pos.children[1].type == "CHARLIST") {
-        //compares strings
-        if (pos.children[0].name == pos.children[1].name) {
-            //loads false
-            //loads 1
-            addHex(loadAccWithConst);
-            addHex("01");
-            //loads 0 into x
-            addHex(loadXWithConst);
-            addHex("00");
-        } else {
-            //loads true
-            //loads 1
-            addHex(loadAccWithConst);
-            addHex("01");
-            //loads 1 into x
-            addHex(loadXWithConst);
-            addHex("01");
-        }
-
-        //stores in memory
-        addHex(storeAccInMemo);
-        addHex(TEMP_ADDRESS_ONE);
-        addHex("XX");
-        //compares to memory
-        addHex(compareMemoToX);
-        addHex(TEMP_ADDRESS_ONE);
-        addHex("XX");
-        //compares the rest
-    } else {
-        //gets first loaded
-        traverseTree(pos.children[0], depth);
-
-        //stores in memory
-        addHex(storeAccInMemo);
-        addHex(TEMP_ADDRESS_TWO);
-        addHex("XX");
-        //gets second loaded
-        traverseTree(pos.children[1], depth);
-
-        //stores in memory
-        addHex(storeAccInMemo);
-        addHex(TEMP_ADDRESS_ONE);
-        addHex("XX");
-        //loads from memory
-        addHex(loadXFromMemo);
-        addHex(TEMP_ADDRESS_TWO);
-        addHex("XX");
-        //compare to memory
-        addHex(compareMemoToX);
-        addHex(TEMP_ADDRESS_ONE);
-        addHex("XX");
-
-        //true
-        addHex(loadAccWithConst);
-        addHex("01");
-        //jump 2 if true
-        addHex(branchNBytes);
-        addHex("02");
-        //loads false
-        addHex(loadAccWithConst);
-        addHex("00");
-    }
+    //runs equality to handle most of the work
+    cEquality(pos, depth);
+    //negate the equals..
+    //loads 0
+    addHex(loadAccWithConst);
+    addHex("00");
+    //jumps 2
+    addHex(branchNBytes);
+    addHex("02");
+    //loads 1
+    addHex(loadAccWithConst);
+    addHex("01");
+    //loads 0 into x
+    addHex(loadXWithConst);
+    addHex("00");
+    //stores in memory
+    addHex(storeAccInMemo);
+    addHex(TEMP_ADDRESS_ONE);
+    addHex("XX");
+    //compares
+    addHex(compareMemoToX);
+    addHex(TEMP_ADDRESS_ONE);
+    addHex("XX");
 
     //Finished
     codeLog("Finished [ Inequality ] on line " + pos.line + "..");
