@@ -89,8 +89,11 @@ function generate() {
 
     //calls backpatching
     backpatch();
-    //break lines in the log
-    $('#Lexer_log').text($('#Lexer_log').val() + "\n");
+    //if outputing
+    if (verbose) {
+        //break lines in the log
+        $('#Lexer_log').text($('#Lexer_log').val() + "\n");
+    }
 
     //random banter for outputing code and heap being combined
     codeLog("Getting the Code...");
@@ -126,8 +129,11 @@ function generate() {
 
 //Backpatching!
 function backpatch() {
-    //break lines in the log
-    $('#Lexer_log').text($('#Lexer_log').val() + "\n");
+    //if outputing
+    if (verbose) {
+        //break lines in the log
+        $('#Lexer_log').text($('#Lexer_log').val() + "\n");
+    }
     //Begin
     codeLog("Beginning Backpatching...");
 
