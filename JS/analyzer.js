@@ -893,7 +893,7 @@ function aCharList() {
 function checkFor(str, num) {
     if (aTokens[num].type == str) {
         return true;
-    } else if (aTokens[num].type == "LEFT_PARENTHESES") {
+    } else if (aTokens[num].type == "RIGHT_PARENTHESES") {
         return false;
     } else {
         return checkFor(str, (num+1));
@@ -941,6 +941,50 @@ function aBooleanExpr() {
         if (ast.cur.children.length >= 2) {
             //loop through them
             for (var i = 0; i < (ast.cur.children.length - 1); i++) {
+                //if the 1st child is an id
+                if (ast.cur.children[i].type == "ID") {
+                    //get the type
+                    var t1 = getaVarType(ast.cur.children[i].name, st.cur)
+                    //if the type is a boolean
+                    if (t1 == "boolean") {
+                        t1 = "BOOL";
+                        //if the type is an int
+                    } else if (t1 == "int") {
+                        //change to digit
+                        t1 = "DIGIT";
+                        //if the type is a string
+                    } else if (t1 == "string") {
+                        //change to charlist
+                        t1 = "CHARLIST";
+                    }
+                    //otherwise
+                } else {
+                    //set it to what it is
+                    var t1 = ast.cur.children[i].type;
+                }
+
+                //if the 2nd child is an id
+                if (ast.cur.children[i+1].type == "ID") {
+                    //get the type
+                    var t2 = getaVarType(ast.cur.children[i+1].name, st.cur)
+                    //if the type is a boolean
+                    if (t2 == "boolean") {
+                        //change to bool
+                        t2 = "BOOL";
+                        //if the type is an int
+                    } else if (t2 == "int") {
+                        //change to digit
+                        t2 = "DIGIT";
+                        //if the type is a string
+                    } else if (t2 == "string") {
+                        //change to charlist
+                        t2 = "CHARLIST";
+                    }
+                    //otherwise
+                } else {
+                    //set it to what it is
+                    var t2 = ast.cur.children[i+1].type;
+                }
                 //if this and the next are both IDs
                 if (ast.cur.children[i].type == "ID" && ast.cur.children[i + 1].type == "ID") {
                     //if the types don't match
@@ -949,6 +993,17 @@ function aBooleanExpr() {
                         aErrors++;
                         //outputs error
                         analysisLog("ERROR! ID [ " + ast.cur.children[i].name + " ] on line " + ast.cur.children[i].line + " type [ " + getaVarType(ast.cur.children[i].name, st.cur) + " ] cannot be compared to [ " + getaVarType(ast.cur.children[i + 1].name, st.cur) + " ]...");
+                    }
+                }
+                //if it is not still equality checking
+                if (ast.cur.children[i+1].type != "Equality" && ast.cur.children[i+1].type != "Inequality") {
+                    //checks types
+                    if (t1 != t2) {
+                        //increases errors
+                        aErrors++;
+                        //outputs error
+                        analysisLog("ERROR! ID [ " + ast.cur.children[i].name + " ] on line " + ast.cur.children[i].line + " type [ " + t1 + " ] cannot be compared to [ " + t2 + " ]...");
+
                     }
                 }
             }
