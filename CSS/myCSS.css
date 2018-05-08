@@ -89,6 +89,10 @@ td {
 	display: block;
 	font-size: inherit !important;
 }
+.codeBox {
+	font-family: 'Courier New', Courier, monospace !important;
+	width: calc(100% - calc(floor(calc(100% / (16.8*8))) * (16.8*8))) !important;
+}
 .symboltable {
 	overflow-y: auto;
 }

@@ -10,6 +10,7 @@ var staticData = new StaticData();
 var jumpTable = new JumpTable();
 //string for code
 var codeString = "";
+var codeString2 = "";
 //defines heap array
 var heap = [];
 //defines string table
@@ -33,6 +34,7 @@ function gen(ast) {
     staticData = new StaticData();
     jumpTable = new JumpTable();
     codeString = "";
+    codeString2 = "";
     heap = [];
     stringTable = new StringTable();
     heapAddress = 256;
@@ -117,7 +119,9 @@ function generate() {
     }
 
     //joins the code in a nice readable string
-    codeString = code.join(' ');
+    codeString2 = code.join(' ');
+    //calls the pretty code function
+    codeToString();
 }
 
 //Backpatching!
@@ -213,6 +217,32 @@ function backpatch() {
     //end
     codeLog("Backpatching Done...");
 }
+
+function codeToString() {
+    var heap = false;
+    for (var i = 0; i < code.length; i++) {
+        var current = code[i];
+        if (current == "A9" || current == "AD" || current == "A2" || current == "A0" || current == "D0") {
+            codeString += "<b class=\"text-danger\">"+current+"</b>";
+        } else if (current == "8D" || current == "6D" || current == "AE" || current == "AC" || current == "EC" || current == "EE") {
+            codeString += "<b class=\"text-warning\">"+current+"</b>";
+        } else if (current == "EA") {
+            codeString += "<b class=\"lime\">"+current+"</b>";
+        } else if (current == "FF") {
+            codeString += "<b class=\"text-dark\">"+current+"</b>";
+        } else if (current == "00" && (code[i+1] == "00" || heap)) {
+            heap = true;
+            codeString += "<b class=\"text-muted\">"+current+"</b>";
+        } else if (heap) {
+            codeString += "<b class=\"text-success\">"+current+"</b>";
+        } else {
+            codeString += "<b class=\"text-info\">"+current+"</b>";
+        }
+        codeString += " ";
+    }
+    codeString.trim();
+}
+
 
 /* ----------------------------------------- Hex Related Functions ----------------------------------------- */
 // Adds padding

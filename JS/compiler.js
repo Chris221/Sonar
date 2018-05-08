@@ -365,7 +365,7 @@ function compileCode() {
 			"\n" +
 			"==============================";
 		//Outputs the code
-		$('#codeBox').text($('#codeBox').val() + code + "\n");
+		$('#codeBox').html($('#codeBox').val() + code + "<br />");
 	} else {
 		$('#codeBox').text($('#codeBox').val() + "No code due to Code Generation Error\n");
 
@@ -378,7 +378,7 @@ function compileCode() {
 		//Adds hover text if analysis pass
 		codeHover += "Program " + programNumber + ": Passed<br/>";
 		//outputs code to log
-		$('#Lexer_log').text($('#Lexer_log').val() + "\n" + code);
+		$('#Lexer_log').text($('#Lexer_log').val() + "\n" + codeString2);
 	} else {
 		//Adds hover text if code fails
 		codeHover += "Program " + programNumber + ": Error<br/>";
