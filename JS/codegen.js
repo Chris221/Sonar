@@ -279,17 +279,17 @@ function booleanLogic(pos) {
     //if Bool
     if (elementOne.type == "BOOL") {
         //get which
-        e1 = elementOne.name;
+        e1 = "" + elementOne.name;
         //if string then true
     } else if (elementOne.type == "CHARLIST") {
         //if the string has value
         if (elementOne.name.length > 0) {
             //sets true
-            e1 = true;
+            e1 = "true";
             //otherwise
         } else {
             //sets false
-            e1 = false;
+            e1 = "false";
         }
         //if ID
     } else if (elementOne.type == "ID") {
@@ -298,12 +298,16 @@ function booleanLogic(pos) {
         //if string
         if (varType = "string") {
             //sets true
-            e1 = true;
+            e1 = "true";
             //if not
         } else {
             //sets the name
-            e1 = elementOne.name;
+            e1 = "" + elementOne.name;
         }
+        //if digit
+    } else if (elementOne.type == "DIGIT") {
+        //sets the digit
+        e1 = "" + elementOne.name;
         //if not
     } else {
         //continue down
@@ -313,17 +317,17 @@ function booleanLogic(pos) {
     //if Bool
     if (elementTwo.type == "BOOL") {
         //get which
-        e2 = elementTwo.name;
+        e2 = "" + elementTwo.name;
         //if string
     } else if (elementTwo.type == "CHARLIST") {
         //if the string has value
         if (elementTwo.name.length > 0) {
             //sets true
-            e2 = true;
+            e2 = "true";
             //otherwise
         } else {
             //sets false
-            e2 = false;
+            e2 = "false";
         }
         //if ID
     } else if (elementTwo.type == "ID") {
@@ -332,16 +336,34 @@ function booleanLogic(pos) {
         //if string
         if (varType = "string") {
             //sets true
-            e2 = true;
+            e2 = "true";
             //if not
         } else {
             //sets the name
-            e1 = elementTwo.name;
+            e2 = "" + elementTwo.name;
         }
+        //if digit
+    } else if (elementTwo.type == "DIGIT") {
+        //sets the digit
+        e2 = "" + elementTwo.name;
         //if not
     } else {
         //continue down
         e2 = "" + booleanLogic(elementTwo);
+    }
+
+    if (elementOne.type == "DIGIT" && elementTwo.type != "DIGIT") {
+        if (e1 > 0) {
+            e1 = "true";
+        } else {
+            e1 = "false";
+        }
+    } else if (elementOne.type != "DIGIT" && elementTwo.type == "DIGIT") {
+        if (e2 > 0) {
+            e2 = "true";
+        } else {
+            e2 = "false";
+        }
     }
     //If this one is an equals
     if (pos.type == "Equality") {
