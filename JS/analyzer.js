@@ -528,6 +528,9 @@ function aAssignmentStatement() {
                         tempType = null;
                         tempValue = null;
                     } else {
+                        addingValue = false;
+                        tempID = null;
+                        tempType = null;
                         tempValue = null;
                     }
                 } else if (tempType == "BOOLEAN") {
