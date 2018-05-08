@@ -30,8 +30,13 @@ var analysisfail = 0;
 //master line number
 var masterLine = 0;
 
-//lexer, parser, and analysis hover text
-var lexHover, parseHover, analysisHover;
+//compilerErrors
+var comErrors = 0;
+//compilerErrors String
+var comErrorsStr = "";
+
+//lexer, parser, analysis, and code hover text
+var lexHover, parseHover, analysisHover, codeHover;
 
 //sets verbose button color
 $(function () {
@@ -90,6 +95,8 @@ function compile() {
 	scope = -1;
 	scopeLevel = -1;
 	symboltable = "";
+	comErrors = 0;
+	comErrorsStr = "";
 	//Clears the log
 	$('#Lexer_log').text("");
 	//Clears the marquee for tokens
@@ -170,6 +177,7 @@ function compile() {
 			//Scroll to the bottom of the log
 			logScroll();
 		}
+		compilerCheck();
 		//increase the program number
 		programNumber++;
 	}
@@ -391,6 +399,16 @@ function compileCode() {
 	logScroll();
 	//returns pass/fall
 	return cErrors;
+}
+
+function compilerCheck () {
+	//if compiler issues, big ones then output that issue
+	if (comErrors) {
+		//output
+		$('#Lexer_log').text(comErrorsStr);
+		//Scroll to the bottom of the log
+		logScroll();
+	}
 }
 
 function changeVisualizer() {
