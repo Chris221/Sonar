@@ -97,11 +97,17 @@ var goodcase4 = "/* Boolean Logic */\n" +
 	"}$";
 
 var goodcase5 = "/* Prints a while a != 5 */\n" +
-	"/* Prints 23458 */\n" +
+	"/* Prints 223458meow */\n" +
 	"{\n" +
 	"	string s\n" +
 	"	int a\n" +
 	"	a = 1\n" +
+	"	{\n" +
+	"		s = \"meow\"\n" +
+	"		int a\n" +
+	"		a = 2\n" +
+	"		print(a)\n" +
+	"	}\n" +
 	"	{\n" +
 	"	    while (a != 5) {\n" +
 	"	       a = 1 + a\n" +
@@ -124,19 +130,11 @@ var goodcase6 = "/* Addition of digits and a and Prints a*/\n" +
 var goodcase7 = "/* String Logic\n" +
 	"Strings with value are true\n" +
 	"Strings without value are false\n" +
-	"Prints: stringcheck onestring nostring noequal\n" +
+	"Prints: stringcheck noequal\n" +
 	"*/\n" +
 	"{\n" +
 	"	if (\"true\" == \"true\") {\n" +
 	"		print(\"stringcheck\")\n" +
-	"	}\n" +
-	"	print(\" \")\n" +
-	"	if (true == \"true\") {\n" +
-	"		print(\"onestring\")\n" +
-	"	}\n" +
-	"	print(\" \")\n" +
-	"	if (true != \"\") {\n" +
-	"		print(\"nostring\")\n" +
 	"	}\n" +
 	"	print(\" \")\n" +
 	"	if (\"true\" != \"false\") {\n" +
@@ -314,7 +312,8 @@ var analysisFail6 = "{\n" +
 /*
 * These CodeGen Failure test cases came from Tien's test cases
 */
-var codeFail1 = "{\n" +
+var codePass1 = "/* This shows the string table at work */" +
+	"{\n" +
 	"	print(\"alan\")\n" +
 	"	print(\"alan\")\n" +
 	"	print(\"alan\")\n" +
@@ -445,8 +444,8 @@ function testProgram(name) {
 		case "a1=b2":
 			rText = analysisFail6;
 			break;
-		case "NoMem":
-			rText = codeFail1;
+		case "stringTable":
+			rText = codePass1;
 			break;
 		case "Alan_NoMem":
 			rText = codeFail2;
