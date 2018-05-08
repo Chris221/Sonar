@@ -552,7 +552,6 @@ function aAssignmentStatement() {
                 //an id
             } else if (aCurrentToken.type == "ID") {
                 var cvType = getaVarType(aCurrentToken.value, st.cur);
-                console.log(cvType)
                 if (tempType.toLowerCase() != cvType) {
                     //increases errors
                     aErrors++;

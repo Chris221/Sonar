@@ -296,7 +296,7 @@ function booleanLogic(pos) {
         //gets the type
         var varType = getTypeFromST(elementOne.name, elementOne.scope);
         //if string
-        if (varType = "string") {
+        if (varType == "string") {
             //sets true
             e1 = "true";
             //if not
@@ -334,7 +334,7 @@ function booleanLogic(pos) {
         //gets the type        
         var varType = getTypeFromST(elementTwo.name, elementTwo.scope);
         //if string
-        if (varType = "string") {
+        if (varType == "string") {
             //sets true
             e2 = "true";
             //if not
@@ -351,17 +351,26 @@ function booleanLogic(pos) {
         //continue down
         e2 = "" + booleanLogic(elementTwo);
     }
-
+    //If element one is a digit
     if (elementOne.type == "DIGIT" && elementTwo.type != "DIGIT") {
+        //if e1 is more then 0
         if (e1 > 0) {
+            //true
             e1 = "true";
+            //otherwise
         } else {
+            //false
             e1 = "false";
         }
+        //If element two is a digit
     } else if (elementOne.type != "DIGIT" && elementTwo.type == "DIGIT") {
+        //if e2 is more then 0
         if (e2 > 0) {
+            //true
             e2 = "true";
+            //otherwise
         } else {
+            //false
             e2 = "false";
         }
     }
@@ -721,6 +730,8 @@ function cIf(pos, depth) {
 }
 
 function cInequality(pos, depth) {
+    //rewrites for modification later
+    pos.type = "Equality";
     //Generating
     codeLog("Generating [ Inequality ] on line " + pos.line + "..");
     //runs equality to handle most of the work
