@@ -34,6 +34,8 @@ var masterLine = 0;
 var comErrors = 0;
 //compilerErrors String
 var comErrorsStr = "";
+//Log Text String
+var logText = "";
 
 //lexer, parser, analysis, and code hover text
 var lexHover, parseHover, analysisHover, codeHover;
@@ -68,9 +70,21 @@ function verboseChange() {
 
 //Scroll to the bottom of the log
 function logScroll() {
+	//sets log
+	$('#Lexer_log').html(logText);
 	var textArea = $('#Lexer_log');
 	textArea.scrollTop(textArea[0].scrollHeight - textArea.height());
 }
+
+//scrolls to element in div
+jQuery.fn.scrollTo = function(elem, speed) {
+	try {
+		$(this).animate({
+			scrollTop: $(this).scrollTop() - $(this).offset().top + $(elem).offset().top
+		}, speed == undefined ? 1000 : speed); 
+	} catch {}
+    return this; 
+};
 
 //Starts the compile
 function compile() {
@@ -97,6 +111,7 @@ function compile() {
 	symboltable = "";
 	comErrors = 0;
 	comErrorsStr = "";
+	logText = "";
 	//Clears the log
 	$('#Lexer_log').text("");
 	//Clears the marquee for tokens
@@ -129,14 +144,19 @@ function compile() {
 	//if verbose
 	if (verbose) {
 		//Outputs the verbose mode
-		$('#Lexer_log').text($('#Lexer_log').val() + "Sonar is running in Verbose mode..\n\n");
+		logText += "<div class=\"sonar-start\">Sonar is running in Verbose mode..</div><br />";
 	} else {
 		//Outputs the non verbose mode
-		$('#Lexer_log').text($('#Lexer_log').val() + "Sonar is running..\n\n");
+		logText += "<div class=\"sonar-start\">Sonar is running..</div><br />";
 	}
 
 	//loops through for each program
 	for (var p = 0; p < programs.length; p++) {
+		//if this is not the first program
+		if (p > 0) {
+			//adds a break line
+			logText += "<br /><span class=\"sonar-start\">Program</span> <span class=\"line\">#" + programNumber + "</span><br /><br />";
+		}
 		//sets current input text
 		var inputText = programs[p];
 		//if the lexer passes
@@ -172,8 +192,8 @@ function compile() {
 			//increas lexfail count
 			lexfail++;
 			//No need to parse
-			var text = "No need to parse program " + programNumber + " due to a lex error";
-			$('#Lexer_log').text($('#Lexer_log').val() + text + "\n\n");
+			var text = "<div class=\"parser\">No need to <span class=\"parser-title\">parse</span> program <span class=\"line\">" + programNumber + "</span> due to a <span class=\"lexer-title\">lexer</span> <span class=\"error\">error</span></div>";
+			logText += text + "<br /><br />";
 			//Scroll to the bottom of the log
 			logScroll();
 		}
@@ -195,7 +215,7 @@ function compile() {
 		}
 	} else {
 		//Sets marquee to failed text :(
-		$('#token-marquee').append('<span class="token small text-red">No tokens due to lexer error</span>');
+		$('#token-marquee').append('<span class="token small text-red">No tokens due to <span class=\"lexer-title\">lexer</span> <span class=\"error\">error</span></span>');
 	}
 	//removes the extra number from program number
 	programNumber--;
@@ -207,6 +227,8 @@ function compile() {
 	$('#parser').attr("data-original-title", parseHover);
 	$('#analysis').attr("data-original-title", analysisHover);
 	$('#code').attr("data-original-title", codeHover);
+	//Scroll to the bottom of the log
+	logScroll();
 }
 
 //gets the input in a nice readable manor
@@ -240,22 +262,22 @@ function compileInput() {
 //Starts the compile
 function compileLexer(input) {
 	//Sets failed output text
-	var text = "==============================\n" +
-		"\n" +
-		"                         Lexer Failed         \n" +
-		"\n" +
-		"==============================";
+	var text = "<span class=\"line\">==============================<br /></span>" +
+		"<br />" +
+		"&emsp;&emsp;&emsp;&emsp;&emsp;<span class=\"lexer-title\">Lexer</span> <span class=\"failed\">Failed</span><br />" +
+		"<br />" +
+		"<span class=\"line\">==============================<br /></span>";
 	//Moves the input to the lexer
 	if (tokensLex = lexer(input)) {
 		//Sets success output text
-		text = "==============================\n" +
-			"\n" +
-			"                         Lexer Passed         \n" +
-			"\n" +
-			"==============================";
+		text = "<span class=\"line\">==============================<br /></span>" +
+			"<br />" +
+			"&emsp;&emsp;&emsp;&emsp;&emsp;<span class=\"lexer-title\">Lexer</span> <span class=\"passed\">Passed</span><br />" +
+			"<br />" +
+			"<span class=\"line\">==============================<br /></span>";
 	}
 	//Outputs the Lexer output
-	$('#Lexer_log').text($('#Lexer_log').val() + "\n" + text + "\n");
+	logText += "<br /><div class=\"lexer completed-text\">" + text + "</div><br />";
 	//Scroll to the bottom of the log
 	logScroll();
 	//rerurns token list
@@ -265,28 +287,28 @@ function compileLexer(input) {
 //Moves the compiler to parse
 function compileParser() {
 	//Sets failed output text
-	var text = "==============================\n" +
-		"\n" +
-		"                        Parser Failed         \n" +
-		"\n" +
-		"==============================";
+	var text = "<span class=\"line\">==============================<br /></span>" +
+		"<br />" +
+		"&emsp;&emsp;&emsp;&emsp;&emsp;<span class=\"parser-title\">Parser</span> <span class=\"failed\">Failed</span><br />" +
+		"<br />" +
+		"<span class=\"line\">==============================<br /></span>";
 	//runs parser gets the cst
 	if (!parser(tokens)) {
 		//Sets success output text
-		text = "==============================\n" +
-			"\n" +
-			"                        Parser Passed         \n" +
-			"\n" +
-			"==============================";
+		text = "<span class=\"line\">==============================<br /></span>" +
+			"<br />" +
+			"&emsp;&emsp;&emsp;&emsp;&emsp;<span class=\"parser-title\">Parser</span> <span class=\"passed\">Passed</span><br />" +
+			"<br />" +
+			"<span class=\"line\">==============================<br /></span>";
 	}
 	//Outputs the parser output
-	$('#Lexer_log').text($('#Lexer_log').val() + "\n" + text + "\n");
+	logText += "<br /><div class=\"parser completed-text\">" + text + "</div><br />";
 
 	//if parsed output the cst
 	if (!pErrors) {
 		//Adds hover text if parser pass
 		parseHover += "Program " + programNumber + ": Passed<br/>";
-		$('#Lexer_log').text($('#Lexer_log').val() + cst.toString() + "\n\n");
+		logText += "<div class=\"parser\">The <span class=\"cst-title\">CST</span> is located below in the <span class=\"cst-title\">Concrete Syntax Tree</span> tab.</div><br />";
 	} else {
 		//Adds hover text if parser fails
 		parseHover += "Program " + programNumber + ": Error<br/>";
@@ -297,8 +319,8 @@ function compileParser() {
 		//increas parsefail count
 		parsefail++;
 		//No CST to show
-		var text = "No CST to show due to a parse error";
-		$('#Lexer_log').text($('#Lexer_log').val() + text + "\n\n");
+		var text = "<div class=\"parser\">No <span class=\"cst-title\">CST</span> to show due to a <span class=\"parser-title\">parse</span> <span class=\"error\">error</span></div><br />";
+		logText += text;
 	}
 	//Scroll to the bottom of the log
 	logScroll();
@@ -309,31 +331,31 @@ function compileParser() {
 //Moves the compiler to analysis
 function compileAnalysis() {
 	//Sets failed output text
-	var text = "==============================\n" +
-		"\n" +
-		"                      Analysis Failed         \n" +
-		"\n" +
-		"==============================";
+	var text = "<span class=\"line\">==============================<br /></span>" +
+		"<br />" +
+		"&emsp;&emsp;&emsp;&emsp;<span class=\"analyzer-title\">Analysis</span> <span class=\"failed\">Failed</span><br />" +
+		"<br />" +
+		"<span class=\"line\">==============================<br /></span>";
 	//runs analysis gets the ast
 	if (analyzer(analysisTokens) == 0) {
 		//Sets success output text
-		text = "==============================\n" +
-			"\n" +
-			"                      Analysis Passed         \n" +
-			"\n" +
-			"==============================";
+		text = "<span class=\"line\">==============================<br /></span>" +
+			"<br />" +
+			"&emsp;&emsp;&emsp;&emsp;<span class=\"analyzer-title\">Analysis</span> <span class=\"passed\">Passed</span><br />" +
+			"<br />" +
+			"<span class=\"line\">==============================<br /></span>";
 	}
 	//Outputs the analysis output
-	$('#Lexer_log').text($('#Lexer_log').val() + "\n" + text + "\n");
+	logText += "<br /><div class=\"alanyzer completed-text\">" + text + "</div><br />";
 
 	//if analyzer output the ast
 	if (!aErrors) {
 		//Adds hover text if analysis pass
 		analysisHover += "Program " + programNumber + ": Passed<br/>";
 		//Outputs the ast, scope tree and symbol table text to the log
-		$('#Lexer_log').text($('#Lexer_log').val() + ast.toString() + "\n");
-		$('#Lexer_log').text($('#Lexer_log').val() + "Program " + programNumber + " Scope Tree\n" + st.toString() + "\n");
-		$('#Lexer_log').text($('#Lexer_log').val() + "The Symbol Table is located below in the Symbol Table tab.\n\n");
+		logText += "<div class=\"analyzer\">The <span class=\"ast-title\">AST</span> is located below in the <span class=\"ast-title\">Abstract Syntax Tree</span> tab.</div>";
+		logText += "<div class=\"analyzer\">The <span class=\"st-title\">Scope Tree</span> is located below in the <span class=\"st-title\">Scope Tree</span> tab.</div><br />";
+		logText += "<div class=\"analyzer\">The <span class=\"st-title\">Symbol Table</span> is located below in the <span class=\"st-title\">Symbol Table</span> tab.</div><br />";
 	} else {
 		//Adds hover text if analysis fails
 		analysisHover += "Program " + programNumber + ": Error<br/>";
@@ -342,10 +364,10 @@ function compileAnalysis() {
 		//increas analysisfail count
 		analysisfail++;
 		//No AST to show
-		var text = "No AST or Symbol Table to show due to a semantic analysis error";
-		$('#Lexer_log').text($('#Lexer_log').val() + text + "\n\n");
+		var text = "No <span class=\"ast-title\">AST</span> or <span class=\"st-title\">Symbol Table</span> to show due to a semantic analysis <span class=\"error\">error</span>";
+		logText +=  text + "<br />";
 		//Also outputs that to the symbol table
-		symboltable += "Program " + programNumber + "<br />No Symbol table due to a semantic analysis error<br />";
+		symboltable += "Program " + programNumber + "<br />No <span class=\"st-title\">Symbol table</span> due to a semantic analysis <span class=\"error\">error</span><br />";
 		$('#symboltable').html(symboltable);
 	}
 	//Scroll to the bottom of the log
@@ -357,41 +379,41 @@ function compileAnalysis() {
 //Moves the compiler to code gen
 function compileCode() {
 	//Sets failed output text
-	var text = "==============================\n" +
-		"\n" +
-		"                      Code Gen Failed         \n" +
-		"\n" +
-		"==============================";
+	var text = "<span class=\"line\">==============================<br /></span>" +
+		"<br />" +
+		"&emsp;&emsp;&emsp;&emsp;<span class=\"codegen-title\">Code Gen</span> <span class=\"failed\">Failed</span><br />" +
+		"<br />" +
+		"<span class=\"line\">==============================<br /></span>";
 	//runs code gen to get the code
 	code = gen(ast);
 	if (!cErrors) {
 
 		//Sets success output text
-		text = "==============================\n" +
-			"\n" +
-			"                      Code Gen Passed         \n" +
-			"\n" +
-			"==============================";
+		text = "<span class=\"line\">==============================<br /></span>" +
+			"<br />" +
+			"&emsp;&emsp;&emsp;&emsp;<span class=\"codegen-title\">Code Gen</span> <span class=\"passed\">Passed</span><br />" +
+			"<br />" +
+			"<span class=\"line\">==============================<br /></span>";
 		//Outputs the code
 		$('#codeBox').html($('#codeBox').val() + code + "<br />");
 	} else {
-		$('#codeBox').text($('#codeBox').val() + "No code due to Code Generation Error\n");
+		$('#codeBox').html($('#codeBox').val() + "No <span class=\"codegen-title\">code</span> due to <span class=\"codegen-title\">Code Generation</span> <span class=\"error\">Error</span>");
 
 	}
 	//Outputs the code gen output
-	$('#Lexer_log').text($('#Lexer_log').val() + "\n" + text + "\n");
+	logText += "<br /><div class=\"codegen completed-text\">" + text + "</div><br />";
 
 	//if code
 	if (!cErrors) {
 		//Adds hover text if analysis pass
 		codeHover += "Program " + programNumber + ": Passed<br/>";
 		//outputs code to log
-		$('#Lexer_log').text($('#Lexer_log').val() + "\n" + codeString2);
+		logText += "<br /><div class=\"codeBox2\">" + codeString + "</div>";
 	} else {
 		//Adds hover text if code fails
 		codeHover += "Program " + programNumber + ": Error<br/>";
 		//outputs no code
-		$('#Lexer_log').text($('#Lexer_log').val() + "\nNo code due to Code Generation Error");
+		logText +=  "<br />No code due to <span class=\"codegen-title\">Code Generation</span <span class=\"error\">Error</span><br />";
 		//increas analysisfail count
 		codefail++;
 	}
@@ -405,7 +427,7 @@ function compilerCheck () {
 	//if compiler issues, big ones then output that issue
 	if (comErrors) {
 		//output
-		$('#Lexer_log').text(comErrorsStr);
+		$('#Lexer_log').html(comErrorsStr);
 		//Scroll to the bottom of the log
 		logScroll();
 	}
