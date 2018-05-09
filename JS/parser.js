@@ -206,9 +206,7 @@ function program() {
     //breaks out of the parsers loop
     if (tokens.length == 0) {
         //debugging
-        if (debug && verbose) {
-            parserLog("<span class=\"error\">Program KILLED</span>..");
-        }
+        parserLog("Program KILLED..");
         //backs out of the program
         return;
     }
@@ -218,7 +216,7 @@ function program() {
     parserLog("Program..");
     if (programLevel != programLevelCounter) {
         //Outputs program number
-        parserLog("<span id=\"parser-start-text\">Parsing Program <span class=\"line\">" + programNumber + "</span>...</span>");
+        parserLog("<span id=\"parser-start-text\">Parsing Program <span class=\"line\">" + programNumber + "</span>...</span>",true);
         //increases the counter
         programLevelCounter++;
     }
@@ -692,20 +690,29 @@ function handle(unexpected = '') {
             //stops from ouputing
             text = "DO NOT OUTPUT";
         }
+        //processes the text
+        parserLog(text);
     } else {
         text = "<span class=\"failed\">Failed!</span> Unexpected token found [ <span class=\"error\">" + type + "</span> ] on line <span class=\"line\">" + line + "</span>, <span class=\"line\">" + column + "</span>...";
         //processes the the first text
-        parserLog(text);
+        parserLog(text,true);
         text = "------  Expected token(s) [ <span class=\"code-words\">" + unexpected + "</span> ] on line <span class=\"line\">" + line + "</span>, <span class=\"line\">" + column + "</span>...";
+        //processes the text
+        parserLog(text,true);
     }
-    //processes the text
-    parserLog(text);
 }
 
 //Sets the parsers log
-function parserLog(text) {
+function parserLog(text, override = false) {
     //Appends new logging to current log
     var lText = "<div class=\"parser\"><span class=\"parser-title\">PARSER</span> -- " + text + "</div>";
+    //if verbose mode
+    if (!override) {
+        if (!verbose) {
+            //stops from ouputing
+            text = "DO NOT OUTPUT";
+        }
+    }
     //if not supposed to be output
     if (text == "DO NOT OUTPUT") {
         //No need to change
