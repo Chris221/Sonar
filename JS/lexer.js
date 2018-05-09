@@ -400,18 +400,20 @@ function addToken(type, val, line, col) {
 	tokens.push(temp);
 	//sets the text
 	var text = type + " [ <span class=\"code-words\">" + val + "</span> ] found on line <span class=\"line\">" + line + "</span>, <span class=\"line\">" + col + "</span>...";
-	//if verbose mode
-	if (!verbose) {
-		//stops from ouputing
-		text = "DO NOT OUTPUT";
-	}
 	//Outputs new token to log
 	LexLog(text);
 }
 
-function LexLog(text) {
+function LexLog(text, override = false) {
 	//Appends new logging to current log
     var lText = "<div class=\"lexer\"><span class=\"lexer-title\">LEXER</span> -- " + text + "</div>";
+    //if verbose mode
+    if (!override) {
+        if (!verbose) {
+            //stops from ouputing
+            text = "DO NOT OUTPUT";
+        }
+    }
 	//if not supposed to be output
 	if (text == "DO NOT OUTPUT") {
 		//No need to change
