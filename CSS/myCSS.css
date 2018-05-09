@@ -86,7 +86,11 @@ td {
 }
 .log, .cst, .ast, .scopetree, .symboltable {
 	height: 260px;
+	max-height: 260px;
 }
+.log:empty:before {
+	content:attr(data-placeholder);
+  }
 .input, .log, .cst, .ast, .scopetree, .symboltable {
     resize: none;
 	margin-left: auto;
@@ -95,9 +99,8 @@ td {
 	display: block;
 	font-size: inherit !important;
 }
-.codeBox {
+.codeBox2 {
 	font-family: 'Courier New', Courier, monospace !important;
-	width: calc(100% - calc(floor(calc(100% / (16.8*8))) * (16.8*8))) !important;
 }
 .symboltable {
 	overflow-y: auto;
@@ -159,4 +162,32 @@ td {
 }
 .sonar {
 	font-size: 36px !important;;
+}
+/* ---------------------- Log Colors ---------------------- */
+.warning {
+	color: #FF851B;
+}
+.error, .failed {
+	color: #FF4136;
+}
+.debugger {
+	color: #75CAEB;
+}
+.lexer-title, .parser-title, .analyzer-title, .codegen-title, .cst-title, .st-title, .ast-title, .sonar-start {
+	color: #158CBA;
+}
+.passed {
+	color: #28B62C;
+}
+.completed-text, .line, .sonar-start {
+	font-weight: bold;
+}
+.code {
+	color: #75CAEB;
+}
+.code-words {
+	color: green;
+}
+.line {
+	color: black;
 }

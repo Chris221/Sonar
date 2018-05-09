@@ -125,10 +125,10 @@
 		</span>
 		<!-- Visually see the output of the compiler's parts -->
 		<span class="compilerVis">
-			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="lexer">Lexer</button>&emsp;
-			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="parser">Parser</button>&emsp;
-			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="analysis">Semantic Analysis</button>&emsp;
-			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="code">Code Generation</button>
+			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="lexer" onclick="$('#Lexer_log').scrollTo('#lexer-start-text');">Lexer</button>&emsp;
+			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="parser" onclick="$('#Lexer_log').scrollTo('#parser-start-text');">Parser</button>&emsp;
+			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="analysis" onclick="$('#Lexer_log').scrollTo('#analyzer-start-text');">Semantic Analysis</button>&emsp;
+			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="code" onclick="$('#Lexer_log').scrollTo('#codegen-start-text');">Code Generation</button>
 		</span>
 		<span class="page-left">
 			<div class="container">
@@ -165,7 +165,8 @@
 							<div class="tab-pane fade active show" id="logBox" role="tabpanel" aria-labelledby="log-tab" aria-expanded="true">
 								<div class="panel panel-default">
 									<small>
-										<textarea class="log form-control" id="Lexer_log" placeholder="Log is currently empty" readonly></textarea>
+										<!--<textarea class="log form-control" id="Lexer_log" placeholder="Log is currently empty" readonly></textarea>-->
+										<div class="pre-scrollable log form-control" contenteditable="false" id="Lexer_log" data-placeholder="Log is currently empty" readonly></div>
 									</small>
 								</div>
 							</div>
@@ -261,7 +262,7 @@
 				</div>
 				<div class="row">
 					<div class="col-sm">
-						<div class="codeBox form-control" id="codeBox" onclick="copyToClipboard('#codeBox');" placeholder="No Code Currently" readonly>No Code Currently</div>
+						<div class="codeBox codeBox2 form-control" id="codeBox" onclick="copyToClipboard('#codeBox');" placeholder="No Code Currently" readonly>No Code Currently</div>
 					</div>
 				</div>
 				<hr /> Operating Systems:

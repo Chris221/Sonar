@@ -112,7 +112,7 @@ function checkIfAllVarsUsed(level) {
                 //increases Warnings
                 aWarnings++;
                 //outputs error
-                analysisLog("Warning! ID [ " + level.symbols[i].getKey() + " ] on line " + level.symbols[i].line + " was never utilized...");
+                analysisLog("Warning! ID [ <span class=\"code-words\">" + level.symbols[i].getKey() + "</span> ] on line <span class=\"line\">" + level.symbols[i].line + "</span> was never utilized...");
             }
         }
         //If higher level, search there
@@ -131,7 +131,7 @@ function setVarUsed(id, level) {
             //when the correct ID is found
             if (id == level.symbols[i].getKey()) {
                 //Outputs setting text
-                analysisLog("Variable [ " + id + " ] used on line " + aCurrentToken.line + "...");
+                analysisLog("Variable [ <span class=\"code-words\">" + id + "</span> ] used on line <span class=\"line\">" + aCurrentToken.line + "</span>...");
                 //sets initialized and the value
                 level.symbols[i].utilized = true;
             }
@@ -152,7 +152,7 @@ function setVarValue(id, val, level) {
             //when the correct ID is found
             if (id == level.symbols[i].getKey()) {
                 //Outputs setting text
-                analysisLog("Setting variable [ " + id + " ] on line " + aCurrentToken.line + " to [ " + val + " ]...");
+                analysisLog("Setting variable [ <span class=\"code-words\">" + id + "</span> ] on line <span class=\"line\">" + aCurrentToken.line + "</span> to [ <span class=\"code-words\">" + val + "</span> ]...");
                 //sets initialized and the value
                 level.symbols[i].initialized = true;
                 level.symbols[i].value = val;
@@ -241,7 +241,7 @@ function analyzer(input) {
     //resets the globals
     aResetGlobals();
     //if verbose
-    analysisLog("Analysing program " + programNumber + "..\n", true);
+    analysisLog("<span id=\"analyzer-start-text\">Analysing program <span class=\"line\">" + programNumber + "</span>...</span><br />", true);
     //sets the token list
     aTokens = input;
     //calls the first token check
@@ -251,12 +251,12 @@ function analyzer(input) {
     checkIfAllVarsUsed(st.cur);
 
     //Defines the completion text
-    var completedText = "\nSemantic Analysis passed with " + aWarnings + " warnings and " + aErrors + " errors";
+    var completedText = "<br /><span class=\"analyzer-title\">Semantic Analysis</span> <span class=\"passed\">passed</span> with " + aWarnings + " <span class=\"warning\">warnings</span> and " + aErrors + " <span class=\"error\">errors</span>";
 
     //if any errors
     if (aErrors) {
         //Sets failed for the completed semantic analysis output
-        completedText = "\nSemantic Analysis FAILED with " + aWarnings + " warnings and " + aErrors + " errors";
+        completedText = "<br /><span class=\"analyzer-title\">Semantic Analysis</span> <span class=\"failed\">FAILED</span> with " + aWarnings + " <span class=\"warning\">warnings</span> and " + aErrors + " <span class=\"error\">errors</span>";
     } else {
         //outputs AST and Scope Tree to there locations on the page
         $('#ast').val($('#ast').val() + ast.toString());
@@ -271,7 +271,7 @@ function analyzer(input) {
         $('#symboltable').html(symboltable);
     }
     //Outputs the completed Text
-    $('#Lexer_log').text($('#Lexer_log').val() + completedText);
+    logText += "<div class=\"alanyzer completed-text\" id=\"alanyzer-completed-text\" >" + completedText + "</div>";
 
     //returns error number
     return aErrors;
@@ -285,7 +285,7 @@ function addBranch(name) {
 //Sets the analysis log
 function analysisLog(text, override = false) {
     //Appends new logging to current log
-    var lText = $('#Lexer_log').val() + "ANALYZER -- " + text + "\n";
+    var lText = "<div class=\"alanyzer\"><span class=\"analyzer-title\">ANALYZER</span> -- " + text + "</div>";
     //if verbose mode
     if (!override) {
         if (!verbose) {
@@ -296,20 +296,19 @@ function analysisLog(text, override = false) {
     //if not supposed to be output
     if (text == "DO NOT OUTPUT") {
         //No need to change
-        lText = $('#Lexer_log').val();
+        lText = "";
     }
     //Sets the Log
-    $('#Lexer_log').text(lText);
+    logText += lText;
 }
 
 function aProgram() {
     //starts ast branch
     ast.addNode("Program " + programNumber, "branch");
 
-    //debugging
-    if (debug && verbose) {
-        analysisLog("Program..");
-    }
+    //outputting
+    analysisLog("Program..");
+    
 
     //moves token pointer
     aGetToken();
@@ -334,10 +333,8 @@ function aBlock() {
     aScopeArray.push(scope);
     scope = scopeCounter;
 
-    //debugging
-    if (debug && verbose) {
-        analysisLog("Block..");
-    }
+    //outputting
+    analysisLog("Block..");
 
     //Creates Scope Node in Symbol Tree
     st.addNode("ScopeLevel: " + scope, "branch", scope);
@@ -371,10 +368,8 @@ function aBlock() {
 }
 
 function aStatementList() {
-    //debugging
-    if (debug && verbose) {
-        analysisLog("Statement List..");
-    }
+    //outputting
+    analysisLog("Statement List..");
     //if a Right Brace
     if (aCurrentToken.type == "RIGHT_BRACE") {
         //NOTHING TIME TO RETURN!!!
@@ -392,10 +387,8 @@ function aStatementList() {
 
 //checks for statements
 function aStatement() {
-    //debugging
-    if (debug && verbose) {
-        analysisLog("Statement..");
-    }
+    //outputting
+    analysisLog("Statement..");
     //if print
     if (aCurrentToken.type == "PRINT") {
         //goes to print statements
@@ -428,10 +421,8 @@ function aPrintStatement() {
     //Creates a Branch
     addBranch("Print");
 
-    //debugging
-    if (debug && verbose) {
-        analysisLog("Print..");
-    }
+    //outputting
+    analysisLog("Print..");
     //Changes the token
     aGetToken();
     //if LEFT_PARENTHESES
@@ -457,10 +448,8 @@ function aPrintStatement() {
 function aAssignmentStatement() {
     //Creates a Branch
     addBranch("AssignmentStatement");
-    //debugging
-    if (debug && verbose) {
-        analysisLog("assignmentStatement..");
-    }
+    //outputting
+    analysisLog("assignmentStatement..");
     //if ASSIGNMENT_OPERATOR
     if (aCurrentToken.type == "ID") {
         //sets the id and type for later
@@ -470,7 +459,7 @@ function aAssignmentStatement() {
             //increases errors
             aErrors++;
             //outputs error
-            analysisLog("ERROR! ID [ " + id + " ] on line " + aCurrentToken.line + " was not declared in scope " + scope + "...");
+            analysisLog("<span class=\"error\">ERROR!</span> ID [ <span class=\"code-words\">" + id + "</span> ] on line <span class=\"line\">" + aCurrentToken.line + "</span> was not declared in scope <span class=\"code\">" + scope + "</span>...",true);
         }
         if (!addingValue) {
             //when adding set the temp globals to the locals
@@ -550,7 +539,7 @@ function aAssignmentStatement() {
                     //increases errors
                     aErrors++;
                     //outputs error
-                    analysisLog("ERROR! ID [ " + tempID + " ] was expecting type [ " + tempType + " ] but was given [ INT ]...");
+                    analysisLog("<span class=\"error\">ERROR!</span> ID [ <span class=\"code-words\">" + tempID + "</span> ] was expecting type [ <span class=\"code-words\">" + tempType + "</span> ] but was given [ <span class=\"code-words\">INT</span> ]...",true);
                 }
                 //an id
             } else if (aCurrentToken.type == "ID") {
@@ -559,7 +548,7 @@ function aAssignmentStatement() {
                     //increases errors
                     aErrors++;
                     //outputs error
-                    analysisLog("ERROR! Type mismatch [ " + id + " ] on line " + aCurrentToken.line + " is defined as [ " + tempType + " ] and was assigned [ " + cvType + " ]...");
+                    analysisLog("<span class=\"error\">ERROR!</span> Type mismatch [ <span class=\"code-words\">" + id + "</span> ] on line <span class=\"line\">" + aCurrentToken.line + "</span> is defined as [ <span class=\"code-words\">" + tempType + "</span> ] and was assigned [ <span class=\"code-words\">" + cvType + "</span> ]...",true);
                 }
                 //if temp is 0
                 if (tempValue == 0) {
@@ -604,7 +593,7 @@ function aAssignmentStatement() {
                     //increases errors
                     aErrors++;
                     //outputs error
-                    analysisLog("ERROR! ID [ " + tempID + " ] was expecting type [ " + tempType + " ] but was given [ BOOLEAN ]...");
+                    analysisLog("<span class=\"error\">ERROR!</span> ID [ <span class=\"code-words\">" + tempID + "</span> ] was expecting type [ <span class=\"code-words\">" + tempType + "</span> ] but was given [ <span class=\"code-words\">BOOLEAN</span> ]...",true);
                 }
             }
         }
@@ -620,10 +609,8 @@ function aAssignmentStatement() {
 function aVarDecl() {
     //Creates a Branch
     addBranch("VarDecl");
-    //debugging
-    if (debug && verbose) {
-        analysisLog("varDecl..");
-    }
+    //outputting
+    analysisLog("varDecl..");
     //temp variable for getting the type of var
     var type = aCurrentToken.type.toLowerCase();
     //changes the token
@@ -635,7 +622,7 @@ function aVarDecl() {
             //increases errors
             aErrors++;
             //outputs error
-            analysisLog("ERROR! ID [ " + aCurrentToken.value + " ] on line " + aCurrentToken.line + " was prevously declared on line " + line + "...");
+            analysisLog("<span class=\"error\">ERROR!</span> ID [ <span class=\"code-words\">" + aCurrentToken.value + "</span> ] on line <span class=\"line\">" + aCurrentToken.line + "</span> was prevously declared on line <span class=\"line\">" + line + "</span>...",true);
         } else {
             //Create new symbol
             var symbol = new Symbol(aCurrentToken.value, type, aCurrentToken.line, scope, scopeLevel, programNumber, false, false, false);
@@ -644,7 +631,7 @@ function aVarDecl() {
             //Adds the symbol to allSymbols
             allSymbols.push(symbol);
             //outputs variable declared
-            analysisLog("New variable declared [ " + aCurrentToken.value + " ] on line " + aCurrentToken.line + " with type [ " + type + " ]...");
+            analysisLog("New variable declared [ <span class=\"code-words\">" + aCurrentToken.value + "</span> ] on line <span class=\"line\">" + aCurrentToken.line + "</span> with type [ <span class=\"code-words\">" + type + "</span> ]...");
         }
         //goes to aID
         aID();
@@ -657,10 +644,8 @@ function aVarDecl() {
 function aWhileStatement() {
     //Creates a Branch
     addBranch("WhileStatement");
-    //debugging
-    if (debug && verbose) {
-        analysisLog("whileStatement..");
-    }
+    //outputting
+    analysisLog("whileStatement..");
     //changes the token
     aGetToken();
     //if LEFT_PARENTHESES, TRUE, or FALSE
@@ -680,10 +665,8 @@ function aWhileStatement() {
 function aIfStatement() {
     //Creates a Branch
     addBranch("IfStatement");
-    //debugging
-    if (debug && verbose) {
-        analysisLog("ifStatement..");
-    }
+    //outputting
+    analysisLog("ifStatement..");
     //changes the token
     aGetToken();
     //if LEFT_PARENTHESES, TRUE, or FALSE
@@ -702,10 +685,8 @@ function aIfStatement() {
 
 //handles expressions
 function aExpr() {
-    //debugging
-    if (debug && verbose) {
-        analysisLog("Expr..");
-    }
+    //outputting
+    analysisLog("Expr..");
     //if Digit
     if (aCurrentToken.type == "DIGIT") {
         //go to int expression
@@ -749,10 +730,8 @@ function aExpr() {
 
 //handles int expressions
 function aIntExpr() {
-    //debugging
-    if (debug && verbose) {
-        analysisLog("intExpr..");
-    }
+    //outputting
+    analysisLog("intExpr..");
     //if next is PLUS add branch
     if (aCheckNext().type == "PLUS") {
         addBranch("Addition");
@@ -791,11 +770,8 @@ function aIntExpr() {
 
 //handles string expressions
 function aStringExpr() {
-
-    //debugging
-    if (debug && verbose) {
-        analysisLog("stringExpr..");
-    }
+    //outputting
+    analysisLog("stringExpr..");
 
     //cheks for first quote
     if (aCurrentToken.type == "QUOTE") {
@@ -838,7 +814,7 @@ function aStringExpr() {
                 //increases errors
                 aErrors++;
                 //outputs error
-                analysisLog("ERROR! ID [ " + tempID + " ] was expecting type [ " + tempType + " ] but was given [ STRING ]...");
+                analysisLog("<span class=\"error\">ERROR!</span> ID [ <span class=\"code-words\">" + tempID + "</span> ] was expecting type [ <span class=\"code-words\">" + tempType + "</span> ] but was given [ <span class=\"code-words\">STRING</span> ]...",true);
             }
         }
         //changes the token
@@ -854,7 +830,7 @@ function aID() {
             //increases errors
             aErrors++;
             //outputs error
-            analysisLog("ERROR! ID [ " + aCurrentToken.value + " ] on line " + aCurrentToken.line + " was used before it was declared...");
+            analysisLog("<span class=\"error\">ERROR!</span> ID [ <span class=\"code-words\">" + aCurrentToken.value + "</span> ] on line <span class=\"line\">" + aCurrentToken.line + "</span> was used before it was declared...",true);
         }
     }
     // Creates a leaf
@@ -865,10 +841,8 @@ function aID() {
 
 //handles char list
 function aCharList() {
-    //debugging
-    if (debug && verbose) {
-        analysisLog("charList..");
-    }
+    //outputting
+    analysisLog("charList..");
     //cheks for first quote
     if (aCurrentToken.type == "QUOTE") {
         //changes the token
@@ -902,10 +876,8 @@ function checkFor(str, num) {
 
 //handles boolean expression
 function aBooleanExpr() {
-    //debugging
-    if (debug && verbose) {
-        analysisLog("booleanExpr..");
-    }
+    //outputting
+    analysisLog("booleanExpr..");
     if (aCurrentToken.type == "BOOL") {
         //goes to aID
         aID();
@@ -992,7 +964,7 @@ function aBooleanExpr() {
                         //increases errors
                         aErrors++;
                         //outputs error
-                        analysisLog("ERROR! ID [ " + ast.cur.children[i].name + " ] on line " + ast.cur.children[i].line + " type [ " + getaVarType(ast.cur.children[i].name, st.cur) + " ] cannot be compared to [ " + getaVarType(ast.cur.children[i + 1].name, st.cur) + " ]...");
+                        analysisLog("<span class=\"error\">ERROR!</span> ID [ <span class=\"code-words\">" + ast.cur.children[i].name + "</span> ] on line <span class=\"line\">" + ast.cur.children[i].line + "</span> type [ <span class=\"code-words\">" + getaVarType(ast.cur.children[i].name, st.cur) + "</span> ] cannot be compared to [ <span class=\"code-words\">" + getaVarType(ast.cur.children[i + 1].name, st.cur) + "</span> ]...",true);
                     }
                 }
                 //if it is not still equality checking
@@ -1002,7 +974,7 @@ function aBooleanExpr() {
                         //increases errors
                         aErrors++;
                         //outputs error
-                        analysisLog("ERROR! ID [ " + ast.cur.children[i].name + " ] on line " + ast.cur.children[i].line + " type [ " + t1 + " ] cannot be compared to [ " + t2 + " ]...");
+                        analysisLog("<span class=\"error\">ERROR!</span> ID [ <span class=\"code-words\">" + ast.cur.children[i].name + "</span> ] on line <span class=\"line\">" + ast.cur.children[i].line + "</span> type [ <span class=\"code-words\">" + t1 + "</span> ] cannot be compared to [ <span class=\"code-words\">" + t2 + "</span> ]...",true);
 
                     }
                 }
