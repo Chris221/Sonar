@@ -157,14 +157,10 @@ function compile() {
 	$('#analysis').removeAttr("data-original-title");
 	$('#code').removeAttr("data-original-title");
 
-	//if verbose
-	if (verbose) {
-		//Outputs the verbose mode
-		logTextVerbose += "<div class=\"sonar-start\">Sonar is running in Verbose mode..</div><br />";
-	} else {
-		//Outputs the non verbose mode
-		logText += "<div class=\"sonar-start\">Sonar is running..</div><br />";
-	}
+	//Outputs the verbose mode
+	logTextVerbose += "<div class=\"sonar-start\">Sonar is running in Verbose mode..</div><br />";
+	//Outputs the non verbose mode
+	logText += "<div class=\"sonar-start\">Sonar is running..</div><br />";
 
 	//loops through for each program
 	for (var p = 0; p < programs.length; p++) {
