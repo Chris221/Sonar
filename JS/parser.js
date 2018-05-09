@@ -121,9 +121,7 @@ function statementList() {
     //starts cst branch
     cst.addNode("StatementList", "branch");
     //debugging
-    if (debug && verbose) {
-        parserLog("Statement List..");
-    }
+    parserLog("Statement List..");
     //if a Right Brace
     if (currentToken.type == "RIGHT_BRACE") {
         //cst backs out a branch
@@ -159,9 +157,7 @@ function statementList() {
 //checks for blocks
 function block() {
     //debugging
-    if (debug && verbose) {
-        parserLog("Block..");
-    }
+    parserLog("Block..");
     //if current token is a lerft brace
     if (currentToken.type == "LEFT_BRACE") {
         //starts cst branch
@@ -219,9 +215,7 @@ function program() {
     //Changes token
     getToken();
     //debugging
-    if (debug && verbose) {
-        parserLog("Program..");
-    }
+    parserLog("Program..");
     if (programLevel != programLevelCounter) {
         //Outputs program number
         parserLog("<span id=\"parser-start-text\">Parsing Program <span class=\"line\">" + programNumber + "</span>...</span>");
@@ -252,9 +246,7 @@ function statement() {
     //starts cst branch
     cst.addNode("Statement", "branch");
     //debugging
-    if (debug && verbose) {
-        parserLog("Statement..");
-    }
+    parserLog("Statement..");
     //if print
     if (currentToken.type == "PRINT") {
         //goes to print statements
@@ -300,9 +292,7 @@ function printStatement() {
     //starts cst branch
     cst.addNode("Print", "branch");
     //debugging
-    if (debug && verbose) {
-        parserLog("Print..");
-    }
+    parserLog("Print..");
     //handels the print
     handle();
     //Changes the token
@@ -328,17 +318,13 @@ function printStatement() {
 //handles the print left parentheses statement
 function leftParentheses() {
     //debugging
-    if (debug && verbose) {
-        parserLog("Parentheses..");
-    }
+    parserLog("Parentheses..");
     //handels the print
     handle();
     //if in bool
     if (inBool) {
         //debugging
-        if (debug && verbose) {
-            parserLog("Parentheses (Bool)..");
-        }
+        parserLog("Parentheses (Bool)..");
         //changes the token
         getToken();
         //goes to expression
@@ -363,27 +349,22 @@ function leftParentheses() {
         //if in print
     } else if (inPrint) {
         //debugging
-        if (debug && verbose) {
-            parserLog("Parentheses (Print)..");
-        }
+        parserLog("Parentheses (Print)..");
         //changes the token
         getToken();
         //goes to expresion
         expr();
     }
     //if any errors back out
-    if (pErrors) {//debugging
-        if (debug && verbose) {
-            parserLog("Parentheses KILLED..");
-        }
+    if (pErrors) {
+        //debugging
+        parserLog("Parentheses KILLED..");
         //backs out
         return;
     }
 
     //debugging
-    if (debug && verbose) {
-        parserLog("Parentheses end..");
-    }
+    parserLog("Parentheses end..");
 
     //changes the token
     getToken();
@@ -417,9 +398,7 @@ function expr() {
     //starts cst branch
     cst.addNode("Expr", "branch");
     //debugging
-    if (debug && verbose) {
-        parserLog("Expr..");
-    }
+    parserLog("Expr..");
     //if Digit
     if (currentToken.type == "DIGIT") {
         //go to int expression
@@ -454,9 +433,7 @@ function intExpr() {
     //starts cst branch
     cst.addNode("IntExpr", "branch");
     //debugging
-    if (debug && verbose) {
-        parserLog("intExpr..");
-    }
+    parserLog("intExpr..");
     //handles the digit
     handle();
     //if PLUS
@@ -486,9 +463,7 @@ function stringExpr() {
     //starts cst branch
     cst.addNode("StringExpr", "branch");
     //debugging
-    if (debug && verbose) {
-        parserLog("stringExpr..");
-    }
+    parserLog("stringExpr..");
     //handles the quote
     handle();
 
@@ -521,9 +496,7 @@ function stringExpr() {
 //handles char list
 function charList() {
     //debugging
-    if (debug && verbose) {
-        parserLog("charList..");
-    }
+    parserLog("charList..");
     //if CHAR
     if (currentToken.type == "CHAR") {
         //handles the char
@@ -551,9 +524,7 @@ function booleanExpr() {
     //starts cst branch
     cst.addNode("BooleanExpr", "branch");
     //debugging
-    if (debug && verbose) {
-        parserLog("booleanExpr..");
-    }
+    parserLog("booleanExpr..");
     //if LEFT_PARENTHESES
     if (currentToken.type == "LEFT_PARENTHESES") {
         //enters bool
@@ -575,9 +546,7 @@ function assignmentStatement() {
     //starts cst branch
     cst.addNode("AssignmentStatement", "branch");
     //debugging
-    if (debug && verbose) {
-        parserLog("assignmentStatement..");
-    }
+    parserLog("assignmentStatement..");
     //if ID
     if (currentToken.type == "ID") {
         //goes to  ID
@@ -615,9 +584,7 @@ function varDecl() {
     //starts cst branch
     cst.addNode("VariableDeclaration", "branch");
     //debugging
-    if (debug && verbose) {
-        parserLog("varDecl..");
-    }
+    parserLog("varDecl..");
     //handles type
     handle();
     //changes the token
@@ -642,9 +609,7 @@ function whileStatement() {
     //starts cst branch
     cst.addNode("WhileStatement", "branch");
     //debugging
-    if (debug && verbose) {
-        parserLog("whileStatement..");
-    }
+    parserLog("whileStatement..");
     //handles while
     handle();
     //changes the token
@@ -673,9 +638,7 @@ function ifStatement() {
     //starts cst branch
     cst.addNode("IfStatement", "branch");
     //debugging
-    if (debug && verbose) {
-        parserLog("ifStatement..");
-    }
+    parserLog("ifStatement..");
     //handles if
     handle();
     //changes the token
