@@ -15,14 +15,14 @@ function lexer(input) {
 	//if the input is empty
 	if ($.trim(input) == '') {
 		//Throws error for no input
-		LexLog("<span class=\"error\">ERROR!</span> Nothing to lex, the input is empty...");
+		LexLog("<span class=\"error\">ERROR!</span> Nothing to lex, the input is empty...",true);
 		//kills the lexer
 		return false;
 	}
 	//Check that the EOP operator is there
 	if (input.trim().slice(-1) != "$") {
 		//Throws warning
-		LexLog("<span class=\"warning\">Warning</span>: End Of Program operator was not found ( $ ), adding one for you.<br /><br />");
+		LexLog("<span class=\"warning\">Warning</span>: End Of Program operator was not found ( $ ), adding one for you.<br /><br />",true);
 		//Adds the EOP operator
 		input += "$";
 		//Increases warnings
@@ -45,7 +45,7 @@ function lexer(input) {
 		//When in a string
 		if (isString) {
 			//Throws error for unterminated strings
-			LexLog("<span class=\"error\">ERROR!</span> Unterminated string on <span class=\"line\">" + masterLine + "</span>...");
+			LexLog("<span class=\"error\">ERROR!</span> Unterminated string on <span class=\"line\">" + masterLine + "</span>...",true);
 			//Adds to errors
 			errors++;
 			//Sets isString false
@@ -56,7 +56,7 @@ function lexer(input) {
 			//Checks to confirm a new program
 			if (program != programOutCounter) {
 				//Outputs program number
-				LexLog("<span id=\"lexer-start-text\">Lexing program <span class=\"line\">" + programNumber + "</span>...</span>");
+				LexLog("<span id=\"lexer-start-text\">Lexing program <span class=\"line\">" + programNumber + "</span>...</span>",true);
 				//Updates outpur counter
 				programOutCounter++;
 			}
@@ -135,7 +135,7 @@ function lexer(input) {
 					continue;
 				}
 				//Enexpected char found
-				LexLog("<span class=\"error\"><ERROR!</span> Unexpected char [ <span class=\"error\">" + character + "</span> ] string on <span class=\"line\">" + (masterLine + 1) + "</span>, <span class=\"line\">" + (column + 1) + "</span>...");
+				LexLog("<span class=\"error\"><ERROR!</span> Unexpected char [ <span class=\"error\">" + character + "</span> ] string on <span class=\"line\">" + (masterLine + 1) + "</span>, <span class=\"line\">" + (column + 1) + "</span>...",true);
 				//Adds to errors
 				errors++;
 				continue;
@@ -351,7 +351,7 @@ function lexer(input) {
 			}
 
 			//If no token was handed out there must not be one, ERROR
-			LexLog("<span class=\"error\">ERROR!</span> Unrecognized, could not define token [ <span class=\"error\">" + character + "</span> ] found on line <span class=\"line\">" + (masterLine + 1) + "</span>, <span class=\"line\">" + (column + 1) + "</span>...");
+			LexLog("<span class=\"error\">ERROR!</span> Unrecognized, could not define token [ <span class=\"error\">" + character + "</span> ] found on line <span class=\"line\">" + (masterLine + 1) + "</span>, <span class=\"line\">" + (column + 1) + "</span>...",true);
 			//Adds to errors
 			errors++;
 		}
@@ -362,7 +362,7 @@ function lexer(input) {
 	//would fail either way but now it tells you :)
 	if (isString) {
 		//Throws error for Unterminated strings
-		LexLog("<span class=\"error\">ERROR!</span> Unterminated string on <span class=\"line\">" + masterLine + "</span>...");
+		LexLog("<span class=\"error\">ERROR!</span> Unterminated string on <span class=\"line\">" + masterLine + "</span>...",true);
 		//Adds to errors
 		errors++;
 	}
@@ -409,16 +409,13 @@ function LexLog(text, override = false) {
     var lText = "<div class=\"lexer\"><span class=\"lexer-title\">LEXER</span> -- " + text + "</div>";
     //if verbose mode
     if (!override) {
-        if (!verbose) {
-            //stops from ouputing
-            text = "DO NOT OUTPUT";
-        }
-    }
-	//if not supposed to be output
-	if (text == "DO NOT OUTPUT") {
-		//No need to change
-		lText = "";
+        //Sets the Verbose Log
+        logTextVerbose += lText;
+        //if not
+    } else {
+        //Sets the Verbose Log
+        logTextVerbose += lText;
+        //Sets the Log
+		logText += lText;
 	}
-	//Sets the Log
-	logText += lText;
 }

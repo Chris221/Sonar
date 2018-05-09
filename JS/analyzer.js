@@ -288,18 +288,15 @@ function analysisLog(text, override = false) {
     var lText = "<div class=\"alanyzer\"><span class=\"analyzer-title\">ANALYZER</span> -- " + text + "</div>";
     //if verbose mode
     if (!override) {
-        if (!verbose) {
-            //stops from ouputing
-            text = "DO NOT OUTPUT";
-        }
-    }
-    //if not supposed to be output
-    if (text == "DO NOT OUTPUT") {
-        //No need to change
-        lText = "";
-    }
-    //Sets the Log
-    logText += lText;
+        //Sets the Verbose Log
+        logTextVerbose += lText;
+        //if not
+    } else {
+        //Sets the Verbose Log
+        logTextVerbose += lText;
+        //Sets the Log
+		logText += lText;
+	}
 }
 
 function aProgram() {

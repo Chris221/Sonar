@@ -36,6 +36,8 @@ var comErrors = 0;
 var comErrorsStr = "";
 //Log Text String
 var logText = "";
+//Log Text Verbose String
+var logTextVerbose = "";
 
 //lexer, parser, analysis, and code hover text
 var lexHover, parseHover, analysisHover, codeHover;
@@ -66,12 +68,24 @@ function verboseChange() {
 		verbose = true;
 		$('#verbose').addClass("btn-success").removeClass("btn-secondary");
 	}
+	logScroll();
 }
 
 //Scroll to the bottom of the log
 function logScroll() {
 	//sets log
-	var text = logText + "<span id=\"log-bottom\"></span>";
+	//if Verbose
+	if (verbose) {
+		//to Verbose
+		var text = logTextVerbose + "<span id=\"log-bottom\"></span>";
+		//if not Verbose
+	} else {
+		//to the normal log
+		var text = logText + "<span id=\"log-bottom\"></span>";
+	}
+	if (logText.length == 0 || logTextVerbose.length == 0) {
+		text = "Log is currently empty";
+	}
 	$('#Lexer_log').html(text);
 	var textArea = $('#Lexer_log');
 	textArea.scrollTop(textArea[0].scrollHeight - textArea.height());
@@ -113,6 +127,7 @@ function compile() {
 	comErrors = 0;
 	comErrorsStr = "";
 	logText = "";
+	logTextVerbose = "";
 	//Clears the log
 	$('#Lexer_log').text("");
 	//Clears the marquee for tokens
@@ -145,7 +160,7 @@ function compile() {
 	//if verbose
 	if (verbose) {
 		//Outputs the verbose mode
-		logText += "<div class=\"sonar-start\">Sonar is running in Verbose mode..</div><br />";
+		logTextVerbose += "<div class=\"sonar-start\">Sonar is running in Verbose mode..</div><br />";
 	} else {
 		//Outputs the non verbose mode
 		logText += "<div class=\"sonar-start\">Sonar is running..</div><br />";
@@ -157,6 +172,7 @@ function compile() {
 		if (p > 0) {
 			//adds a break line
 			logText += "<br /><span class=\"sonar-start\">Program</span> <span class=\"line\">#" + programNumber + "</span><br /><br />";
+			logTextVerbose  += "<br /><span class=\"sonar-start\">Program</span> <span class=\"line\">#" + programNumber + "</span><br /><br />";
 		}
 		//sets current input text
 		var inputText = programs[p];
@@ -195,6 +211,7 @@ function compile() {
 			//No need to parse
 			var text = "<div class=\"parser\">No need to <span class=\"parser-title\">parse</span> program <span class=\"line\">" + programNumber + "</span> due to a <span class=\"lexer-title\">lexer</span> <span class=\"error\">error</span></div>";
 			logText += text + "<br /><br />";
+			logTextVerbose += text + "<br /><br />";
 			//Scroll to the bottom of the log
 			logScroll();
 		}
@@ -279,6 +296,7 @@ function compileLexer(input) {
 	}
 	//Outputs the Lexer output
 	logText += "<br /><div class=\"lexer completed-text\">" + text + "</div><br />";
+	logTextVerbose += "<br /><div class=\"lexer completed-text\">" + text + "</div><br />";
 	//Scroll to the bottom of the log
 	logScroll();
 	//rerurns token list
@@ -304,12 +322,13 @@ function compileParser() {
 	}
 	//Outputs the parser output
 	logText += "<br /><div class=\"parser completed-text\">" + text + "</div><br />";
-
+	logTextVerbose += "<br /><div class=\"parser completed-text\">" + text + "</div><br />";
 	//if parsed output the cst
 	if (!pErrors) {
 		//Adds hover text if parser pass
 		parseHover += "Program " + programNumber + ": Passed<br/>";
 		logText += "<div class=\"parser\">The <span class=\"cst-title\">CST</span> is located below in the <span class=\"cst-title\">Concrete Syntax Tree</span> tab.</div><br />";
+		logTextVerbose += "<div class=\"parser\">The <span class=\"cst-title\">CST</span> is located below in the <span class=\"cst-title\">Concrete Syntax Tree</span> tab.</div><br />";
 	} else {
 		//Adds hover text if parser fails
 		parseHover += "Program " + programNumber + ": Error<br/>";
@@ -322,6 +341,7 @@ function compileParser() {
 		//No CST to show
 		var text = "<div class=\"parser\">No <span class=\"cst-title\">CST</span> to show due to a <span class=\"parser-title\">parse</span> <span class=\"error\">error</span></div><br />";
 		logText += text;
+		logTextVerbose += text;
 	}
 	//Scroll to the bottom of the log
 	logScroll();
@@ -348,6 +368,7 @@ function compileAnalysis() {
 	}
 	//Outputs the analysis output
 	logText += "<br /><div class=\"alanyzer completed-text\">" + text + "</div><br />";
+	logTextVerbose += "<br /><div class=\"alanyzer completed-text\">" + text + "</div><br />";
 
 	//if analyzer output the ast
 	if (!aErrors) {
@@ -355,8 +376,11 @@ function compileAnalysis() {
 		analysisHover += "Program " + programNumber + ": Passed<br/>";
 		//Outputs the ast, scope tree and symbol table text to the log
 		logText += "<div class=\"analyzer\">The <span class=\"ast-title\">AST</span> is located below in the <span class=\"ast-title\">Abstract Syntax Tree</span> tab.</div>";
+		logTextVerbose +="<div class=\"analyzer\">The <span class=\"ast-title\">AST</span> is located below in the <span class=\"ast-title\">Abstract Syntax Tree</span> tab.</div>";
 		logText += "<div class=\"analyzer\">The <span class=\"st-title\">Scope Tree</span> is located below in the <span class=\"st-title\">Scope Tree</span> tab.</div><br />";
+		logTextVerbose += "<div class=\"analyzer\">The <span class=\"st-title\">Scope Tree</span> is located below in the <span class=\"st-title\">Scope Tree</span> tab.</div><br />"
 		logText += "<div class=\"analyzer\">The <span class=\"st-title\">Symbol Table</span> is located below in the <span class=\"st-title\">Symbol Table</span> tab.</div><br />";
+		logTextVerbose +="<div class=\"analyzer\">The <span class=\"st-title\">Symbol Table</span> is located below in the <span class=\"st-title\">Symbol Table</span> tab.</div><br />";
 	} else {
 		//Adds hover text if analysis fails
 		analysisHover += "Program " + programNumber + ": Error<br/>";
@@ -367,6 +391,7 @@ function compileAnalysis() {
 		//No AST to show
 		var text = "No <span class=\"ast-title\">AST</span> or <span class=\"st-title\">Symbol Table</span> to show due to a semantic analysis <span class=\"error\">error</span>";
 		logText +=  text + "<br />";
+		logTextVerbose +=  text + "<br />";
 		//Also outputs that to the symbol table
 		symboltable += "Program " + programNumber + "<br />No <span class=\"st-title\">Symbol table</span> due to a semantic analysis <span class=\"error\">error</span><br />";
 		$('#symboltable').html(symboltable);
@@ -403,6 +428,7 @@ function compileCode() {
 	}
 	//Outputs the code gen output
 	logText += "<br /><div class=\"codegen completed-text\">" + text + "</div><br />";
+	logTextVerbose += "<br /><div class=\"codegen completed-text\">" + text + "</div><br />";
 
 	//if code
 	if (!cErrors) {
@@ -410,11 +436,13 @@ function compileCode() {
 		codeHover += "Program " + programNumber + ": Passed<br/>";
 		//outputs code to log
 		logText += "<div class=\"codegen completed-text\"><span class=\"error\">v</span> <span class=\"codegen-title\">Click the code below to copy</span> <span class=\"error\">v</span></div><br /><div class=\"codeBox2\" id=\"codeBox2\" onclick=\"copyToClipboard('#codeBox');\">" + codeString + "</div>";
+		logTextVerbose += "<div class=\"codegen completed-text\"><span class=\"error\">v</span> <span class=\"codegen-title\">Click the code below to copy</span> <span class=\"error\">v</span></div><br /><div class=\"codeBox2\" id=\"codeBox2\" onclick=\"copyToClipboard('#codeBox');\">" + codeString + "</div>";
 	} else {
 		//Adds hover text if code fails
 		codeHover += "Program " + programNumber + ": Error<br/>";
 		//outputs no code
-		logText +=  "<br />No code due to <span class=\"codegen-title\">Code Generation</span> <span class=\"error\">Error</span><br />";
+		logText += "<br />No code due to <span class=\"codegen-title\">Code Generation</span> <span class=\"error\">Error</span><br />";
+		logTextVerbose += "<br />No code due to <span class=\"codegen-title\">Code Generation</span> <span class=\"error\">Error</span><br />";
 		//increas analysisfail count
 		codefail++;
 	}

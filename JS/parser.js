@@ -708,16 +708,13 @@ function parserLog(text, override = false) {
     var lText = "<div class=\"parser\"><span class=\"parser-title\">PARSER</span> -- " + text + "</div>";
     //if verbose mode
     if (!override) {
-        if (!verbose) {
-            //stops from ouputing
-            text = "DO NOT OUTPUT";
-        }
+        //Sets the Verbose Log
+        logTextVerbose += lText;
+        //if not
+    } else {
+        //Sets the Verbose Log
+        logTextVerbose += lText;
+        //Sets the Log
+        logText += lText;
     }
-    //if not supposed to be output
-    if (text == "DO NOT OUTPUT") {
-        //No need to change
-        lText = "";
-    }
-    //Sets the Log
-    logText += lText;
 }
