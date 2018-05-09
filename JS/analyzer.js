@@ -869,6 +869,8 @@ function checkFor(str, num) {
         return true;
     } else if (aTokens[num].type == "RIGHT_PARENTHESES") {
         return false;
+    } else if (aTokens[num].type == "LEFT_PARENTHESES") {
+        return false;
     } else {
         return checkFor(str, (num+1));
     }
