@@ -268,11 +268,16 @@ function statement() {
         //goes to if statements
         ifStatement();
         //if LEFT_BRACE or RIGHT_BRACE
-    } else if (currentToken.type == "LEFT_BRACE" || currentToken.type == "RIGHT_BRACE") {
+    } else if ((currentToken.type == "LEFT_BRACE" && braceLevel != 0) || currentToken.type == "RIGHT_BRACE") {
         //cst backs out a branch
         cst.kick();
         //goes to block
         block();
+    } else if (currentToken.type == "LEFT_BRACE" && braceLevel == 0) {
+        //increases errors
+        pErrors++;
+        //Outputs failed
+        handle("EOP");
     } else {
         //increases errors
         pErrors++;
