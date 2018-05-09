@@ -125,10 +125,10 @@
 		</span>
 		<!-- Visually see the output of the compiler's parts -->
 		<span class="compilerVis">
-			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="lexer">Lexer</button>&emsp;
-			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="parser">Parser</button>&emsp;
-			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="analysis">Semantic Analysis</button>&emsp;
-			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="code">Code Generation</button>
+			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="lexer" onclick="$('#Lexer_log').scrollTo('#lexer-start-text');">Lexer</button>&emsp;
+			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="parser" onclick="$('#Lexer_log').scrollTo('#parser-start-text');">Parser</button>&emsp;
+			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="analysis" onclick="$('#Lexer_log').scrollTo('#analyzer-start-text');">Semantic Analysis</button>&emsp;
+			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="code" onclick="$('#Lexer_log').scrollTo('#codegen-start-text');">Code Generation</button>
 		</span>
 		<span class="page-left">
 			<div class="container">
