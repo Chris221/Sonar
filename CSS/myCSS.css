@@ -161,7 +161,10 @@ td {
 	height: 21px;
 }
 .sonar {
-	font-size: 36px !important;;
+	font-size: 65px !important;
+	line-height: 60px !important;
+	color: rgb(15, 96, 128) !important;
+	text-shadow: 1px 1px rgb(30, 158, 208);
 }
 /* ---------------------- Log Colors ---------------------- */
 .warning {
