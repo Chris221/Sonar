@@ -408,7 +408,7 @@ function compileCode() {
 		//Adds hover text if analysis pass
 		codeHover += "Program " + programNumber + ": Passed<br/>";
 		//outputs code to log
-		logText += "<br /><div class=\"codeBox2\">" + codeString + "</div>";
+		logText += "<br /><div class=\"codeBox2\" onclick=\"copyToClipboard('#codeBox');\">" + codeString + "</div>";
 	} else {
 		//Adds hover text if code fails
 		codeHover += "Program " + programNumber + ": Error<br/>";
