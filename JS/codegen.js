@@ -45,11 +45,11 @@ function gen(ast) {
     //If no errors then
     if (!cErrors) {
         //Passed Code Gen
-        logText += "<br /><div class=\"codegen completed-text\" id=\"codegen-completed-text\"><span class=\"codegen-title\">Code Generation</span> <span class=\"passed\">passed</span> with 0 <span class=\"warning\">warnings</span> and " + cErrors + " <span class=\"error\">errors</span></div><br />";
+        logText += "<br /><div class=\"codegen completed-text\" id=\"codegen-completed-text\"><span class=\"codegen-title\">Code Generation</span> <span class=\"passed\">passed</span> with 0 <span class=\"warning\">warnings</span> and " + cErrors + " <span class=\"error\">errors</span></div>";
         //otherwise
     } else {
         //Failed Code Gen
-        logText += "<br /><div class=\"codegen completed-text\" id=\"codegen-completed-text\"><span class=\"codegen-title\">Code Generation</span> <span class=\"failed\">FAILED</span> with 0 <span class=\"warning\">warnings</span> and " + cErrors + " <span class=\"error\">errors</span></div><br />";
+        logText += "<br /><div class=\"codegen completed-text\" id=\"codegen-completed-text\"><span class=\"codegen-title\">Code Generation</span> <span class=\"failed\">FAILED</span> with 0 <span class=\"warning\">warnings</span> and " + cErrors + " <span class=\"error\">errors</span></div>";
     }
     //returns codestring
     return codeString;
@@ -118,7 +118,7 @@ function generate() {
         //increases errors
         cErrors++;
         //outputs error
-        codeLog("<span class=\"error\">ERROR!</span> Not enough memory " + code.length + "/" + MAX + "...", true);
+        codeLog("<span class=\"error\">ERROR!</span> Not enough memory <span class=\"codegen-title\">" + code.length + "</span>/<span class=\"codegen-title\">" + MAX + "</span>...", true);
     }
 
     //joins the code in a nice readable string

@@ -413,7 +413,7 @@ function compileCode() {
 		//Adds hover text if code fails
 		codeHover += "Program " + programNumber + ": Error<br/>";
 		//outputs no code
-		logText +=  "<br />No code due to <span class=\"codegen-title\">Code Generation</span <span class=\"error\">Error</span><br />";
+		logText +=  "<br />No code due to <span class=\"codegen-title\">Code Generation</span> <span class=\"error\">Error</span><br />";
 		//increas analysisfail count
 		codefail++;
 	}
