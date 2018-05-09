@@ -49,23 +49,18 @@ function checkNext() {
 function parser(input) {
     //resets the globals
     resetGlobals();
-    //if verbose
-    if (verbose) {
-        //Outputs starting
-        parserLog("Parser is starting..\n");
-    }
     //sets the token list
     tokens = input;
     //calls the first token check
     program();
 
     //Defines the completion text
-    var completedText = "\nParser passed with 0 warnings and " + pErrors + " errors";
+    var completedText = "<br /><span class=\"parser-title\">Parser</span> <span class=\"passed\">passed</span> with 0 <span class=\"warning\">warnings</span> and " + pErrors + " <span class=\"error\">errors</span>";
 
     //if any errors
     if (pErrors) {
         //Sets failed for the completed parser output
-        completedText = "\nParser FAILED with 0 warnings and " + pErrors + " errors";;
+        completedText = "<br /><span class=\"parser-title\">Parser</span> <span class=\"failed\">FAILED</span> with 0 <span class=\"warning\">warnings</span> and " + pErrors + " <span class=\"error\">errors</span>";;
         //Makes the visual parser red
         //$('#parser').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success");
     } else {
@@ -74,7 +69,7 @@ function parser(input) {
         $('#cst').val($('#cst').val() + cst.toString());
     }
     //Outputs the completed Text
-    $('#Lexer_log').text($('#Lexer_log').val() + completedText);
+    logText += "<div class=\"parser completed-text\" id=\"parser-completed-text\" >" + completedText + "</div>";
 
     //returns error number
     return pErrors;
@@ -216,7 +211,7 @@ function program() {
     if (tokens.length == 0) {
         //debugging
         if (debug && verbose) {
-            parserLog("Program KILLED..");
+            parserLog("<span class=\"error\">Program KILLED</span>..");
         }
         //backs out of the program
         return;
@@ -229,7 +224,7 @@ function program() {
     }
     if (programLevel != programLevelCounter) {
         //Outputs program number
-        parserLog("Parsing Program #" + programNumber);
+        parserLog("<span id=\"parser-start-text\">Parsing Program <span class=\"line\">" + programNumber + "</span>...</span>");
         //increases the counter
         programLevelCounter++;
     }
@@ -721,7 +716,7 @@ function handle(unexpected = '') {
 
     //Figures out if it is a successful or unexpected token output
     if (!unexpected) {
-        text = "Passed! Expected token found [ " + type + " ] with a value of [ " + value + " ] on line " + line + ", " + column + "...";
+        text = "<span class=\"passed\">Passed!</span> Expected token found [ <span class=\"code-words\">" + type + "</span> ] with a value of [ <span class=\"code-words\">" + value + "</span> ] on line <span class=\"line\">" + line + "</span>, <span class=\"line\">" + column + "</span>...";
         cst.addNode(currentToken.value, "leaf", currentToken.line);
 
         //if verbose mode
@@ -730,10 +725,10 @@ function handle(unexpected = '') {
             text = "DO NOT OUTPUT";
         }
     } else {
-        text = "Failed! Unexpected token found [ " + type + " ] on line " + line + ", " + column;
+        text = "<span class=\"failed\">Failed!</span> Unexpected token found [ <span class=\"error\">" + type + "</span> ] on line <span class=\"line\">" + line + "</span>, <span class=\"line\">" + column + "</span>...";
         //processes the the first text
         parserLog(text);
-        text = "------  Expected token(s) [ " + unexpected + " ] on line " + line + ", " + column + "...";
+        text = "------  Expected token(s) [ <span class=\"code-words\">" + unexpected + "</span> ] on line <span class=\"line\">" + line + "</span>, <span class=\"line\">" + column + "</span>...";
     }
     //processes the text
     parserLog(text);
@@ -742,12 +737,12 @@ function handle(unexpected = '') {
 //Sets the parsers log
 function parserLog(text) {
     //Appends new logging to current log
-    var lText = $('#Lexer_log').val() + "PARSER -- " + text + "\n";
+    var lText = "<div class=\"parser\"><span class=\"parser-title\">PARSER</span> -- " + text + "</div>";
     //if not supposed to be output
     if (text == "DO NOT OUTPUT") {
         //No need to change
-        lText = $('#Lexer_log').val();
+        lText = "";
     }
     //Sets the Log
-    $('#Lexer_log').text(lText);
+    logText += lText;
 }
