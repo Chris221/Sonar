@@ -71,7 +71,8 @@ function verboseChange() {
 //Scroll to the bottom of the log
 function logScroll() {
 	//sets log
-	$('#Lexer_log').html(logText);
+	var text = logText + "<span id=\"log-bottom\"></span>";
+	$('#Lexer_log').html(text);
 	var textArea = $('#Lexer_log');
 	textArea.scrollTop(textArea[0].scrollHeight - textArea.height());
 }
