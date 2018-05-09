@@ -125,10 +125,10 @@
 		</span>
 		<!-- Visually see the output of the compiler's parts -->
 		<span class="compilerVis">
-			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="lexer" onclick="$('#Lexer_log').scrollTo('#lexer-start-text');">Lexer</button>&emsp;
+			<span  data-original-title="<small>Click to Scroll</small>" data-toggle="tooltip" data-placement="left" data-html="true" ><button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="lexer" onclick="$('#Lexer_log').scrollTo('.sonar-start');">Lexer</button>&emsp;
 			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="parser" onclick="$('#Lexer_log').scrollTo('#parser-start-text');">Parser</button>&emsp;
 			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="analysis" onclick="$('#Lexer_log').scrollTo('#analyzer-start-text');">Semantic Analysis</button>&emsp;
-			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="code" onclick="$('#Lexer_log').scrollTo('#codegen-start-text');">Code Generation</button>
+			<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" data-html="true" id="code" onclick="$('#Lexer_log').scrollTo('#codegen-start-text');">Code Generation</button></span>
 		</span>
 		<span class="page-left">
 			<div class="container">
@@ -157,8 +157,8 @@
 					<!-- Compiler Output -->
 					<div class="col-sm">
 						<ul class="nav nav-tabs">
-							<li class="nav-item">
-								<a class="nav-link active" id="log-tab" data-toggle="tab" href="#logBox" role="tab" aria-controls="logBox" aria-expanded="true">Log</a>
+							<li class="nav-item" data-original-title="Scroll to Bottom" data-toggle="tooltip" data-placement="right" data-html="true" >
+								<a class="nav-link active" id="log-tab" data-toggle="tab" href="#logBox" role="tab" aria-controls="logBox" aria-expanded="true" onclick="$('#Lexer_log').scrollTo('#codeBox2');">Log</a>
 							</li>
 						</ul>
 						<div class="tab-content">
@@ -262,7 +262,9 @@
 				</div>
 				<div class="row">
 					<div class="col-sm">
-						<div class="codeBox codeBox2 form-control" id="codeBox" onclick="copyToClipboard('#codeBox');" placeholder="No Code Currently" readonly>No Code Currently</div>
+						<span  data-original-title="<small>Click to Copy</small>" data-toggle="tooltip" data-placement="left" data-html="true" >
+							<div class="codeBox codeBox2 form-control" id="codeBox" onclick="copyToClipboard('#codeBox');" placeholder="No Code Currently" readonly>No Code Currently</div>
+						</span>
 					</div>
 				</div>
 				<hr /> Operating Systems:
