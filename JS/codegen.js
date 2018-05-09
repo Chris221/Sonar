@@ -45,11 +45,11 @@ function gen(ast) {
     //If no errors then
     if (!cErrors) {
         //Passed Code Gen
-        $('#Lexer_log').text($('#Lexer_log').val() + "\nCode Generation passed with 0 warnings and " + cErrors + " Errors\n");
+        logText += "<br /><div class=\"codegen completed-text\" id=\"codegen-completed-text\"><span class=\"codegen-title\">Code Generation</span> <span class=\"passed\">passed</span> with 0 <span class=\"warning\">warnings</span> and " + cErrors + " <span class=\"error\">errors</span></div><br />";
         //otherwise
     } else {
         //Failed Code Gen
-        $('#Lexer_log').text($('#Lexer_log').val() + "\nCode Generation FAILED with 0 warnings and " + cErrors + " Errors\n");
+        logText += "<br /><div class=\"codegen completed-text\" id=\"codegen-completed-text\"><span class=\"codegen-title\">Code Generation</span> <span class=\"failed\">FAILED</span> with 0 <span class=\"warning\">warnings</span> and " + cErrors + " <span class=\"error\">errors</span></div><br />";
     }
     //returns codestring
     return codeString;
@@ -58,7 +58,7 @@ function gen(ast) {
 //Sets the code log
 function codeLog(text, override = false) {
     //Appends new logging to current log
-    var lText = $('#Lexer_log').val() + "#CODEGEN -- " + text + "\n";
+    var lText = "<div class=\"codegen\"><span class=\"codegen-title\">#CODEGEN</span> -- " + text + "</div>";
     //if verbose mode
     if (!override) {
         if (!verbose) {
@@ -69,15 +69,15 @@ function codeLog(text, override = false) {
     //if not supposed to be output
     if (text == "DO NOT OUTPUT") {
         //No need to change
-        lText = $('#Lexer_log').val();
+        lText = "";
     }
     //Sets the Log
-    $('#Lexer_log').text(lText);
+    logText += lText;
 }
 
 function generate() {
     //Code gen starting 
-    codeLog("Code Generating Program " + programNumber + "...", true);
+    codeLog("<span id=\"codegen-start-text\">Code Generating Program <span class=\"line\">" + programNumber + "</span>...</span>", true);
     //adds true to heap, gets location
     trueAddress = addToHeap('true');
     //adds false to heap, gets location
@@ -92,15 +92,15 @@ function generate() {
     //if outputing
     if (verbose) {
         //break lines in the log
-        $('#Lexer_log').text($('#Lexer_log').val() + "\n");
+        logText += "<br />";
     }
 
     //random banter for outputing code and heap being combined
     codeLog("Getting the Code...");
     codeLog("Taking the Heap...");
-    codeLog("Putting them together with 00s...");
+    codeLog("Putting them together with <span class=\"code\">00</span>s...");
     //outs the memory 
-    codeLog("Memory  " + (code.length + heap.length) + "/" + MAX + "...");
+    codeLog("Memory  <span class=\"line\">" + (code.length + heap.length) + "</span>/<span class=\"line\">" + MAX + "</span>...");
 
     //if the heap and code arent a full 256
     for (var i = code.length; i < MAX - heap.length; i++) {
@@ -118,7 +118,7 @@ function generate() {
         //increases errors
         cErrors++;
         //outputs error
-        codeLog("ERROR! Not enough memory " + code.length + "/" + MAX + "...", true);
+        codeLog("<span class=\"error\">ERROR!</span> Not enough memory " + code.length + "/" + MAX + "...", true);
     }
 
     //joins the code in a nice readable string
@@ -132,7 +132,7 @@ function backpatch() {
     //if outputing
     if (verbose) {
         //break lines in the log
-        $('#Lexer_log').text($('#Lexer_log').val() + "\n");
+        logText += "<br />";
     }
     //Begin
     codeLog("Beginning Backpatching...");
@@ -140,7 +140,7 @@ function backpatch() {
     //gets new address
     var addressOne = numtoHex(code.length + staticData.length());
     //Outputs the change to the new address
-    codeLog("Replacing [ " + TEMP_ADDRESS_ONE + " ] with [ " + addressOne + " ]...");
+    codeLog("Replacing [ <span class=\"code\">" + TEMP_ADDRESS_ONE + "</span> ] with [ <span class=\"code\">" + addressOne + "</span> ]...");
     //checks for the first temp value
     if (code.includes(TEMP_ADDRESS_ONE)) {
         for (var i = 0; i < code.length; i++) {
@@ -155,7 +155,7 @@ function backpatch() {
     //gets new address
     var addressTwo = numtoHex(code.length + staticData.length() + 1);
     //Outputs the change to the new address
-    codeLog("Replacing [ " + TEMP_ADDRESS_TWO + " ] with [ " + addressTwo + " ]...");
+    codeLog("Replacing [ <span class=\"code\">" + TEMP_ADDRESS_TWO + "</span> ] with [ <span class=\"code\">" + addressTwo + "</span> ]...");
     //checks for the second temp value
     if (code.includes(TEMP_ADDRESS_TWO)) {
         //Loops for it
@@ -175,7 +175,7 @@ function backpatch() {
         //gets the temp address location
         var tempAddress = staticData.variables[key].address;
         //Outputs the change to the new address
-        codeLog("Replacing [ " + tempAddress + " ] with [ " + newAddress + " ]...");
+        codeLog("Replacing [ <span class=\"code\">" + tempAddress + "</span> ] with [ <span class=\"code\">" + newAddress + "</span> ]...");
         //Loops for it
         for (var i = 0; i < code.length; i++) {
             //if this element is tempAddress 
@@ -195,7 +195,7 @@ function backpatch() {
         //gets the distance to move
         var move = numtoHex(end - start - 2);
         //Outputs the change to the new address
-        codeLog("Replacing [ " + key + " ] with [ " + move + " ]...");
+        codeLog("Replacing [ <span class=\"code\">" + key + "</span> ] with [ <span class=\"code\">" + move + "</span> ]...");
         //Loops for it
         for (var i = 0; i < code.length; i++) {
             //if this element is the jump key 
@@ -207,7 +207,7 @@ function backpatch() {
     }
 
     //Outputs the change to the new address
-    codeLog("Replacing [ XX ] with [ 00 ]...");
+    codeLog("Replacing [ <span class=\"code\">XX</span> ] with [ <span class=\"code\">00</span> ]...");
     //checks for the XX
     if (code.includes("XX")) {
         //Loops for it
@@ -269,7 +269,7 @@ function addHex(val) {
     //adds the hex to the Array
     code.push(val);
     //output to log
-    codeLog("Pushing [ " + val + " ] byte to memory...");
+    codeLog("Pushing [ <span class=\"code\">" + val + "</span> ] byte to memory...");
 }
 
 function toHex(val) {
@@ -450,8 +450,8 @@ function booleanLogic(pos) {
         //not supported
         comErrors++;
         //text about issue
-        comErrorsStr += "Addition in Equality and Inequality statements is not supported in this Compiler.\n";
-        comErrorsStr += "The issue was found on line " + pos.line + "...\n\n";
+        comErrorsStr += "<div class=\"error\">Addition in Equality and Inequality statements is not supported in this Compiler.</div>";
+        comErrorsStr += "<div class=\"error\">The issue was found on line <span class=\"line\">" + pos.line + "</span>...</div><br />";
     }
 }
 
@@ -529,9 +529,9 @@ function cProgram(pos, depth) {
 
 function cBlock(pos, depth) {
     //Generating
-    codeLog("Generating [ Block ] on line " + pos.line + "..");
+    codeLog("Generating [ <span class=\"code-words\">Block</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
     //enter scope
-    codeLog("Entering Scope [ " + pos.scope + " ]..");
+    codeLog("Entering Scope [ <span class=\"code\">" + pos.scope + "</span> ]..");
     //output
     //loops through the level
     for (var i = 0; i < pos.children.length; i++) {
@@ -539,14 +539,14 @@ function cBlock(pos, depth) {
         traverseTree(pos.children[i], depth + 1);
     }
     //Out of scope
-    codeLog("Leaving Scope [ " + pos.scope + " ]..");
+    codeLog("Leaving Scope [ <span class=\"code\">" + pos.scope + "</span> ]..");
     //Finished
-    codeLog("Finished [ Block ] on line " + pos.line + "..");
+    codeLog("Finished [ <span class=\"code-words\">Block</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 }
 
 function cAddition(pos, depth) {
     //Generating
-    codeLog("Generating [ Addition ] on line " + pos.line + "..");
+    codeLog("Generating [ <span class=\"code-words\">Addition</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 
     //move through the tree
     traverseTree(pos.children[1], depth);
@@ -563,12 +563,12 @@ function cAddition(pos, depth) {
     addHex('XX');
 
     //Finished
-    codeLog("Finished [ Addition ] on line " + pos.line + "..");
+    codeLog("Finished [ <span class=\"code-words\">Addition</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 }
 
 function cVarDecl(pos, depth) {
     //Generating
-    codeLog("Generating [ Declaration ] on line " + pos.line + "..");
+    codeLog("Generating [ <span class=\"code-words\">Declaration ] on line <span class=\"line\">" + pos.line + "</span>..");
     //loads 00
     addHex(loadAccWithConst);
     addHex('00');
@@ -580,12 +580,12 @@ function cVarDecl(pos, depth) {
     addHex('XX');
 
     //Finished
-    codeLog("Finished [ Declaration ] on line " + pos.line + "..");
+    codeLog("Finished [ <span class=\"code-words\">Declaration</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 }
 
 function cAssign(pos, depth) {
     //Generating
-    codeLog("Generating [ Assignment ] on line " + pos.line + "..");
+    codeLog("Generating [ <span class=\"code-words\">Assignment</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 
     //move through the tree
     traverseTree(pos.children[1], depth);
@@ -597,12 +597,12 @@ function cAssign(pos, depth) {
     addHex('XX');
 
     //Finished
-    codeLog("Finished [ Assignment ] on line " + pos.line + "..");
+    codeLog("Finished [ <span class=\"code-words\">Assignment</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 }
 
 function cPrint(pos, depth) {
     //Generating
-    codeLog("Generating [ Print ] on line " + pos.line + "..");
+    codeLog("Generating [ <span class=\"code-words\">Print</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
     //id values
     if (pos.children[0].type == "ID") {
         //gets the temp address
@@ -724,12 +724,12 @@ function cPrint(pos, depth) {
         }
     }
     //Finished
-    codeLog("Finished [ Print ] on line " + pos.line + "..");
+    codeLog("Finished [ <span class=\"code-words\">Print</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 }
 
 function cWhile(pos, depth) {
     //Generating
-    codeLog("Generating [ While ] on line " + pos.line + "..");
+    codeLog("Generating [ <span class=\"code-words\">While</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 
     //gets the starting address
     var start = code.length;
@@ -737,7 +737,7 @@ function cWhile(pos, depth) {
     traverseTree(pos.children[0], depth);
     //defines a jump variable
     var tempAddress = jumpTable.add(code.length);
-    codeLog("Generating [ " + tempAddress + " ] on line " + pos.line + "..");
+    codeLog("Generating [ <span class=\"code\">" + tempAddress + "</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
     //jump to jump variable
     addHex(branchNBytes);
     addHex(tempAddress);
@@ -763,12 +763,12 @@ function cWhile(pos, depth) {
     jumpTable.get(tempAddress).endingAddress = code.length;
 
     //Finished
-    codeLog("Finished [ While ] on line " + pos.line + "..");
+    codeLog("Finished [ <span class=\"code-words\">While</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 }
 
 function cIf(pos, depth) {
     //Generating
-    codeLog("Generating [ If ] on line " + pos.line + "..");
+    codeLog("Generating [ <span class=\"code-words\">If</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
     //processes the conditional
     traverseTree(pos.children[0], depth);
     //makes a new jump element
@@ -782,14 +782,14 @@ function cIf(pos, depth) {
     jumpTable.get(address).endingAddress = code.length;
 
     //Finished
-    codeLog("Finished [ If ] on line " + pos.line + "..");
+    codeLog("Finished [ <span class=\"code-words\">If</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 }
 
 function cInequality(pos, depth) {
     //rewrites for modification later
     pos.type = "Equality";
     //Generating
-    codeLog("Generating [ Inequality ] on line " + pos.line + "..");
+    codeLog("Generating [ <span class=\"code-words\">Inequality</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 
     //runs equality to handle most of the work
     cEquality(pos, depth);
@@ -816,12 +816,12 @@ function cInequality(pos, depth) {
     addHex("XX");
 
     //Finished
-    codeLog("Finished [ Inequality ] on line " + pos.line + "..");
+    codeLog("Finished [ <span class=\"code-words\">Inequality</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 }
 
 function cEquality(pos, depth) {
     //Generating
-    codeLog("Generating [ Equality ] on line " + pos.line + "..");
+    codeLog("Generating [ <span class=\"code-words\">Equality</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
     //if theres a nested bool types
     if (pos.children[0].name == "Equality" || pos.children[0].name == "Inequality" || pos.children[1].name == "Equality" || pos.children[1].name == "Inequality") {
         //Let Boolean Logic handle that one little 6502 assembler
@@ -885,8 +885,8 @@ function cEquality(pos, depth) {
         //not supported
         comErrors++;
         //text about issue
-        comErrorsStr += "Addition in Equality and Inequality statements is not supported in this Compiler.\n";
-        comErrorsStr += "The issue was found on line " + pos.line + "...\n\n";
+        comErrorsStr += "<div class=\"error\">Addition in Equality and Inequality statements is not supported in this Compiler.</div>";
+        comErrorsStr += "<div class=\"error\">The issue was found on line <span class=\"line\">" + pos.line + "</span>...</div><br />";
         //compares the rest
     } else {
         //gets first loaded
@@ -924,12 +924,12 @@ function cEquality(pos, depth) {
     }
 
     //Finished
-    codeLog("Finished [ Equality ] on line " + pos.line + "..");
+    codeLog("Finished [ <span class=\"code-words\">Equality</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 }
 
 function cID(pos, depth) {
     //Generating
-    codeLog("Generating [ ID ] on line " + pos.line + "..");
+    codeLog("Generating [ <span class=\"code-words\">ID</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 
     //gets address of ID
     var address = staticData.get(pos, pos.scope);
@@ -940,24 +940,24 @@ function cID(pos, depth) {
     addHex("XX");
 
     //Finished
-    codeLog("Finished [ ID ] on line " + pos.line + "..");
+    codeLog("Finished [ <span class=\"code-words\">ID</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 }
 
 function cDigit(pos, depth) {
     //Generating
-    codeLog("Generating [ Digit ] on line " + pos.line + "..");
+    codeLog("Generating [ <span class=\"code-words\">Digit</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 
     //loads digits 
     addHex(loadAccWithConst);
     addHex(numtoHex(pos.name));
 
     //Finished
-    codeLog("Finished [ Digit ] on line " + pos.line + "..");
+    codeLog("Finished [ <span class=\"code-words\">Digit</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 }
 
 function cBool(pos, depth) {
     //Generating
-    codeLog("Generating [ Bool ] on line " + pos.line + "..");
+    codeLog("Generating [ <span class=\"code-words\">Bool</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 
     //if true
     if (pos.name === 'true') {
@@ -983,12 +983,12 @@ function cBool(pos, depth) {
     addHex('XX');
 
     //Finished
-    codeLog("Finished [ Bool ] on line " + pos.line + "..");
+    codeLog("Finished [ <span class=\"code-words\">Bool</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 }
 
 function cString(pos, depth) {
     //Generating
-    codeLog("Generating [ String ] on line " + pos.line + "..");
+    codeLog("Generating [ <span class=\"code-words\">String</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 
     //adds the string to the heap
     var value = addToHeap(pos.name, pos.line);
@@ -997,14 +997,14 @@ function cString(pos, depth) {
     addHex(value);
 
     //Finished
-    codeLog("Finished [ String ] on line " + pos.line + "..");
+    codeLog("Finished [ <span class=\"code-words\">String</span> ] on line <span class=\"line\">" + pos.line + "</span>..");
 }
 
 function addToHeap(str, line = 0) {
     //checks the table for already used strings
     if (returningHeap = stringTable.get(str)) {
         //outputs it was found
-        codeLog("Found string [ " + str + " ] in the heap at address " + returningHeap + "...");
+        codeLog("Found string [ <span class=\"code\">" + str + "</span> ] in the heap at address " + returningHeap + "...");
         //returns the address
         return returningHeap;
     }
@@ -1029,7 +1029,7 @@ function addToHeap(str, line = 0) {
     //adds to the string table
     stringTable.add(numtoHex(heapAddress), str);
     //outputs info about the add
-    codeLog("Added string [ " + str + " ] to heap, address " + heapAddress + " [ " + numtoHex(heapAddress) + " ]...");
+    codeLog("Added string [ <span class=\"code\">" + str + "</span> ] to heap, address " + heapAddress + " [ <span class=\"code\">" + numtoHex(heapAddress) + "</span> ]...");
     //returns heap address
     return numtoHex(heapAddress);
 }
