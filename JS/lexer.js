@@ -15,14 +15,14 @@ function lexer(input) {
 	//if the input is empty
 	if ($.trim(input) == '') {
 		//Throws error for no input
-		LexLog("ERROR! Nothing to lex, the input is empty...");
+		LexLog("<span class=\"error\">ERROR!</span> Nothing to lex, the input is empty...");
 		//kills the lexer
 		return false;
 	}
 	//Check that the EOP operator is there
 	if (input.trim().slice(-1) != "$") {
 		//Throws warning
-		LexLog("Warning: End Of Program operator was not found ( $ ), adding one for you.\n\n");
+		LexLog("<span class=\"warning\">Warning</span>: End Of Program operator was not found ( $ ), adding one for you.<br /><br />");
 		//Adds the EOP operator
 		input += "$";
 		//Increases warnings
@@ -45,7 +45,7 @@ function lexer(input) {
 		//When in a string
 		if (isString) {
 			//Throws error for unterminated strings
-			LexLog("ERROR! Unterminated string on " + masterLine + "...");
+			LexLog("<span class=\"error\">ERROR!</span> Unterminated string on <span class=\"line\">" + masterLine + "</span>...");
 			//Adds to errors
 			errors++;
 			//Sets isString false
@@ -56,14 +56,14 @@ function lexer(input) {
 			//Checks to confirm a new program
 			if (program != programOutCounter) {
 				//Outputs program number
-				LexLog("Lexing program " + programNumber);
+				LexLog("<span id=\"lexer-start-text\">Lexing program <span class=\"line\">" + programNumber + "</span>...</span>");
 				//Updates outpur counter
 				programOutCounter++;
 			}
 
 			//Which column we're at wile debugging
 			if (debug && verbose) {
-				LexLog("*DEBUGGER* Line number " + (masterLine + 1) + ", column location " + (column + 1));
+				LexLog("<span class=\"debugger\">*DEBUGGER*</span> Line number <span class=\"line\">" + (masterLine + 1) + "</span>, column location <span class=\"line\">" + (column + 1) + "</span>...");
 			}
 			//Sets current character;
 			character = line[column];
@@ -82,7 +82,7 @@ function lexer(input) {
 				}
 				//Lets us know the comment is starting if debugging
 				if (debug && verbose) {
-					LexLog("*DEBUGGER* **Comment starting will be ignored**");
+					LexLog("<span class=\"debugger\">*DEBUGGER*</span> **Comment starting will be ignored**");
 				}
 				continue;
 			}
@@ -101,7 +101,7 @@ function lexer(input) {
 				}
 				//Lets us know the comment is ending if debugging
 				if (debug && verbose) {
-					LexLog("*DEBUGGER* **Comment ending will be ignored**");
+					LexLog("<span class=\"debugger\">*DEBUGGER*</span> **Comment ending will be ignored**");
 				}
 				continue;
 			}
@@ -135,7 +135,7 @@ function lexer(input) {
 					continue;
 				}
 				//Enexpected char found
-				LexLog("ERROR! Unexpected char [ " + character + " ] string on " + (masterLine + 1) + ", " + (column + 1) + "...");
+				LexLog("<span class=\"error\"><ERROR!</span> Unexpected char [ <span class=\"error\">" + character + "</span> ] string on <span class=\"line\">" + (masterLine + 1) + "</span>, <span class=\"line\">" + (column + 1) + "</span>...");
 				//Adds to errors
 				errors++;
 				continue;
@@ -345,13 +345,13 @@ function lexer(input) {
 			if (character.indexOf(' ') >= 0 || character.indexOf('	') >= 0) {
 				//If bebugging this will output when white space is found
 				if (debug && verbose) {
-					LexLog("*DEBUGGER* Found whitespace at: " + (masterLine + 1) + ", " + (column + 1));
+					LexLog("<span class=\"debugger\">*DEBUGGER*</span> Found whitespace at: <span class=\"line\">" + (masterLine + 1) + "</span>, <span class=\"line\">" + (column + 1) + "</span>...");
 				}
 				continue;
 			}
 
 			//If no token was handed out there must not be one, ERROR
-			LexLog("ERROR! Unrecognized, could not define token [ " + character + " ] found on line " + (masterLine + 1) + ", " + (column + 1) + "...");
+			LexLog("<span class=\"error\">ERROR!</span> Unrecognized, could not define token [ <span class=\"error\">" + character + "</span> ] found on line <span class=\"line\">" + (masterLine + 1) + "</span>, <span class=\"line\">" + (column + 1) + "</span>...");
 			//Adds to errors
 			errors++;
 		}
@@ -362,17 +362,17 @@ function lexer(input) {
 	//would fail either way but now it tells you :)
 	if (isString) {
 		//Throws error for Unterminated strings
-		LexLog("ERROR! Unterminated string on " + masterLine + "...");
+		LexLog("<span class=\"error\">ERROR!</span> Unterminated string on <span class=\"line\">" + masterLine + "</span>...");
 		//Adds to errors
 		errors++;
 	}
 
 	//Defines part of the completion text
-	var cText = "passed";
+	var cText = "<span class=\"passed\">passed</span>";
 	//If any errors
 	if (errors) {
 		//Sets failed for the completed lexer output and tokens to false
-		cText = "FAILED";
+		cText = "<span class=\"failed\">FAILED</span>";
 		tokens = false;
 		//Makes the visual lexer red
 		//$('#lexer').addClass("btn-danger").removeClass("btn-secondary").removeClass("btn-btn-success").removeClass("btn-warning");
@@ -385,9 +385,9 @@ function lexer(input) {
 		//$('#lexer').addClass("btn-success").removeClass("btn-secondary").removeClass("btn-warning").removeClass("btn-danger");
 	}
 	//Defines the full output of the completed text
-	var completedText = "\nLexer " + cText + " with " + warnings + " warnings and " + errors + " errors";
+	var completedText = "<br /><span class=\"lexer-title\">Lexer</span> " + cText + " with " + warnings + " <span class=\"warning\">warnings</span> and " + errors + " <span class=\"error\">errors</span>";
 	//Outputs the completed Text
-	$('#Lexer_log').text($('#Lexer_log').val() + completedText);
+    logText += "<div class=\"lexer completed-text\" id=\"lexer-completed-text\" >" + completedText + "</div>";
 
 	//Returns the tokens
 	return tokens;
@@ -399,7 +399,7 @@ function addToken(type, val, line, col) {
 	//Addes to the token list
 	tokens.push(temp);
 	//sets the text
-	var text = type + " [ " + val + " ] found on line " + line + ", " + col + "...";
+	var text = type + " [ <span class=\"code-words\">" + val + "</span> ] found on line <span class=\"line\">" + line + "</span>, <span class=\"line\">" + col + "</span>...";
 	//if verbose mode
 	if (!verbose) {
 		//stops from ouputing
@@ -411,12 +411,12 @@ function addToken(type, val, line, col) {
 
 function LexLog(text) {
 	//Appends new logging to current log
-	var lText = $('#Lexer_log').val() + "LEXER -- " + text + "\n";
+    var lText = "<div class=\"lexer\"><span class=\"lexer-title\">LEXER</span> -- " + text + "</div>";
 	//if not supposed to be output
 	if (text == "DO NOT OUTPUT") {
 		//No need to change
-		lText = $('#Lexer_log').val();
+		lText = "";
 	}
 	//Sets the Log
-	$('#Lexer_log').text(lText);
+	logText += lText;
 }
