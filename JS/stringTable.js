@@ -17,7 +17,7 @@ StringTable.prototype.get = function (string) {
     try {
         //returns the address
         return this.variables["'" + string + "'"].address;
-    } catch {
+    } catch (e) {
         //returns false to escape
         return false;
     }
