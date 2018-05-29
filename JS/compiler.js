@@ -74,8 +74,11 @@ function verboseChange() {
 //Scroll to the bottom of the log
 function logScroll() {
 	//sets log
-	//if Verbose
-	if (verbose) {
+	//if errors
+	if (comErrors) {
+		var text = comErrorsStr + "<span id=\"log-bottom\"></span>";
+		//if Verbose
+	} else if (verbose) {
 		//to Verbose
 		var text = logTextVerbose + "<span id=\"log-bottom\"></span>";
 		//if not Verbose
@@ -211,7 +214,6 @@ function compile() {
 			//Scroll to the bottom of the log
 			logScroll();
 		}
-		compilerCheck();
 		//increase the program number
 		programNumber++;
 	}
@@ -446,16 +448,6 @@ function compileCode() {
 	logScroll();
 	//returns pass/fall
 	return cErrors;
-}
-
-function compilerCheck () {
-	//if compiler issues, big ones then output that issue
-	if (comErrors) {
-		//output
-		$('#Lexer_log').html(comErrorsStr);
-		//Scroll to the bottom of the log
-		logScroll();
-	}
 }
 
 function changeVisualizer() {
