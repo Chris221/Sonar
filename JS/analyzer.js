@@ -969,7 +969,13 @@ function aBooleanExpr() {
                 //if it is not still equality checking
                 if (ast.cur.children[i+1].type != "Equality" && ast.cur.children[i+1].type != "Inequality") {
                     //checks types
-                    if (t1 != t2) {
+                    if (t1 == "Addition" || t2 == "Addition") {
+                        //not supported
+                        comErrors++;
+                        //text about issue
+                        comErrorsStr += "<div class=\"error\">Addition in Equality and Inequality statements is not supported in this Compiler.</div>";
+                        comErrorsStr += "<div class=\"error\">The issue was found on line <span class=\"line\">" + ast.cur.children[i].line + "</span>...</div><br />";
+                    } else if (t1 != t2) {
                         //increases errors
                         aErrors++;
                         //outputs error

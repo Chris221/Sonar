@@ -444,11 +444,13 @@ function booleanLogic(pos) {
             return false;
         }
     } else {
+        /* Duplicated
         //not supported
         comErrors++;
         //text about issue
         comErrorsStr += "<div class=\"error\">Addition in Equality and Inequality statements is not supported in this Compiler.</div>";
         comErrorsStr += "<div class=\"error\">The issue was found on line <span class=\"line\">" + pos.line + "</span>...</div><br />";
+        */
     }
 }
 
@@ -879,11 +881,13 @@ function cEquality(pos, depth) {
         addHex("XX");
          //if addition below compiler wont support it
     } else if (pos.children[0].type == "Addition" || pos.children[1].type == "Addition") {
+        /* Duplicated
         //not supported
         comErrors++;
         //text about issue
         comErrorsStr += "<div class=\"error\">Addition in Equality and Inequality statements is not supported in this Compiler.</div>";
         comErrorsStr += "<div class=\"error\">The issue was found on line <span class=\"line\">" + pos.line + "</span>...</div><br />";
+        */
         //compares the rest
     } else {
         //gets first loaded
